@@ -1,17 +1,13 @@
 CC = gcc
 CFLAGS = -c -Wall
 SRC_DIR= src
-SRC_ADT_FILES = $(addprefix $(SRC_DIR)/adt/, *.c)
-SRC_GAME_FILES = $(addprefix $(SRC_DIR)/game/, *.c)
+SRC_ADT_FILES = $(addprefix $(SRC_DIR)/adt/*/, *.c)
+src_ADT_HEADERS = $(addprefix $(SRC_DIR)/adt/*/, *.h)
+SRC_GAME_FILES = $(addprefix $(SRC_DIR)/game/*/, *.c)
 
-suatuadt.o:  $(SRC_ADT_FILES) $(addprefix $(SRC_DIR)/, adt.h)
+adt: $(SRC_ADT_FILES) $(SRC_ADT_HEADERS)
 	$(CC) $(CFLAGS) $(SRC_ADT_FILES)
-
-suatuadt2.o: $(SRC_ADT_FILES) $(addprefix $(SRC_DIR)/, adt2.h)
-	$(CC) $(CFLAGS) $(SRC_ADT_FILES)
-
-program: suatuadt.o suatuadt2.o
-	$(CC) suatuadt.o suatuadt2.o -o program
+# MASIH DIPIKIR :<
 
 .PHONY: clean all
 
