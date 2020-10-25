@@ -12,8 +12,8 @@ typedef struct {
 } AREA;
 
 /* *** Notasi Akses: Selektor AREA *** */
-#define POSLEFT(A) (A).left
-#define POSRIGHT(A) (A).right
+#define POSL(A) (A).left // Alias POS LEFT
+#define POSR(A) (A).right // Alias POS RIGHT
 
 /**
  * OOOOOO
@@ -29,5 +29,33 @@ typedef struct {
  * 
  * Asumsi left selalu dibawah kiri, dan right selalu diatas kanan
 */
+
+/* *** Definisi Prototipe Primitif *** */
+/* *** Validasi Terhadap Type *** */
+boolean isAreaValid(POINT P1, POINT P2);
+void fixArea(AREA *A);
+/* Digunakan untuk mengubah POS LEFT POS RIGHT sesuai Asumsi */
+/* Prekondisi: A sudah memiliki point. */
+
+/* *** Konstruktur Area *** */
+void MakeArea(AREA *A, POINT P1, POINT P2);
+/* Prekondisi: P1 dan P2 Adalah point yang valid untuk membuat sebuah area. */
+
+/* *** Operasi Relasional *** */
+boolean AEQ (AREA A1, AREA A2);
+boolean ANEQ (AREA A1, AREA A2);
+
+/* *** Operasi Lain-Lain *** */
+float AWidth(AREA A);
+/* Mencari Panjang Area secara Horizontal*/
+
+float AHeight(AREA A);
+/* Mencari Panjang Area secara Vertikal*/
+
+float ASize(AREA A);
+void AGeser(AREA *A, float deltaX, float deltaY);
+void AMirror(AREA *A, boolean SbX);
+void Putar(AREA *A, float Sudut);
+
 
 #endif

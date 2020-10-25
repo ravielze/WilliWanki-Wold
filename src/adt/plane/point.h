@@ -16,11 +16,11 @@ typedef struct {
 
 /* *** DEFINISI PROTOTIPE PRIMITIF *** */
 /* *** Konstruktor membentuk POINT *** */
-void MakePoint (POINT* P, float X, float Y);
+void MakePoint (POINT *P, float X, float Y);
 /* Membentuk sebuah POINT dari komponen-komponennya */
 
 /* *** KELOMPOK Interaksi dengan I/O device, BACA/TULIS  *** */
-void BacaPoint (POINT* P);
+void BacaPoint (POINT *P);
 /* Membaca nilai absis dan ordinat dari keyboard dan membentuk
    POINT P berdasarkan dari nilai absis dan ordinat tersebut */
 /* I.S. Sembarang */
@@ -71,7 +71,7 @@ void PMirror (POINT *P, boolean SbX);
 /* F.S. P dicerminkan tergantung nilai SbX atau SbY */
 /* Jika SbX true maka dicerminkan terhadap sumbu X */
 /* Jika SbX false maka dicerminkan terhadap sumbu Y */
-void Putar (POINT *P, float Sudut);
+void PPutar (POINT *P, float Sudut);
 /* I.S. P terdefinisi */
 /* F.S. P digeser sebesar Sudut derajat dengan sumbu titik (0,0) searah jarum jam*/
 
