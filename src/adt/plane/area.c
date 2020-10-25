@@ -52,6 +52,7 @@ void AMirror(AREA *A, boolean SbX){
     PMirror(&(POSL(*A)), SbX);
     PMirror(&(POSR(*A)), SbX);
 }
+
 void APutar(AREA *A, float Sudut){
     PPutar(&(POSL(*A)), Sudut);
     PPutar(&(POSR(*A)), Sudut);
