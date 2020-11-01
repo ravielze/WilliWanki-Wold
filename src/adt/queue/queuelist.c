@@ -53,11 +53,8 @@ void Enqueue (Queue * Q, ElType X, int Prio){
     else{
         address Prev = Nil;
         address After = Head(*Q);
-        int PrioAfter = Prio(After);
-        while ((Prio >= PrioAfter) && (Next(After) != Nil)){
+        while ((Prio >= Prio(After)) && (Next(After) != Nil)){
             After = Next(After);
-
-            PrioAfter = Prio(After);
 
             if (Prev == Nil){
                 Prev = Head(*Q);
