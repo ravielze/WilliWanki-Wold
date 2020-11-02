@@ -57,3 +57,9 @@ void APutar(AREA *A, float Sudut){
     PPutar(&(POSL(*A)), Sudut);
     PPutar(&(POSR(*A)), Sudut);
 }
+
+boolean IsInside(POINT P, AREA A){
+    return ((ABSIS(P) >= ABSIS(POSL(A))) && (ABSIS(P) <= ABSIS(POSR(A)))
+            &&
+            (ORDINAT(P) >= ORDINAT(POSL(A))) && (ORDINAT(P) <= ORDINAT(POSR(A))));
+}

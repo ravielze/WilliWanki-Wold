@@ -53,9 +53,16 @@ float AHeight(AREA A);
 /* Mencari Panjang Area secara Vertikal*/
 
 float ASize(AREA A);
+/* Mendapatkan ukuran/luas dari sebuah area */
 void AGeser(AREA *A, float deltaX, float deltaY);
+/* Menggeser Area sebanyak deltaX horizontal dan deltaY vertikal */
 void AMirror(AREA *A, boolean SbX);
+/* Memindahkan Area dengan pencerminan terhadap salah satu sumbu */
 void Putar(AREA *A, float Sudut);
+/* Memutar sebuah area */
+
+boolean IsInside(POINT P, AREA A);
+/* Mengecek apakah poin didalam area */
 
 
 #endif
