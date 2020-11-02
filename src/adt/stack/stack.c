@@ -1,8 +1,11 @@
 #include <stdio.h>
 #include "stack.h"
 
-void MakeStack (Stack *S) {
+void MakeStack (Stack *S, int maxel) {
     Top(*S) = Nil;
+    MaxEl(*S) = maxel;
+    T(*S) = (infotype *) malloc (maxel* sizeof(infotype));
+    Duration(*S) = 0;
 }
 
 boolean IsEmpty (Stack S) {
@@ -10,12 +13,16 @@ boolean IsEmpty (Stack S) {
 }
 
 boolean IsFull (Stack S) {
-    return Top(S) == MaxEl-1;
+    return Top(S) == MaxEl(S)-1;
 }
 
-void Push (Stack * S, infotype X) {
-    Top(*S)++;
-    InfoTop(*S) = X;
+void Push (Stack * S, WAHANA w) {
+    if (PasTime(*S)) {
+        Top(*S)++;
+        InfoTop(*S) = w.char[Top(*S)];
+        Duration(*S) += JamToDetik(w.Durasi);
+    }
+    else printf("Error");
 }
 
 void Pop (Stack * S, infotype* X) {
@@ -24,9 +31,7 @@ void Pop (Stack * S, infotype* X) {
 }
 
 boolean PastTime (Stack S) {
-    long time = 0;
-    while (!IsEmpty(S)) {
-    }
+    
 }
 
 void MoveToTarget (Stack * S1, Stack * S2) {
@@ -35,4 +40,5 @@ void MoveToTarget (Stack * S1, Stack * S2) {
         Pop(S1, &X);
         Push(S2, X);
     }
+    Duration(*S) = 0;
 }
