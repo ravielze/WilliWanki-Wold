@@ -1,7 +1,7 @@
 #ifndef queuelist_H
 #define queuelist_H
 
-#include "boolean.h"
+#include "../boolean.h"
 #include <stdlib.h>
 #include <stdio.h>
 

@@ -41,6 +41,9 @@ void fixArea(AREA *A);
 void MakeArea(AREA *A, POINT P1, POINT P2);
 /* Prekondisi: P1 dan P2 Adalah point yang valid untuk membuat sebuah area. */
 
+/* Membentuk area berukuran 1x1, P adalah titik sebelah kanan.*/
+void MakeArea1(AREA *A, POINT P);
+
 /* *** Operasi Relasional *** */
 boolean AEQ (AREA A1, AREA A2);
 boolean ANEQ (AREA A1, AREA A2);
@@ -63,6 +66,8 @@ void Putar(AREA *A, float Sudut);
 
 boolean IsInside(POINT P, AREA A);
 /* Mengecek apakah poin didalam area */
+boolean IsIntersect(AREA A1, AREA A2);
+/* Mengecek apakah area bertabrakan dengan area lain */
 
 
 #endif

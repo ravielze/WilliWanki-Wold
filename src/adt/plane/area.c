@@ -24,6 +24,14 @@ void MakeArea(AREA *A, POINT P1, POINT P2){
     fixArea(A);
 }
 
+void MakeArea1(AREA *A, POINT P){
+    POSR(*A) = P;
+    POINT TempP;
+    Absis(TempP) = Absis(P) - 1.0f;
+    Ordinat(TempP) = Ordinat(P) - 1.0f;
+    POSL(*A) = TempP;
+}
+
 boolean AEQ (AREA A1, AREA A2){
     return (PEQ(POSL(A1), POSL(A2))) && (PEQ(POSR(A1), POSR(A2)));
 }
@@ -62,4 +70,8 @@ boolean IsInside(POINT P, AREA A){
     return ((ABSIS(P) >= ABSIS(POSL(A))) && (ABSIS(P) <= ABSIS(POSR(A)))
             &&
             (ORDINAT(P) >= ORDINAT(POSL(A))) && (ORDINAT(P) <= ORDINAT(POSR(A))));
+}
+
+boolean IsIntersect(AREA A1, AREA A2){
+    return (IsInside(POSL(A1), A2) || IsInside(POSR(A1), A2));
 }

@@ -130,11 +130,3 @@ boolean EQSize (MATRIKS M1, MATRIKS M2){
     /* yaitu GetBrsEff(M1) = GetNBrsEff (M2) dan GetNKolEff (M1) = GetNKolEff (M2) */
     return (NBrsEff(M1) == NBrsEff(M2) && NKolEff(M1) == NKolEff(M2) );
 }
-
-int main(){
-    MATRIKS Map = MakeMapMATRIKS();
-
-    TulisMATRIKS(Map);
-
-    return 0;
-}
