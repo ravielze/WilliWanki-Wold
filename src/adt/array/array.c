@@ -86,50 +86,6 @@ boolean IsFull(TabItem T)
     return (Neff(T) == MaxEl(T));
 }
 
-/* *** BACA/TULIS *** */
-
-void ReadTab(TabItem *T)
-/* Membaca banyaknya elemen yang akan dimasukkan (N) */
-/*  N = 0 -> No further actions
-    N > 0 -> Insert N Element
-    Other -> Input ulang
-/* Membaca label dan value secara berurutan */
-{
-    int N;
-    scanf("%d", &N);
-
-    // Validasi
-    while ((N < 0) && (N > MaxElement(*T))) {
-        scanf("%d", &N);
-    }
-    Neff(*T) = N;
-
-    // Input Tab
-    char *lbl;
-    int val;
-    Item I;
-    if (N > 0) {
-        for (int i = GetFirstIdx(*T); i <= GetLastIdx(*T); i++) {
-            Label(*T, i) = malloc(StdLabelSize * sizeof(char));
-            scanf("%s %d", Label(*T, i), &Value(*T, i));
-        }
-    }
-}
-
-void WriteTab(TabItem T)
-/* Menuliskan isi tab */
-/* Jika tabel kosong : menulis N/A | N/A */
-{
-    if (IsEmpty(T)) {
-        printf("N/A | N/A\n");
-    } else {
-        for (int i = GetFirstIdx(T); i <= GetLastIdx(T); i++) {
-            printf("%s | %d\n", Label(T, i), Value(T, i));
-        }
-        printf("\n");
-    }
-}
-
 /* *** SEARCH *** */
 
 /* !!!Ada kasus IsEmpty!!! */

@@ -9,8 +9,11 @@
 typedef struct upgtree* other;
 typedef struct upgtree {
     WAHANA data;
+    float price;
     other left,right;
 } UPGRADE_TREE;
+
+#define Price(UT) (UT).price
 
 void createUpgradeTree(UPGRADE_TREE * uptree);
 

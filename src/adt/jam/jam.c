@@ -17,16 +17,6 @@ void MakeJamFromDetik (JAM* J, long N){
     MakeJam(J, ((N % 86400) / 3600), (((N % 86400) % 3600) / 60), (((N % 86400) % 3600) % 60));
 }
 
-void BacaJam (JAM * J){
-    int H, M, S;
-    scanf("%d %d %d", &H, &M, &S);
-    while(!IsJamValid(H, M, S)){
-        printf("Jam tidak valid\n");
-        scanf("%d %d %d", &H, &M, &S);
-    }
-    MakeJam(J, H, M, S);
-}
-
 void TulisJam (JAM J){
     printf("%d:%d:%d", Hour(J), Minute(J), Second(J));
 }

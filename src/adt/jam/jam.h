@@ -39,20 +39,6 @@ void MakeJamFromDetik (JAM* J, long detik);
 /* ***************************************************************** */
 /* KELOMPOK BACA/TULIS                                               */
 /* ***************************************************************** */
-void BacaJam (JAM* J);
-/* I.S. : J tidak terdefinisi */
-/* F.S. : J terdefinisi dan merupakan jam yang valid */
-/* Proses : mengulangi membaca komponen HH, MM, SS sehingga membentuk J */
-/* yang valid. Tidak mungkin menghasilkan J yang tidak valid. */
-/* Pembacaan dilakukan dengan mengetikkan komponen HH, MM, SS
-   dalam satu baris, masing-masing dipisahkan 1 spasi, diakhiri enter. */
-/* Jika JAM tidak valid maka diberikan pesan: "Jam tidak valid", dan pembacaan
-   diulangi hingga didapatkan jam yang valid. */
-/* Contoh:
-   60 3 4
-   Jam tidak valid
-   1 3 4
-   --> akan terbentuk JAM <1,3,4> */
 
 void TulisJam (JAM J);
 /* I.S. : J sembarang */

@@ -8,21 +8,28 @@
 #include "../boolean.h"
 #include "../jam/jam.h"
 typedef struct{
+    /* Info Wahana */
     char* NamaWahana;
     int KapasitasWahana;
     float Harga;
+    int MaterialDibutuhkan;
     char* Deskripsi;
     boolean rusak;
-    JAM Durasi;
+    
+    /* Waktu */
+    JAM DurasiMain;
+    JAM DurasiBangun;
+    /* Queue */
     Queue Antrian;
 } WAHANA;
 
 /*** Selektor ***/
-#define NamaWahana(W) (W)->NamaWahana
+#define NamaWahana(W) (W).NamaWahana
 #define KapasitasWahana(W) (W).KapasitasWahana
 #define Harga(W) (W).Harga
-#define Deskripsi(W) (W)->Deskripsi
-#define Durasi(W) (W).Durasi
+#define Deskripsi(W) (W).Deskripsi
+#define DurasiMain(W) (W).DurasiMain
+#define DurasiMain(W) (W).DurasiMain
 #define Antrian(W) (W).Antrian
 
 void CreateWahana(WAHANA *W);

@@ -83,6 +83,4 @@ void DeleteFirst(List* L);
 void DeleteLast(List* L);
 /* Menghapus Elemen terakhir pada list*/
 
-void BacaList(List L);
-
 #endif

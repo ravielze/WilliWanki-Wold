@@ -7,6 +7,7 @@
 #include "../plane/point.h"
 #include "../jam/jam.h"
 #include "../stack/stack.h"
+#include "../queue/queuelist.h"
 
 typedef struct{
     char* Pemain;
@@ -16,15 +17,19 @@ typedef struct{
     JAM BuildTime;
     boolean ExecDay;
     Stack CmdStack;
+    Stack Progress;
+    MapWahana ListIDWahana;
     // Stack, List, Queue, dan sebagainya
 } GAME;
 
-#define PlayerLocation(G) G.PosisiPlayer
-#define CurrentTime(G) G.CurrTime
-#define BuildTime(G) G.BuildTime
-#define Money(G) G.Money
-#define Execution(G) G.ExecDay
-#define CmdStack(G) G.CmdStack
+#define PlayerLocation(G) (G).PosisiPlayer
+#define CurrentTime(G) (G).CurrTime
+#define BuildTime(G) (G).BuildTime
+#define Money(G) (G).Money
+#define Execution(G) (G).ExecDay
+#define CmdStack(G) (G).CmdStack
+#define Progress(G) (G).Progress
+#define ListIDWahana(G) (G).ListIDWahana
 
 void createGame(GAME * game);
 

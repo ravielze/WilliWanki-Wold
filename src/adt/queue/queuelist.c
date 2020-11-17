@@ -98,3 +98,24 @@ void Dequeue (Queue * Q, ElType * X){
     }
     Dealokasi(P);
 }
+
+void DequeueN (Queue * Q, ElType * X, int N, int *Ndequeued){
+    int temp = N;
+    while ((!IsEmpty(*Q)) && (temp != 0)){
+        address P;
+        *X = InfoHead(*Q);
+        P = Head(*Q);
+        if (Next(Head(*Q)) != Nil){
+            Head(*Q) = Next(Head(*Q));
+            Next(P) = Nil;
+        }
+        else{
+            Head(*Q) = Nil;
+        }
+        Dealokasi(P);
+
+        Ndequeued++;
+        temp--;
+    }
+    
+}

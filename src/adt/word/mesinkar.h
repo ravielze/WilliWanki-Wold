@@ -5,11 +5,13 @@
 #define __MESIN_KAR_H_
 
 #include "../boolean.h"
+#include <stdio.h>
 
 #define MARK '\n'
 /* State Mesin */
 extern char CC;
 extern boolean EOP;
+static FILE * pita;
 
 void START();
 /* Mesin siap dioperasikan. Pita disiapkan untuk dibaca.

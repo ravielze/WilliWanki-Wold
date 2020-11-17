@@ -1,20 +1,39 @@
 #include "../adt/word/mesinkata.h"
+#include "../adt/word/mesinkar.h"
 #include <stdio.h>
+#include <time.h>
+
+long long randInt(long X){
+    // Random dari [0,X)
+    time_t t = time(NULL);
+    time_t t2 = time(NULL);
+    t %= X;
+    long long A = (41+(t*37))%X;
+    long long B = (23+(t*101))%X
+    return (A^B);
+}
 
 int main() {
-    STARTKATA();
-    while (!EndKata){
-        if (IsKataSama(CKata, CreateKata("W"))){
-            printf("MAJU");
-        } else if (IsKataSama(CKata, CreateKata("S"))){
-            printf("MUNDUR");
-        } else if (IsKataSama(CKata, CreateKata("TOPHER"))){
-            printf("APA");
-        } else{
-            printf("HAH");
+    while (true){
+        STARTKATA();
+        while (!EndKata){
+            if (IsKataSama(CKata, CreateKata("W"))){
+                printf("MAJU");
+            } else if (IsKataSama(CKata, CreateKata("S"))){
+                printf("MUNDUR");
+            } else if (IsKataSama(CKata, CreateKata("TOPHER"))){
+                printf("APA");
+            } else if (IsKataSama(CKata, CreateKata("exit"))){
+                fclose(pita);
+                return 0;
+            } else{
+                printf("%lld", randInt(100));
+            }
+            ADVKATA();
+            printf("\n");
         }
-        ADVKATA();
     }
+    return 0;
 
 
 
@@ -41,7 +60,7 @@ int main() {
     /** Luar Office **/
     /* MOVE */
 
-    /* SERVE - bije is working on this*/
+    /* SERVE*/
 
     /* REPAIR */
     /* OFFICE */
