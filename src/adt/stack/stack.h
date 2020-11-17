@@ -2,9 +2,9 @@
 #define stack_H
 
 #include "../boolean.h"
+#include "../wahana/wahana.h"
 
 #define Nil -1
-#define MaxEl 100
 /* Nil adalah stack dengan elemen kosong . */
 
 typedef char infotype;
@@ -13,8 +13,10 @@ typedef int indeks;
 /* Contoh deklarasi variabel bertype stack dengan ciri TOP : */
 /* Versi I : dengan menyimpan tabel dan alamat top secara eksplisit*/
 typedef struct { 
-  infotype T[MaxEl]; /* tabel penyimpan elemen */
+  int MaxEl;
+  WAHANA *S; /* tabel penyimpan elemen */
   indeks TOP;  /* alamat TOP: elemen puncak */
+  int duration; /* total durasi upgrade, build, dan buy */
 } Stack;
 /* Definisi stack S kosong : S.TOP = Nil */
 /* Elemen yang dipakai menyimpan nilai Stack T[0]..T[MaxEl-1] */
@@ -24,11 +26,13 @@ typedef struct {
 
 /* Definisi akses dengan Selektor : Set dan Get */
 #define Top(S) (S).TOP
-#define InfoTop(S) (S).T[(S).TOP]
+#define InfoTop(S) (S).T[(S).TOP].char[(S).TOP]
+#define Duration(S) (S).duration
+#define Time(S) (S).
 
 /* ************ Prototype ************ */
 /* *** Konstruktor/Kreator *** */
-void MakeStack (Stack *S);
+void MakeStack (Stack *S, int maxel);
 /* I.S. sembarang; */
 /* F.S. Membuat sebuah stack S yang kosong berkapasitas MaxEl */
 /* jadi indeksnya antara 0.. MaxEl */
@@ -41,7 +45,7 @@ boolean IsFull (Stack S);
 /* Mengirim true jika tabel penampung nilai elemen stack penuh */
 
 /* ************ Menambahkan sebuah elemen ke Stack ************ */
-void Push (Stack * S, infotype X);
+void Push (Stack * S, WAHANA w);
 /* Menambahkan X sebagai elemen Stack S. */
 /* I.S. S mungkin kosong, tabel penampung elemen stack TIDAK penuh */
 /* F.S. X menjadi TOP yang baru,TOP bertambah 1 */
