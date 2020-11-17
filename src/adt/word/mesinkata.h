@@ -4,15 +4,15 @@
 #ifndef __MESINKATA_H__
 #define __MESINKATA_H__
 
-#include "boolean.h"
+#include "../boolean.h"
 #include "mesinkar.h"
 
-#define NMax 50
 #define BLANK ' '
 
 typedef struct {
-	char TabKata[NMax]; /* container penyimpan kata, indeks yang dipakai [0..NMax-1] */
+	char* TabKata; /* container penyimpan kata */
     int Length;
+    int NMax;
 } Kata;
 
 /* State Mesin Kata */
@@ -44,5 +44,10 @@ void SalinKata();
           CC = BLANK atau CC = MARK; 
           CC adalah karakter sesudah karakter terakhir yang diakuisisi.
           Jika panjang kata melebihi NMax, maka sisa kata "dipotong" */
+
+Kata CreateKata(char* kata);
+/* Membuat kata baru dengan input string */
+boolean IsKataSama(Kata K1, Kata K2);
+/* Mengembalikan true jika kata tersebut sama */
 
 #endif
