@@ -50,13 +50,16 @@ void MakeEmptyMATRIKS (int NB, int NK, MATRIKS* M);
     /* I.S. NB dan NK adalah valid untuk memori matriks yang dibuat */
     /* F.S. Matriks M sesuai dengan definisi di atas terbentuk */
 
-MATRIKS MakeMapMATRIKS ();
+MATRIKS MakeMapMATRIKS();
     /* Membuat MATRIKS Map berukuran 11 x 11 dengan */
     /* sisi terluarnya adalah # yaitu pagar, sisi dalamnya adalah . yaitu lahan */
 
 void MovePlayer (MATRIKS* M, int difX, int difY);
     /* Mengupdate MATRIKS Map berukuran 11 x 11 dengan posisi Xplayer dan Yplayer diubah */
     /* sisi terluarnya adalah # yaitu pagar, sisi dalamnya adalah . yaitu lahan */
+
+void UpdateMatriksWahana(MATRIKS* M);
+    /* Mengupdate MATRIKS Map dengan posisi wahana terbaru */
 
 /* *** Selektor "DUNIA MATRIKS" *** */
 /* *** Selektor: Untuk sebuah matriks M yang terdefinisi: *** */

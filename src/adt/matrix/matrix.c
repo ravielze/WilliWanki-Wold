@@ -39,19 +39,19 @@ void MovePlayer (MATRIKS* M, int difX, int difY) {
     Xplayer(*M) += difX;
     Yplayer(*M) += difY;
 
-    if (Xplayer(*M) >= NKolEff(*M) - 1 || Xplayer(*M) <= 0) {
+    if (Xplayer(*M) == NKolEff(*M) - 1 || Xplayer(*M) == 0) {
         Xplayer(*M) -= difX;
-        printf("You've hit a wall\n");
-    } else if (Yplayer(*M) >= NBrsEff(*M) - 1 || Yplayer(*M) <= 0){ 
+        printf("You've hit a wall!\n");
+    } else if (Yplayer(*M) == NBrsEff(*M) - 1 || Yplayer(*M) == 0){ 
         Yplayer(*M) -= difY;
-        printf("You've hit a wall\n");
+        printf("You've hit a wall!\n");
     } else {
         Elmt(*M, Ybefore, Xbefore) = '.';
         Elmt(*M, Yplayer(*M), Xplayer(*M) ) = 'P';
     }
 }
 
-void UpdateMatriksWahana () {
+void UpdateMatriksWahana(MATRIKS* M) {
 
 }
 
