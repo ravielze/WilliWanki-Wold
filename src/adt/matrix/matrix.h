@@ -15,7 +15,23 @@ typedef struct {
 	ElType Mem[BrsMax+1][KolMax+1];
     int NBrsEff; /* banyaknya/ukuran baris yg terdefinisi */
 	int NKolEff; /* banyaknya/ukuran kolom yg terdefinisi */
+    int Xplayer;
+    int Yplayer;
 } MATRIKS;
+/* Gate dari tiap Peta sudah di tentukan:
+    Peta 1: 
+        Ke Gate 2 (NKolEff - 1, 5)
+        Ke Gate 4 (NBrsEff - 1, 5)
+    Peta 2:
+        Ke Gate 2 (0, 5)
+        Ke Gate 3 (NBrsEff - 1, 5)
+    Peta 3:
+        Ke Gate 4 (0, 5)
+        Ke Gate 2 (0, 5)
+    Peta 4:
+        Ke Gate 1 (0, 5)
+        Ke Gate 3 (NKolEff - 1, 5)
+*/
 /* NBrsEff >= 1 dan NKolEff >= 1 */
 /* Indeks matriks yang digunakan: [BrsMin..BrsMax][KolMin..KolMax] */
 /* Memori matriks yang dipakai selalu di "ujung kiri atas" */
@@ -24,6 +40,8 @@ typedef struct {
 #define NBrsEff(M) (M).NBrsEff
 #define NKolEff(M) (M).NKolEff
 #define Elmt(M,i,j) (M).Mem[(i)][(j)]
+#define Xplayer(M) (M).Xplayer
+#define Yplayer(M) (M).Yplayer
 
 /* ********** DEFINISI PROTOTIPE PRIMITIF ********** */              
 /* *** Konstruktor membentuk MATRIKS *** */
@@ -34,6 +52,10 @@ void MakeEmptyMATRIKS (int NB, int NK, MATRIKS* M);
 
 MATRIKS MakeMapMATRIKS ();
     /* Membuat MATRIKS Map berukuran 11 x 11 dengan */
+    /* sisi terluarnya adalah # yaitu pagar, sisi dalamnya adalah . yaitu lahan */
+
+void MovePlayer (MATRIKS* M, int difX, int difY);
+    /* Mengupdate MATRIKS Map berukuran 11 x 11 dengan posisi Xplayer dan Yplayer diubah */
     /* sisi terluarnya adalah # yaitu pagar, sisi dalamnya adalah . yaitu lahan */
 
 /* *** Selektor "DUNIA MATRIKS" *** */

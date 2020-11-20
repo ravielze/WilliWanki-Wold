@@ -16,16 +16,43 @@ MATRIKS MakeMapMATRIKS (){
     /* sisi terluarnya adalah # yaitu pagar, sisi dalamnya adalah . yaitu lahan */
     MATRIKS Map;
     MakeEmptyMATRIKS(11, 11, &Map);
+    Xplayer(Map) = 5;
+    Yplayer(Map) = 5;
 
     for (int i = BrsMin; i <= GetLastIdxBrs(Map); i++){
         for (int j = KolMin; j <= GetLastIdxKol(Map); j++){
-            Elmt(Map, i, j) = (i == BrsMin || i == GetLastIdxBrs(Map) || j == KolMin || j == GetLastIdxKol(Map) ) 
+            Elmt(Map, i, j) = 
+                (i == BrsMin || i == GetLastIdxBrs(Map) || j == KolMin || j == GetLastIdxKol(Map) ) 
                 ? '#'
+                : (j == Xplayer(Map) && i == Yplayer(Map) )
+                ? 'P' 
                 : '.';
         }
     }
 
     return Map;
+}
+
+void MovePlayer (MATRIKS* M, int difX, int difY) {
+    int Xbefore = Xplayer(*M);
+    int Ybefore = Yplayer(*M);
+    Xplayer(*M) += difX;
+    Yplayer(*M) += difY;
+
+    if (Xplayer(*M) >= NKolEff(*M) - 1 || Xplayer(*M) <= 0) {
+        Xplayer(*M) -= difX;
+        printf("You've hit a wall\n");
+    } else if (Yplayer(*M) >= NBrsEff(*M) - 1 || Yplayer(*M) <= 0){ 
+        Yplayer(*M) -= difY;
+        printf("You've hit a wall\n");
+    } else {
+        Elmt(*M, Ybefore, Xbefore) = '.';
+        Elmt(*M, Yplayer(*M), Xplayer(*M) ) = 'P';
+    }
+}
+
+void UpdateMatriksWahana () {
+
 }
 
 /* *** Selektor "DUNIA MATRIKS" *** */
@@ -61,7 +88,7 @@ void CopyMATRIKS (MATRIKS MIn, MATRIKS* MHsl){
     *MHsl = MIn;
 }
 
-/* ********** KELOMPOK BACA/TULIS ********** */ 
+/* ********** KELOMPOK TULIS ********** */ 
 void BacaMATRIKS (MATRIKS* M, int NB, int NK){
     /* I.S. IsIdxValid(NB,NK) */ 
     /* F.S. M terdefinisi nilai elemen efektifnya, berukuran NB x NK */
