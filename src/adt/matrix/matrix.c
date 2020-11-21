@@ -1,5 +1,6 @@
 #include "matrix.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 /* ********** DEFINISI PROTOTIPE PRIMITIF ********** */              
 /* *** Konstruktor membentuk MATRIKS *** */
@@ -11,38 +12,62 @@ void MakeEmptyMATRIKS (int NB, int NK, MATRIKS* M){
     NKolEff(*M) = NK;
 }
 
-MATRIKS MakeMapMATRIKS (){
+MATRIKS MakeMapMATRIKS(int NB, int NK, char* MapDisplay){
     /* Membuat MATRIKS Map berukuran 11 x 11 dengan */
     /* sisi terluarnya adalah # yaitu pagar, sisi dalamnya adalah . yaitu lahan */
-    MATRIKS Map;
-    MakeEmptyMATRIKS(11, 11, &Map);
-    Xplayer(Map) = 5;
-    Yplayer(Map) = 5;
+    MATRIKS Peta;
+    MakeEmptyMATRIKS(NB, NK, &Peta);
 
-    for (int i = BrsMin; i <= GetLastIdxBrs(Map); i++){
-        for (int j = KolMin; j <= GetLastIdxKol(Map); j++){
-            Elmt(Map, i, j) = 
-                (i == BrsMin || i == GetLastIdxBrs(Map) || j == KolMin || j == GetLastIdxKol(Map) ) 
-                ? '#'
-                : (j == Xplayer(Map) && i == Yplayer(Map) )
-                ? 'P' 
-                : '.';
+    for (int i = 0; i < NB; i ++) {
+        for (int j = 0; j < NK; j++) {
+            Elmt(Peta, i, j) = *( (MapDisplay + i * NK) + j);
+            if (Elmt(Peta, i, j) == 'P') {
+                Xplayer(Peta) = j;
+                Yplayer(Peta) = i;
+            }
         }
     }
 
-    return Map;
+    return Peta;
 }
 
+void InitPeta (char* filename, MATRIKS* M) {
+    static int retval;
+    int NB, NK;
+    FILE* MapFile = fopen(filename, "r");
+
+    retval = fscanf(MapFile, "%d %d\n", &NB, &NK);
+
+    char MapDisplay[NB][NK];      
+    int i = 0, j = 0;
+
+    while(retval != EOF) {
+        char c;
+
+        retval = fscanf(MapFile, "%c", &c);
+        if (c != '\n' && c != ' ') {
+            MapDisplay[i][j] = c;
+            j++;
+        } else if (c == '\n') {
+            i++;
+            j = 0;
+        }
+    }
+
+    *M = MakeMapMATRIKS(NB, NK, (char*) MapDisplay);
+
+    fclose(MapFile);
+}
+
+/* *** Update POSISI atau Wahana pada MATRIKS *** */
 void MovePlayer (MATRIKS* M, int difX, int difY) {
     int Xbefore = Xplayer(*M);
     int Ybefore = Yplayer(*M);
     Xplayer(*M) += difX;
     Yplayer(*M) += difY;
 
-    if (Xplayer(*M) == NKolEff(*M) - 1 || Xplayer(*M) == 0) {
+    if (Elmt(*M, Yplayer(*M), Xplayer(*M) ) == '#') {
         Xplayer(*M) -= difX;
-        printf("You've hit a wall!\n");
-    } else if (Yplayer(*M) == NBrsEff(*M) - 1 || Yplayer(*M) == 0){ 
         Yplayer(*M) -= difY;
         printf("You've hit a wall!\n");
     } else {

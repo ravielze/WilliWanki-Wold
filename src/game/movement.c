@@ -1,9 +1,10 @@
 #include "../adt/word/mesinkata.h"
 #include "../adt/matrix/matrix.h"
-#include <stdio.h>
 
 int main() {
-    MATRIKS Peta1 = MakeMapMATRIKS();
+    MATRIKS Peta1;
+
+    InitPeta("../../database/peta/peta1.txt", &Peta1);
 
     printf("Intial Map\n");
     TulisMATRIKS(Peta1);
