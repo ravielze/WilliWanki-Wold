@@ -1,4 +1,4 @@
-/* ADT ARRAY ACTION DAN BAHAN */
+ /* ADT ARRAY ACTION DAN BAHAN */
 /* Rata kiri, NEff eksplisit, alokasi dinamik */
 
 #ifndef ARRAY_H

@@ -12,7 +12,7 @@
 #include <time.h>
 GAME game;
 
-/* MOVE */NGANTOOOOOOOOOOOOOOOOOOOOOOOOOKKKKKKKKKKKK
+/* MOVE */
 void move(char dir){
     /* Basic Move, belum handle nabrak */
     if (dir == 'w'){
@@ -31,10 +31,6 @@ void build(WAHANA W){
 /* Prekondisi, ga bokek, tempatnya ada */
     if (Money(game) < Harga(W)){
         printf("Modal dikit lah bos\n"); //material harusnya juga(?)
-    } else {
-        int id = rand() %10000; // random id el
-        while(IsEntryWahana(ListIDWahana(game),id)) id = rand() %10000;
-        
     }
 }
 
@@ -96,10 +92,10 @@ void office() {
     printf("Masukkan perintah (Details / Report / Exit):");
     /* bingung inputnya gmn */
     /* string = ??? */
-    while (IsKataSama(string, CreateKata("Exit"))) {
-        if (IsKataSama(string, CreateKata("Details"))) {
+    while (IsKataSama(CreateKata('string'), CreateKata("Exit"))) {
+        if (IsKataSama(CreateKata('string'), CreateKata("Details"))) {
             details();
-        } else if (IsKataSama(string, CreateKata("Report"))) {
+        } else if (IsKataSama(CreateKata('string'), CreateKata("Report"))) {
             report();
         } else {
             /* Invalid command(?) */
@@ -126,8 +122,3 @@ void execute() {
 }
 
 /* ToDo to Inprogress*/
-void bingbong(){
-    WAHANA W;
-    Pop(&CmdStack(G),W);
-    
-}
