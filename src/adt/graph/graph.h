@@ -2,7 +2,7 @@
 #ifndef graph_H
 #define graph_H
 
-#include "boolean.h"
+#include "../boolean.h"
 #include "../matrix/matrix.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -30,5 +30,12 @@ AdrVertex AlokasiVertex (MATRIKS M);
 
 Graph InitGraphPeta (MATRIKS M1, MATRIKS M2, MATRIKS M3, MATRIKS M4);
 /* Membuat Graf khusus untuk Peta menerima 4 matriks */
+
+void MovePlayer (AdrVertex* V, int difX, int difY);
+    /* Mengupdate MATRIKS Map berukuran 11 x 11 dengan posisi Xplayer dan Yplayer diubah */
+    /* sisi terluarnya adalah # yaitu pagar, sisi dalamnya adalah . yaitu lahan */
+
+void UpdateMatriksWahana(AdrVertex* V);
+    /* Mengupdate MATRIKS Map dengan posisi wahana terbaru */
 
 #endif 

@@ -36,3 +36,87 @@ Graph InitGraphPeta (MATRIKS M1, MATRIKS M2, MATRIKS M3, MATRIKS M4){
 
     return V1;
 }
+
+/* *** Update POSISI atau Wahana pada MATRIKS *** */
+void MovePlayer (AdrVertex* V, int difX, int difY) {
+    int Xbefore = Xplayer(InfoMATRIKS(*V) );
+    int Ybefore = Yplayer(InfoMATRIKS(*V) );
+    Xplayer(InfoMATRIKS(*V) ) += difX;
+    Yplayer(InfoMATRIKS(*V) ) += difY;
+
+    switch (Elmt(InfoMATRIKS(*V) , Yplayer(InfoMATRIKS(*V) ), Xplayer(InfoMATRIKS(*V) ) ) ) {
+        case '#':
+            Xplayer(InfoMATRIKS(*V) ) -= difX;
+            Yplayer(InfoMATRIKS(*V) ) -= difY;
+            printf("You've hit a wall!\n");
+            break;
+        case '>':
+            Elmt(InfoMATRIKS(*V) , Ybefore, Xbefore) = '.';
+            *V = Right(*V);
+
+            for (int i = 0; i <= GetLastIdxBrs(InfoMATRIKS(*V) ); i++){
+                for (int j = 0; j <= GetLastIdxKol(InfoMATRIKS(*V) ); j++){
+                    if (Elmt(InfoMATRIKS(*V), i, j) == '<') {
+                        Xplayer(InfoMATRIKS(*V) ) = j + 1;
+                        Yplayer(InfoMATRIKS(*V) ) = i;
+                    }
+                }   
+            }
+
+            Elmt(InfoMATRIKS(*V) , Yplayer(InfoMATRIKS(*V) ), Xplayer(InfoMATRIKS(*V) ) ) = 'P';
+            break;
+        case '<':
+            Elmt(InfoMATRIKS(*V) , Ybefore, Xbefore) = '.';
+            *V = Left(*V);
+
+            for (int i = 0; i <= GetLastIdxBrs(InfoMATRIKS(*V) ); i++){
+                for (int j = 0; j <= GetLastIdxKol(InfoMATRIKS(*V) ); j++){
+                    if (Elmt(InfoMATRIKS(*V), i, j) == '>') {
+                        Xplayer(InfoMATRIKS(*V) ) = j - 1;
+                        Yplayer(InfoMATRIKS(*V) ) = i;
+                    }
+                }   
+            }
+
+            Elmt(InfoMATRIKS(*V) , Yplayer(InfoMATRIKS(*V) ), Xplayer(InfoMATRIKS(*V) ) ) = 'P';
+            break;
+        case '^':
+            Elmt(InfoMATRIKS(*V) , Ybefore, Xbefore) = '.';
+            *V = Up(*V);
+
+            for (int i = 0; i <= GetLastIdxBrs(InfoMATRIKS(*V) ); i++){
+                for (int j = 0; j <= GetLastIdxKol(InfoMATRIKS(*V) ); j++){
+                    if (Elmt(InfoMATRIKS(*V), i, j) == 'V') {
+                        Xplayer(InfoMATRIKS(*V) ) = j;
+                        Yplayer(InfoMATRIKS(*V) ) = i - 1;
+                    }
+                }   
+            }
+
+            Elmt(InfoMATRIKS(*V) , Yplayer(InfoMATRIKS(*V) ), Xplayer(InfoMATRIKS(*V) ) ) = 'P';
+            break;
+        case 'V':
+            Elmt(InfoMATRIKS(*V) , Ybefore, Xbefore) = '.';
+            *V = Bottom(*V);
+            
+            for (int i = 0; i <= GetLastIdxBrs(InfoMATRIKS(*V) ); i++){
+                for (int j = 0; j <= GetLastIdxKol(InfoMATRIKS(*V) ); j++){
+                    if (Elmt(InfoMATRIKS(*V), i, j) == '^') {
+                        Xplayer(InfoMATRIKS(*V) ) = j;
+                        Yplayer(InfoMATRIKS(*V) ) = i + 1;
+                    }
+                }   
+            }
+
+            Elmt(InfoMATRIKS(*V) , Yplayer(InfoMATRIKS(*V) ), Xplayer(InfoMATRIKS(*V) ) ) = 'P';
+            break;
+        default:
+            Elmt(InfoMATRIKS(*V) , Ybefore, Xbefore) = '.';
+            Elmt(InfoMATRIKS(*V) , Yplayer(InfoMATRIKS(*V) ), Xplayer(InfoMATRIKS(*V) ) ) = 'P';
+            break;
+    }
+}
+
+void UpdateMatriksWahana(AdrVertex* V) {
+
+}

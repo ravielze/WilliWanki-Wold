@@ -59,27 +59,6 @@ void InitPeta (char* filename, MATRIKS* M) {
     fclose(MapFile);
 }
 
-/* *** Update POSISI atau Wahana pada MATRIKS *** */
-void MovePlayer (MATRIKS* M, int difX, int difY) {
-    int Xbefore = Xplayer(*M);
-    int Ybefore = Yplayer(*M);
-    Xplayer(*M) += difX;
-    Yplayer(*M) += difY;
-
-    if (Elmt(*M, Yplayer(*M), Xplayer(*M) ) == '#') {
-        Xplayer(*M) -= difX;
-        Yplayer(*M) -= difY;
-        printf("You've hit a wall!\n");
-    } else {
-        Elmt(*M, Ybefore, Xbefore) = '.';
-        Elmt(*M, Yplayer(*M), Xplayer(*M) ) = 'P';
-    }
-}
-
-void UpdateMatriksWahana(MATRIKS* M) {
-
-}
-
 /* *** Selektor "DUNIA MATRIKS" *** */
 /* *** Selektor: Untuk sebuah matriks M yang terdefinisi: *** */
 indeks GetFirstIdxBrs (MATRIKS M){
