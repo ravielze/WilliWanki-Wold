@@ -1,30 +1,36 @@
 #include "../adt/word/mesinkata.h"
 #include "../adt/matrix/matrix.h"
+#include "../adt/graph/graph.h"
 
 int main() {
-    MATRIKS Peta1;
+    MATRIKS Peta1, Peta2, Peta3, Peta4;
 
     InitPeta("../../database/peta/peta1.txt", &Peta1);
+    InitPeta("../../database/peta/peta2.txt", &Peta2);
+    InitPeta("../../database/peta/peta3.txt", &Peta3);
+    InitPeta("../../database/peta/peta4.txt", &Peta4);
+
+    Graph G = InitGraphPeta(Peta1, Peta2, Peta3, Peta4);
 
     printf("Intial Map\n");
-    TulisMATRIKS(Peta1);
+    TulisMATRIKS(InfoMATRIKS(G) );
     while (true) {
         STARTKATA();
         while (!EndKata){
             if (IsKataSama(CKata, CreateKata("W") ) || IsKataSama(CKata, CreateKata("w") ) ) {
-                MovePlayer(&Peta1, 0, -1);
+                MovePlayer(&G, 0, -1);
             } else if (IsKataSama(CKata, CreateKata("A") ) || IsKataSama(CKata, CreateKata("a") ) ) {
-                MovePlayer(&Peta1, -1, 0);
+                MovePlayer(&G, -1, 0);
             } else if (IsKataSama(CKata, CreateKata("S") ) || IsKataSama(CKata, CreateKata("s") ) ) {
-                MovePlayer(&Peta1, 0, 1);
+                MovePlayer(&G, 0, 1);
             } else if (IsKataSama(CKata, CreateKata("D") ) || IsKataSama(CKata, CreateKata("d") ) ) {
-                MovePlayer(&Peta1, 1, 0);
+                MovePlayer(&G, 1, 0);
             }
             
             ADVKATA();
         }
 
-        TulisMATRIKS(Peta1);
+        TulisMATRIKS(InfoMATRIKS(G));
     }
     
     return 0;
