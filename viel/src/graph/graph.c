@@ -22,6 +22,11 @@ Graph InitGraphPeta (MATRIKS M1, MATRIKS M2, MATRIKS M3, MATRIKS M4){
     AdrVertex V3 = AlokasiVertex(M3);
     AdrVertex V4 = AlokasiVertex(M4);
 
+    id(V1) = 0;
+    id(V2) = 1;
+    id(V3) = 2;
+    id(V4) = 3;
+
     Right(V1) = V2;
     Bottom(V1) = V4;
 

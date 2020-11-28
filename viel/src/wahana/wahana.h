@@ -23,6 +23,7 @@ typedef struct Whn{
     int durasi;
     boolean isDasar;
     float hargaBuild; //TODO masukin ke wahana.c
+    int vertex; //TODO masukin ke wahana.c
 
     BinTree uptree;
     MATERIAL bahan;
@@ -42,9 +43,10 @@ typedef struct Whn{
 #define Bahan(W) (W).bahan
 #define UpgradeTree(W) (W).uptree
 #define HargaBuild(W) (W).hargaBuild
+#define InVertex(W) (W).vertex
 
 /*
- * Membuat Wahana dari String. Format: %s %s %s %d %d %f %d %d %d %d %d
+ * Membuat Wahana dari String. Format: %s %s %s %d %d %f %d %d %d %d %d %f %d
  */
 WAHANA createWahana(char* in);
 
@@ -59,6 +61,8 @@ void setRusak(WAHANA* whn, boolean rusakgak);
 // Apakah nabrak sama wahana laen?
 boolean isCollide(WAHANA whn, WAHANA whn2);
 
-boolean isWahanaEqual(WAHANA whn1, WAHANA whn2); // TODO Realisasi
+boolean isWahanaEqual(WAHANA whn1, WAHANA whn2);
+
+boolean isNearWahana(POINT P, WAHANA whn);
 
 #endif

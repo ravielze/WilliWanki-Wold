@@ -68,6 +68,11 @@ void buildPush(GAME * game){
     scanf("%d", &selectuser);
     selectuser--;
     WAHANA whn_selected = select[selectuser];
+
+    if (IsBuildAbleSenpai(whn_selected, game){
+        
+    })
+
     MATERIAL bahan_whn_selected = Bahan(whn_selected);
 
     ARRAYLISTMAT storageM = StorageM(Manstor);
@@ -86,16 +91,17 @@ void buildPush(GAME * game){
     }
     else{
         manact Manact = Amanag(*game);
-        int time_AM = TimeUsed(Manact);
+        int time_remain = TimeRemaining(Manact);
 
         // Waktu untuk Build : 15 menit
         int time_for_build = 15;
-        
 
         if (jlhPunya < jlhButuh){
             printf("Bahan yang dipunya tidak mencukupi.\n");
         }
-        // TODO cek waktu tidak cukup -> print waktu tidak cukup
+        else if (time_remain - time_for_build < 0){
+            printf("Waktu tidak mencukupi.\n");
+        }
         else{
             // Push aksi ke stack
             manact Manact = Amanag(*game);
@@ -107,7 +113,6 @@ void buildPush(GAME * game){
             PushAksi(&Stack_AM,aksi_build);
             AddEntryWahana(&MW_AM, CreateMapEWahana(id, whn_selected));
         }
-
     }
 }
 
@@ -131,8 +136,9 @@ void buildPop(GAME * game){
     // Insert Wahana ke wahana storage
     ARRAYLIST whn_storage = StorageW(Manstor);
 
-    // TODO : ID dari wahana yang ditambah = id aksi??
-    InsertLastAL(&whn_storage, IDAksi(aksi_build));
+    MapWahana MW = SMappingW(Manstor);
+    int idWahana = MWGetKey(MW,whn_selected);
+    InsertLastAL(&whn_storage, idWahana);
     
 
     /*  Build Wahana
@@ -149,14 +155,32 @@ void buildPop(GAME * game){
     4. Push ke stack aksi */
 
 void upgradePush(GAME * game) {
-    // TODO: Cek apakah berdiri di samping wahana
+    // TODO: Cek apakah berdiri di samping wahana <in progress!>
     WAHANA W;
+    manstor Manstor = Smanag(*game);
+    ARRAYLIST storageW = StorageW(Manstor);
+
+    // Traversal dekat wahana di list wahana
+    /*
+    int i = 0;
+    boolean found = false;
+    WAHANA whn_ada[NEff(storageW)];
+    while (!found && i < Neff(storageW)) {
+        WAHANA currwhn = whn_ada[i];
+        if (IsNearWahana(// lokasi_ player //, currwhn)) {
+            W = currwhn;
+            found = true;
+        } else {
+            i++;
+        }
+    }  
+    */
+
     printf("Ingin melakukan upgrade apa?\n");
 
     // Print Tree Upgrade
     // void printUpTree(WAHANA W);
-    manstor Manstor = Smanag(*game); // Load Map Wahana
-    WAHANA Upgrade[2];               // Wahana Upgrade Tree Left dan Right
+    WAHANA Upgrade[2];
 
     int IDL = Akar(Left(UpgradeTree(W)));
     int IDR = Akar(Right(UpgradeTree(W)));
@@ -184,24 +208,24 @@ void upgradePush(GAME * game) {
     int jlhPunya = Punya(*currMat);
 
     // Cek apakah wahana sudah ada sebelumnya
-    ARRAYLIST storageW = StorageW(Manstor);
     int idx_whn_up = MWGetKey(SMappingW(Manstor), whn_up);
     
     if (!SearchAL(storageW, idx_whn_up)){
         printf("Wahana sudah pernah dibangun.\n");
     } else {
         manact Manact = Amanag(*game);
-        int time_AM = TimeUsed(Manact);
+        int time_remain = TimeRemaining(Manact);
 
         // Waktu untuk Upgrade : 10 menit
-        int time_for_upgrade = 10;
+        int time_for_up = 10;
         
 
         if (jlhPunya < jlhButuh){
             printf("Bahan yang dipunya tidak mencukupi.\n");
-        }
-        // TODO cek waktu tidak cukup -> print waktu tidak cukup
-        else{
+        } 
+        else if (time_remain - time_for_up < 0){
+            printf("Waktu tidak mencukupi.\n");
+        } else {
             // Push aksi ke stack
             manact Manact = Amanag(*game);
             MapWahana MW_AM = AMappingW(Manact);
@@ -213,6 +237,31 @@ void upgradePush(GAME * game) {
             AddEntryWahana(&MW_AM, CreateMapEWahana(id, whn_up));
         }
     }
+}
+
+void upgradePop(GAME *game) {
+    Aksi aksi_up;
+    PopAksi(&(StackAksi(Amanag(*game))), &aksi_up);
+    WAHANA whn_up = MWGetWahana(AMappingW(Amanag(*game)), IDAksi(aksi_up));
+    MATERIAL bahan_whn_up = Bahan(whn_up);
+
+    manstor Manstor = Smanag(*game);
+
+    ARRAYLISTMAT storageM = StorageM(Manstor);
+    int idx_material_up = SearchIdxMAT(storageM,bahan_whn_up);
+    MATERIAL * currMat = &ItemOf(storageM, idx_material_up);
+    
+    int jlhButuh = Punya(bahan_whn_up);
+    
+    // kurang jumlah material yang dipunyai player
+    Punya(*currMat) -= jlhButuh;
+
+    // Insert Wahana ke wahana storage
+    ARRAYLIST whn_storage = StorageW(Manstor);
+
+    MapWahana MW = SMappingW(Manstor);
+    int idWahana = MWGetKey(MW,whn_up);
+    InsertLastAL(&whn_storage, idWahana);
 }
 
 void buyMaterialPush(GAME * game){
@@ -247,8 +296,17 @@ void buyMaterialPush(GAME * game){
 
     float hargaBeli = Harga(mat_selected) * jumlahBeli;
 
+    manact Manact = Amanag(*game);
+    int time_remain = TimeRemaining(Manact);
+
+    // Waktu untuk Buy : 5 menit
+    int time_for_buy = 5;
+
     if (Money(*game) < hargaBeli){
         printf("Uang tidak mencukupi.");
+    }
+    else if (time_remain - time_for_buy < 0){
+            printf("Waktu tidak mencukupi.\n");
     }
     else{
         // Push Aksi
@@ -261,7 +319,6 @@ void buyMaterialPush(GAME * game){
         PushAksi(&Stack_AM,aksi_build);
         AddEntryMaterial(&MM_AM, CreateMapEMaterial(id, mat_selected));
     }
-
 }
 
 void buyMaterialPop(GAME * game) {
@@ -285,6 +342,7 @@ void buyMaterialPop(GAME * game) {
 }
 
 boolean IsBuildAbleSenpai(WAHANA thefkinwahana,GAME *game) {
+    //TOOD integrasi sama vertex
     manact Manak = Amanag(*game);
     manstor Manstor = Smanag(*game);
     // Cek tabrakan sama yang plan
@@ -320,12 +378,12 @@ void undo(GAME * game){
         if (InfoAksi(dump) == 'b' || InfoAksi(dump) == 'u') {
             WAHANA W = MWGetWahana(AMappingW(Amanag(*game)), IDAksi(dump)); // yeet data wahana cuy
             MoneyUsed(Amanag(*game)) -= HargaBuild(W);
-            TimeUsed(Amanag(*game)) -= DurasiWhn(W);
+            TimeRemaining(Amanag(*game)) -= DurasiWhn(W);
         }
         else {
             MATERIAL M = MMGetMaterial(AMappingM(Amanag(*game)), IDAksi(dump)); // yeet data material cuy
             MoneyUsed(Amanag(*game)) -= (Harga(M) * Punya(M));
-            TimeUsed(Amanag(*game)) -= (WaktuBeli(M) * Punya(M));
+            TimeRemaining(Amanag(*game)) -= (WaktuBeli(M) * Punya(M));
         }
     }
 }

@@ -18,20 +18,7 @@ typedef struct {
     int Xplayer;
     int Yplayer;
 } MATRIKS;
-/* Gate dari tiap Peta sudah di tentukan:
-    Peta 1: 
-        Ke Gate 2 (NKolEff - 1, 5)
-        Ke Gate 4 (NBrsEff - 1, 5)
-    Peta 2:
-        Ke Gate 2 (0, 5)
-        Ke Gate 3 (NBrsEff - 1, 5)
-    Peta 3:
-        Ke Gate 4 (0, 5)
-        Ke Gate 2 (0, 5)
-    Peta 4:
-        Ke Gate 1 (0, 5)
-        Ke Gate 3 (NKolEff - 1, 5)
-*/
+/* Gate dari tiap Peta sudah di tentukan pada .txt file ya*/
 /* NBrsEff >= 1 dan NKolEff >= 1 */
 /* Indeks matriks yang digunakan: [BrsMin..BrsMax][KolMin..KolMax] */
 /* Memori matriks yang dipakai selalu di "ujung kiri atas" */

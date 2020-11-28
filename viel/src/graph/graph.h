@@ -12,6 +12,7 @@
 
 typedef struct vertex* AdrVertex;
 typedef struct vertex {
+    int id;
     MATRIKS InfoMATRIKS;
     AdrVertex Up;
     AdrVertex Left;
@@ -25,6 +26,7 @@ typedef AdrVertex Graph;
 #define Left(P) (P)->Left
 #define Right(P) (P)->Right
 #define Bottom(P) (P)->Bottom
+#define id(P) (P)->id
 
 AdrVertex AlokasiVertex (MATRIKS M);
 /* Mengalokasi MATRIKS M dengan edge semuanya menunjuk Nil */
@@ -42,6 +44,6 @@ void UpdateMatriksWahana(AdrVertex* V, WAHANA W);
 boolean isCollideWahanaBuilding(AdrVertex* V, WAHANA W);
     /* Mengecek apakah suatu wahana menabrak tembok atau tidak */
 
-//TODO belom dibuat char X= W,A,O
 boolean isNear(AdrVertex* V, char X);
+    /* Mengecek apakah player berdeketan dengan suatu building seperti W, A, O */
 #endif 

@@ -2,6 +2,7 @@
 #include "../queue/queuelist.h"
 #include "../stack/stack.h"
 #include "../wahana/wahana.h"
+#include "../array/array.h"
 
 #ifndef VISITOR_H
 #define VISITOR_H
@@ -9,17 +10,19 @@
 typedef struct{
     Stack todo;
     int patience;
+    JAM enterqueue;
 } visitor;
 
 /*** Selektor ***/
-#define todo(P) (P).todo
-#define patience(P) (P).patience
+#define todo(V) (V).todo
+#define patience(V) (V).patience
+#define entertime(V) (V).enterqueue
 
 /* Ambil wahana yang ingin dinaiki (paling atas stack) */
 WAHANA todonow(visitor v, GAME *g);
 
-/* Create visitor */
-visitor CreateVisitor(Stack todo,int patience);
+/* Spawn Visitor */
+visitor SpawnVisitor(int patience, GAME * g);
 
 /* Menggenerate to do list visitor */
 Stack generateToDo(GAME *game);
@@ -39,5 +42,9 @@ void getbacktoWeaboo();
 
 // Pelanggan diusir ke antrian wahana (setelah di serve)
 void gotoAnimeConcert();
+
+// Mengantrikan visitor pada antrian
+void waittobuyConcert(visitor v, int prio);
+
 
 #endif

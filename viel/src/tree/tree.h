@@ -3,21 +3,21 @@
 
 #include "../boolean.h"
 #define Nil NULL
+#define infotype int
 /* Selektor */
-#define infotype int;
 typedef struct tNode *address;
 typedef struct tNode {
     infotype info;
-    address left;
-    address right;
+    address Left;
+    address Right;
 } Node;
 /* Definisi PohonBiner */
 /* Pohon Biner kosong P = Nil */
 typedef address BinTree;
 
 #define Akar(P) (P)->info
-#define Left(P) (P)->left
-#define Right(P) (P)->right
+#define Left(P) (P)->Left
+#define Right(P) (P)->Right
 
 BinTree Tree(infotype Akar, BinTree L, BinTree R);
 /* Menghasilkan sebuah pohon biner dari A, L, dan R, jika alokasi

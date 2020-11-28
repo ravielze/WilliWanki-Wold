@@ -16,6 +16,7 @@ typedef struct {
 // 'b' for build yeahh
 // 'm' for buy material
 // 'u' upgradeeeeeeeeeeeeeee
+// 'r' RIDEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
 
 /* Contoh deklarasi variabel bertype stack dengan ciri TOP : */
 /* Versi I : dengan menyimpan tabel dan alamat top secara eksplisit*/
@@ -76,4 +77,8 @@ void InverseStack (Stack * S1, Stack * S2);
 /* Memindahkan isi dari S1 (stack awal) ke S2 (stack target)
  * I.S. S1 mungkin kosong dan S2 kosong
  * F.S. S1 kosong, isi S2 = S1 yang mula-mula */
+
+/* ID ada dalem stack teeduckz ashsiapzz */
+boolean isIDInStack(Stack S, int id);
+
 #endif

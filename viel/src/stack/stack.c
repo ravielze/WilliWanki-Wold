@@ -89,3 +89,14 @@ void InverseStack (Stack * S1, Stack * S2) {
         PushAksi(S2, temp);
     }
 }
+
+boolean isIDInStack(Stack S, int id) {
+    while (!IsStackEmpty(S)) {
+        Aksi temp;
+        PopAksi(&S, &temp);
+        if (IDAksi(temp) == id) {
+            return true;
+        }
+    }
+    return false;
+}
