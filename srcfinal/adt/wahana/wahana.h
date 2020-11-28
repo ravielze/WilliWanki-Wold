@@ -30,10 +30,14 @@ typedef struct Whn{
 #define KapasitasWahana(W) (W).KapasitasWahana
 #define Harga(W) (W).Harga
 #define Deskripsi(W) (W).Deskripsi
-#define DurasiMain(W) (W).DurasiMain
+#define DurasiBangun(W) (W).DurasiBangun
 #define DurasiMain(W) (W).DurasiMain
 #define Antrian(W) (W).Antrian
 
-
-
+/* Return jumlah material yang dibutuhin yeet */
+int GetWahanaMaterial (WAHANA w, char* Nama);
+/* Return waktunya bangunnya yey */
+JAM GetWahanaTime (WAHANA w, char* Nama); 
+/* Build wahanana YEYEYEYEYEYEYEYEYEYEYEEY */
+void buildWahanana(WAHANA *w,);
 #endif

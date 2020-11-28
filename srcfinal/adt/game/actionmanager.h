@@ -12,11 +12,12 @@ typedef struct{
 } MANAGER_ACTION;
 
 /* SELEKTOR */
-#define manstor MANAGER_STORAGE
-#define MappingW(X) X.ListWahana
-#define MappingM(X) X.ListMaterial
-#define StorageW(X) X.StorageWahana
-#define StorageM(X) X.StorageMaterial
-#define Game(X) X.game
+#define manact MANAGER_ACTION
+#define AMappingA(X) (X).DataArea
+#define AMappingW(X) (X).DataWahana
+#define AMappingM(X) (X).DataMaterial
+#define StackAksi(X) (X).StackAksi
+
+void execute(manact * ma);
 
 #endif

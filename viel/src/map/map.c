@@ -17,13 +17,6 @@ MapEntryMaterial CreateMapEMaterial(int id, MATERIAL M) {
     return MM;
 }
 
-MapEntryArea CreateMapEArea(int id, AREA A) {
-    MapEntryArea MA;
-    id(MA) = id;
-    value(MA) = A;
-    return MA;
-}
-
 /* Make Empty */
 void MakeEmptyMapWahana(MapWahana *MW,int max){
     MapEntry(*MW) = (MapWahana*)malloc(max*sizeof(MapWahana));
@@ -37,12 +30,6 @@ void MakeEmptyMapMaterial(MapMaterial *MM, int max){
     NEff(*MM) = 0;
 }
 
-void MakeEmptyMapArea(MapArea *MA,int max) {
-    MapEntry(*MA) = (MapArea*)malloc(max*sizeof(MapArea));
-    MaxEl(*MA) = max;
-    NEff(*MA) = 0;
-}
-
 /* Is Empty ???? */
 boolean IsMapWEmpty (MapWahana MW) {
     return NEff(MW) == 0;
@@ -52,10 +39,6 @@ boolean IsMapMEmpty (MapMaterial MM) {
     return NEff(MM) == 0;
 }
 
-boolean IsMapAEmpty (MapArea MA) {
-    return NEff(MA) == 0;
-}
-
 /* Is Full */
 boolean IsMapWFull(MapWahana MW){
     return (NEff(MW) == MaxEl(MW));
@@ -63,10 +46,6 @@ boolean IsMapWFull(MapWahana MW){
 
 boolean IsMapMFull(MapMaterial MM){
     return (NEff(MM) == MaxEl(MM));
-}
-
-boolean IsMapAFull(MapArea MA) {
-    return (NEff(MA) == MaxEl(MA));
 }
 
 /* Search */
@@ -81,13 +60,6 @@ int IsEntryWahana(MapWahana MW, int sid) {
 int IsEntryMaterial(MapMaterial MM, int sid) {
     for (int i = 0; i < NEff(MM); i++) {
         if (id(MapEntry(MM)[i]) == sid) return i;
-    }
-    return -1;
-}
-
-int IsEntryArea(MapArea MA, int sid) {
-    for (int i = 0; i < NEff(MA); i++) {
-        if (id(MapEntry(MA)[i]) == sid) return i;
     }
     return -1;
 }
@@ -155,35 +127,6 @@ void DeleteEntryMaterial(MapMaterial *MM,int id) {
     }
 }
 
-void DeleteEntryArea(MapArea *MA, int id) {
-    if (NEff(*MA) <= (MaxEl(*MA) / 4)) {
-        MaxEl(*MA) /= 2;
-        MapEntryArea *temp = (MapEntryArea *) realloc(MapEntry(*MA), (MaxEl(*MA) * sizeof(MapArea)));
-        if (temp == Nil) {
-            printf("Error reallocating memory.");
-            MapEntry(*MA) = Nil;
-            return;
-        }
-        else {
-            MapEntry(*MA) = temp;
-        }
-    }
-    int i = 0;
-    boolean found = false;
-    while (i < NEff(*MA) && !found) {
-        if (id(MapEntry(*MA)[i]) == id) {
-            found = true;
-            /* Geser semuanya ke kiri */
-            for (int j = i; j < NEff(*MA); j++) {
-                MapEntry(*MA)[j] = MapEntry(*MA)[j+1];
-            }
-            /* Kosongin yang terakhir */
-            NEff(*MA)--;          
-        }
-        else i++;
-    }
-}
-
 /* Add Key */
 void AddEntryWahana(MapWahana *MW, MapEntryWahana entry){
     if (IsMapWFull(*MW)){
@@ -201,15 +144,6 @@ void AddEntryMaterial(MapMaterial *MM, MapEntryMaterial entry){
     }
     MapEntry(*MM)[NEff(*MM)] = entry;
     NEff(*MM)++;
-}
-
-void AddEntryArea(MapArea *MA, MapEntryArea entry){
-    if (IsMapAFull(*MA)){
-        MapEntry(*MA) = (MapArea*)realloc(MapEntry(*MA), ((MaxEl(*MA)+5)*sizeof(MapArea)));
-        MaxEl(*MA) += 5;
-    }
-    MapEntry(*MA)[NEff(*MA)] = entry;
-    NEff(*MA)++;
 }
 
 /* Get Key-Value */
@@ -233,14 +167,4 @@ MATERIAL MMGetMaterial(MapMaterial MM, int id) {
     }
 
     return value(MapEntry(MM)[rid]);
-}
-
-AREA MAGetMaterial(MapArea MA, int id) {
-    /* Prekondisi : material ada*/
-    int rid = IsEntryArea(MA ,id);
-    if (rid == -1){
-        AREA areakosong;
-        return areakosong;
-    }
-    return value(MapEntry(MA)[rid]);
 }

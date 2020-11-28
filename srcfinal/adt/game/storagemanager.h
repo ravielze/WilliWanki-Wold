@@ -6,7 +6,9 @@
 
 typedef struct{
     MapWahana ListWahana; //Map untuk listing Wahana yang tersedia
+    int LastIDWahana;
     MapMaterial ListMaterial; //Map Untuk listing Material yang
+    int LastIDMaterial;
     ARRAYLIST StorageWahana; // Array List ID Wahana yang dipunyai
     ARRAYLIST StorageMaterial; // Array List ID Material yang dipunyai
     GAME * game;
@@ -14,11 +16,13 @@ typedef struct{
 
 /* SELEKTOR */
 #define manstor MANAGER_STORAGE
-#define MappingW(X) X.ListWahana
-#define MappingM(X) X.ListMaterial
-#define StorageW(X) X.StorageWahana
-#define StorageM(X) X.StorageMaterial
-#define Game(X) X.game
+#define SMappingW(X) (X).ListWahana
+#define SMappingM(X) (X).ListMaterial
+#define LIDWahana(X) (X).LastIDWahana
+#define LIDMaterial(X) (X).LastIDMaterial
+#define StorageW(X) (X).StorageWahana
+#define StorageM(X) (X).StorageMaterial
+#define Game(X) (X).game
 
 manstor createManagerStorage(GAME * game);
 
