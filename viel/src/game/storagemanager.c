@@ -31,7 +31,6 @@ void initStorageManager(char* wahanafilename, char* materialfilename, char* tree
 // screatewahana
     static int retval;
     int N;
-    boolean nowWahana = true;
     FILE* WahanaFile = fopen(wahanafilename, "r");
     FILE* MaterialFile = fopen(materialfilename, "r");
     FILE* TreeFile = fopen(treefilename, "r");
@@ -50,41 +49,34 @@ void initStorageManager(char* wahanafilename, char* materialfilename, char* tree
     WAHANA whn;
     while(N--){
         char strInput[1000];
+        char strInput2[1000];
         retval = fscanf(WahanaFile, "%s\n", &strInput);
+        retval = fscanf(WahanaFile, "%s\n", &strInput2);
 
-        if (nowWahana){
-            whn = createWahana(strInput);
-            ScreateWahana(ms, whn);
-        } else {
-            MATERIAL mat = createMaterial(strInput);
-            Bahan(whn) = mat;
-        }
-
-        nowWahana = !nowWahana;
+        whn = createWahana(strInput);
+        ScreateWahana(ms, whn);
+        MATERIAL mat = createMaterial(strInput2);
+        Bahan(whn) = mat;
     }
 
    retval = fscanf(TreeFile, "%d\n", &N);
    while(N--){
         int from, to;
         char LorR;
+        WAHANA whn;
 
         retval = fscanf("%d %c %d\n", &from, &LorR, &to);
+        getWahana(ms, from, &whn);
         if (LorR == 'L') {
-            WAHANA whn;
-            getWahana(ms, from, &whn);
-
             if (UpgradeTree(whn) != Nil){
-                Left(UpgradeTree(whn)) = AlokasiT(to); 
+                Left(UpgradeTree(whn) ) = AlokasiT(to); 
             } else {
                 BinTree T = Tree(from, AlokasiT(to), Nil);
                 UpgradeTree(whn) = T;
             }
         } else {
-            WAHANA whn;
-            getWahana(ms, from, &whn);
-
             if (UpgradeTree(whn) != Nil){
-                Right(UpgradeTree(whn)) = AlokasiT(to); 
+                Right(UpgradeTree(whn) ) = AlokasiT(to); 
             } else {
                 BinTree T = Tree(from, Nil, AlokasiT(to) );
                 UpgradeTree(whn) = T;

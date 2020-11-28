@@ -65,7 +65,7 @@ void PushAksi (Stack * S, Aksi X) {
     InfoTop(*S) = X;
 }
 
-void PopStack (Stack * S, Aksi* X) {
+void PopAksi (Stack * S, Aksi* X) {
     if (Top(*S) <= (MaxEl(*S)/4)) {
         MaxEl(*S) /= 2;
         Aksi* temp = (Aksi *) realloc(IsiStack(*S), (MaxEl(*S) * sizeof(Aksi)));

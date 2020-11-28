@@ -4,7 +4,7 @@
 #include "../boolean.h"
 #define Nil NULL
 /* Selektor */
-typedef int infotype;
+#define infotype int;
 typedef struct tNode *address;
 typedef struct tNode {
     infotype info;
@@ -74,4 +74,7 @@ dari satu daun bernilai X, Y ditambahkan pada daun paling kiri. */
 void DelDaun(BinTree *P, infotype X);
 /* I.S. P tidak kosong, minimum 1 daun bernilai X 
 F.S. Semua daun yang bernilai X dihapus dari P */
+
+/* tree P1 = tree P2 ga ya hm*/
+boolean isTreeEqual(BinTree P1, BinTree P2);
 #endif

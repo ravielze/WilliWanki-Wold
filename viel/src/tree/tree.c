@@ -160,3 +160,16 @@ void DelDaun(BinTree *P, infotype X){
         
     }
 }
+
+void printUpTree(BinTree P) {
+
+}
+
+boolean isTreeEqual(BinTree P1, BinTree P2) {
+    if (IsTreeEmpty(P1) && IsTreeEmpty(P2)) return true;
+    if (Akar(P1) != Akar(P2)) return false;
+    if (IsUnerLeft(P1) && IsUnerLeft(P2)) return isTreeEqual(Left(P1), Left(P2));
+    else if (IsUnerRight(P1) && IsUnerRight(P2)) return isTreeEqual(Right(P1), Right(P2));
+    else if (IsBiner(P1) && IsBiner(P2)) return isTreeEqual(Left(P1), Left(P2)) && isTreeEqual(Right(P1), Right(P2));
+    else return false;
+}

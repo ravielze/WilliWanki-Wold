@@ -26,7 +26,7 @@ void TulisJam (JAM J){
 
 void TimeRemain (JAM J) {
     printf("Time Remaining: ");
-    if (Hour(J) == 0 && Minute(J) == 0) printf("-");
+    if (Hour(J) == 0 && Minute(J) == 0) printf("0");
     else {
         if (Hour(J) != 0) printf("%d hour(s) ", Hour(J));
         if (Minute(J) != 0) printf("%d minute(s)", Minute(J));

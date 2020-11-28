@@ -54,3 +54,19 @@ boolean isCollide(WAHANA whn, WAHANA whn2){
     return (x11 <= x21 && x21 <= x12 && y11 <= y21 && y21 <= y22)
             || (x11 <= x22 && x22 <= x12 && y11 <= y22 && y22 <= y22);
 }
+
+boolean isWahanaEqual(WAHANA whn1, WAHANA whn2){
+    return (
+        NamaWhn(whn1) == NamaWhn(whn2) &&
+        TipeWhn(whn1) == TipeWhn(whn2) &&
+        DeskripsiWhn(whn1) == DeskripsiWhn(whn2) &&
+        KpstsWhn(whn1) == KpstsWhn(whn2) &&
+        SizeWhn(whn1) == SizeWhn(whn2) &&
+        RusakGakSih(whn1) == RusakGakSih(whn2) &&
+        PEQ(LokWhn(whn1),LokWhn(whn2)) &&
+        DurasiWhn(whn1) == DurasiWhn(whn2) &&
+        WahanaDasar(whn1) == WahanaDasar(whn2) &&
+        isMaterialEqual(Bahan(whn1), Bahan(whn2)) &&
+        isTreeEqual(UpgradeTree(whn1), UpgradeTree(whn2))
+    );
+}

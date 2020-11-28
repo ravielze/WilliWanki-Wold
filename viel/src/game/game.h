@@ -9,13 +9,15 @@
 #include "../plane/point.h"
 #include "../jam/jam.h"
 #include "../queue/queuelist.h"
+#include "../wahana/wahana.h"
+#include "../map/map.h"
+#include "../stack/stack.h"
 #include "storagemanager.h"
 #include "actionmanager.h"
 
 typedef struct{
     char* Pemain;
     float Money;
-
     JAM Time;
     int currentDay;
     int executionTimes;
@@ -25,9 +27,10 @@ typedef struct{
     manstor StorageManager;
     manact ActionManager;
 
-    antrian SEMOGABANYAKPELANGGAN;
+    Queue Queue;
 } GAME;
 
+#define Queue(G) (G).Queue
 #define Pemain(G) (G).Pemain
 #define Money(G) (G).Money
 #define PosisiPlayer(G) (G).PosisiPlayer
@@ -66,16 +69,15 @@ void upgradePop(GAME * game);
     2. Pilih material
     3. Cek resource dan uang dan waktu
     4. Push ke stack aksi */
-void buyMaterial(GAME * game, int jumlah, MATERIAL* mat);
+void buyMaterialPush(GAME * game);
+void buyMaterialPop(GAME * game);
+boolean IsBuildAbleSenpai(WAHANA thefkinwahana,GAME *game);
 
 /* Pop sekali */
 void undo(GAME * game);
 
 /* langsung ke main phase dan kosongkan stack */
 void mainphase(GAME * game);
-
-/* InverseStack, terus pop 1 per 1 terus jalanin */
-void execute(GAME * game);
 
 /* Main Phase */
 

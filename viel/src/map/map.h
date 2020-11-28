@@ -71,7 +71,9 @@ void AddEntryMaterial(MapMaterial *MM,MapEntryMaterial entry);
 /* Get Key-Value */
 WAHANA MWGetWahana(MapWahana MW, int id);
 MATERIAL MMGetMaterial(MapMaterial MM, int id);
+int MWGetKey(MapWahana MW, WAHANA whn); // TODO realisasi
 
 /* Get Value List */
 WAHANA* MWListWahana(MapWahana MW);
+
 #endif

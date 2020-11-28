@@ -1,7 +1,7 @@
 #include "queuelist.h"
 
-void AlokasiQ(address *P, ElType X, int Prio){
-    *P = (address)malloc(1*sizeof(Node));
+void AlokasiQ(qaddress *P, ElType X, int Prio){
+    *P = (qaddress)malloc(1*sizeof(Node));
     if (P!=Nil){
         Info(*P) = X;
         Next(*P) = Nil;
@@ -9,7 +9,7 @@ void AlokasiQ(address *P, ElType X, int Prio){
     }
 }
 
-void DealokasiQ(address P){
+void DealokasiQ(qaddress P){
     free(P);
 }
 
@@ -22,7 +22,7 @@ int NBElmtQ (Queue Q){
         return 0;
     }
     else{
-        address P = Head(Q);
+        qaddress P = Head(Q);
         int i;
         for (i=0; Next(P)!=Nil; i++){
             P = Next(P);
@@ -38,7 +38,7 @@ void CreateEmptyQ (Queue * Q){
 
 /* *** Primitif Add/Delete *** */
 void Enqueue (Queue * Q, ElType X, int Prio){
-    address P;
+    qaddress P;
     Alokasi(&P,X,Prio);
     int PrioHead;
 
@@ -51,8 +51,8 @@ void Enqueue (Queue * Q, ElType X, int Prio){
         Head(*Q) = P;
     }
     else{
-        address Prev = Nil;
-        address After = Head(*Q);
+        qaddress Prev = Nil;
+        qaddress After = Head(*Q);
         while ((Prio >= Prio(After)) && (Next(After) != Nil)){
             After = Next(After);
 
@@ -86,7 +86,7 @@ void Enqueue (Queue * Q, ElType X, int Prio){
 
 void Dequeue (Queue * Q, ElType * X){
 
-    address P;
+    qaddress P;
     *X = InfoHead(*Q);
     P = Head(*Q);
     if (Next(Head(*Q)) != Nil){
@@ -102,7 +102,7 @@ void Dequeue (Queue * Q, ElType * X){
 void DequeueN (Queue * Q, ElType * X, int N, int *Ndequeued){
     int temp = N;
     while ((!IsEmpty(*Q)) && (temp != 0)){
-        address P;
+        qaddress P;
         *X = InfoHead(*Q);
         P = Head(*Q);
         if (Next(Head(*Q)) != Nil){

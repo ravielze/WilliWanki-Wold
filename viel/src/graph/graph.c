@@ -50,6 +50,11 @@ void MovePlayer (AdrVertex* V, int difX, int difY) {
             Yplayer(InfoMATRIKS(*V) ) -= difY;
             printf("You've hit a wall!\n");
             break;
+        case 'W':
+            Xplayer(InfoMATRIKS(*V) ) -= difX;
+            Yplayer(InfoMATRIKS(*V) ) -= difY;
+            printf("You can't go to the Wahana!\n");
+            break;
         case '>':
             Elmt(InfoMATRIKS(*V) , Ybefore, Xbefore) = '.';
             *V = Right(*V);
@@ -117,6 +122,80 @@ void MovePlayer (AdrVertex* V, int difX, int difY) {
     }
 }
 
-void UpdateMatriksWahana(AdrVertex* V) {
+void UpdateMatriksWahana(AdrVertex* V, WAHANA W) {
+    if (!(SizeWhn(W) >= NBrsEff(InfoMATRIKS(*V) ) - 1 || SizeWhn(W) <= NKolEff(InfoMATRIKS(*V) ) - 1 ) ){
+        Elmt(InfoMATRIKS(*V), Ordinat(LokWhn(W) ), Absis(LokWhn(W) ) ) = 'W';
 
+        int startI = Ordinat(LokWhn(W) ) - SizeWhn(W)/2;
+        int endI = Ordinat(LokWhn(W) ) + SizeWhn(W)/2;
+        int startJ = Absis(LokWhn(W) ) - SizeWhn(W)/2;
+        int endJ = Absis(LokWhn(W) ) + SizeWhn(W)/2;
+
+        for (int i = startI; i <= endI; i++) {
+            for (int j = startJ; j <= endJ; j++) {
+                Elmt(InfoMATRIKS(*V), i, j) = 'W';
+            }
+        }
+
+        boolean playerPositionFound = false;
+        for (int i = startI - 1; (i <= endI + 1) && !playerPositionFound; i++) {
+            for (int j = startJ - 1; (j <= endJ + 1) && !playerPositionFound; j++) {
+                if (Elmt(InfoMATRIKS(*V), i, j) == '#' 
+                    || Elmt(InfoMATRIKS(*V), i, j) == 'O' 
+                    || Elmt(InfoMATRIKS(*V), i, j) == 'A' 
+                    || Elmt(InfoMATRIKS(*V), i, j) == 'W') continue;
+                else {
+                    Xplayer(InfoMATRIKS(*V) ) = j;
+                    Yplayer(InfoMATRIKS(*V) ) = i;
+                    playerPositionFound = true;
+                }
+            }
+        }
+    }
+}
+
+/* *** Mengecek Wahana tertabrak Wall atau Antrian atau Office *** */
+boolean isCollideWahanaBuilding(AdrVertex* V, WAHANA W) {
+    boolean isCollided = false;
+
+    for (int i = Ordinat(LokWhn(W) ); (i <= Ordinat(LokWhn(W) ) + SizeWhn(W)/2) && !isCollided; i++){
+        for (int j = Absis(LokWhn(W) ); (j <= Absis(LokWhn(W) ) + SizeWhn(W)/2) && !isCollided; j++){
+            if (Elmt(InfoMATRIKS(*V), i, j) == '#' || Elmt(InfoMATRIKS(*V), i, j) == 'O' || Elmt(InfoMATRIKS(*V), i, j) == 'A'){
+                isCollided = true;
+            }
+        }
+    }
+
+    for (int i = Ordinat(LokWhn(W) ); (i <= Ordinat(LokWhn(W) ) + SizeWhn(W)/2) && !isCollided; i++){
+        for (int j = Absis(LokWhn(W) ); (j >= Absis(LokWhn(W) ) - SizeWhn(W)/2) && !isCollided; j--){
+            if (Elmt(InfoMATRIKS(*V), i, j) == '#' || Elmt(InfoMATRIKS(*V), i, j) == 'O' || Elmt(InfoMATRIKS(*V), i, j) == 'A'){
+                isCollided = true;
+            }
+        }
+    }
+
+    for (int i = Ordinat(LokWhn(W) ); (i >= Ordinat(LokWhn(W) ) + SizeWhn(W)/2) && !isCollided; i--){
+        for (int j = Absis(LokWhn(W) ); (j <= Absis(LokWhn(W) ) + SizeWhn(W)/2) && !isCollided; j++){
+            if (Elmt(InfoMATRIKS(*V), i, j) == '#' || Elmt(InfoMATRIKS(*V), i, j) == 'O' || Elmt(InfoMATRIKS(*V), i, j) == 'A'){
+                isCollided = true;
+            }
+        }
+    }
+
+    for (int i = Ordinat(LokWhn(W) ); (i >= Ordinat(LokWhn(W) ) + SizeWhn(W)/2) && !isCollided; i--){
+        for (int j = Absis(LokWhn(W) ); (j >= Absis(LokWhn(W) ) + SizeWhn(W)/2) && !isCollided; j--){
+            if (Elmt(InfoMATRIKS(*V), i, j) == '#' || Elmt(InfoMATRIKS(*V), i, j) == 'O' || Elmt(InfoMATRIKS(*V), i, j) == 'A'){
+                isCollided = true;
+            }
+        }
+    }
+
+    return isCollided;
+}
+
+boolean isNear(AdrVertex* V, char X){
+    return (Elmt(InfoMATRIKS(*V), Yplayer(InfoMATRIKS(*V) ) + 1, Xplayer(InfoMATRIKS(*V) ) ) == X 
+            || Elmt(InfoMATRIKS(*V), Yplayer(InfoMATRIKS(*V) ) - 1, Xplayer(InfoMATRIKS(*V) ) ) == X
+            || Elmt(InfoMATRIKS(*V), Yplayer(InfoMATRIKS(*V) ), Xplayer(InfoMATRIKS(*V) ) + 1) == X 
+            || Elmt(InfoMATRIKS(*V), Yplayer(InfoMATRIKS(*V) ), Xplayer(InfoMATRIKS(*V) ) - 1) == X );
 }

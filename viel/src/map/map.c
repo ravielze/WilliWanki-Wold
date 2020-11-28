@@ -50,13 +50,14 @@ boolean IsMapMFull(MapMaterial MM){
 
 /* Search */
 /* Return indeks entry dengan id tertentu, jika tidak ada, return -1 */
-int IsEntryWahana(MapWahana MW, int sid) {
+int IsEntryWahana(MapWahana MW, int id) {
 // Mengurangi MaxEl jika yang terisi kurang dari 25%
     for (int i = 0; i < NEff(MW); i++) {
-        if (id(MapEntry(MW)[i]) == sid) return i;
+        if (id(MapEntry(MW)[i]) == id) return i;
     }
     return -1;
 }
+
 int IsEntryMaterial(MapMaterial MM, int sid) {
     for (int i = 0; i < NEff(MM); i++) {
         if (id(MapEntry(MM)[i]) == sid) return i;
@@ -167,6 +168,13 @@ MATERIAL MMGetMaterial(MapMaterial MM, int id) {
     }
 
     return value(MapEntry(MM)[rid]);
+}
+
+int MWGetKey(MapWahana MW, WAHANA whn){
+    for (int i = 0; i < NEff(MW); i++) {
+        if (isWahanaEqual(MWGetWahana(MW, i) , whn)) return i;
+    }
+    return -1;
 }
 
 WAHANA* MWListWahana(MapWahana MW){

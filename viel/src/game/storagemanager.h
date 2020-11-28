@@ -15,7 +15,7 @@ typedef struct{
     MapMaterial ListMaterial; //Map Untuk listing Material yang
     int LastIDMaterial;
     ARRAYLIST StorageWahana; // Array List ID Wahana yang dipunyai
-    ARRAYLISTMAT StorageMaterial;
+    ARRAYLISTMAT StorageMaterial; // Array List semua material yang tersedia
     GAME * game;
 } MANAGER_STORAGE;
 

@@ -35,6 +35,7 @@ MATERIAL createMaterial(char* in);
  */
 void MaterialtoString(MATERIAL mat, char* result);
 
+// mat = mat2 ga ya? hmmmm
 boolean isMaterialEqual(MATERIAL mat, MATERIAL mat2);
 //TODO
 #endif

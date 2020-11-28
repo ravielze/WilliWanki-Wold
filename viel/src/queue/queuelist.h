@@ -2,19 +2,20 @@
 #define queuelist_H
 
 #include "../boolean.h"
+#include "../visitor/visitor.h"
 #include <stdlib.h>
 #include <stdio.h>
 
 #define Nil NULL
 
 
-typedef int ElType;
-typedef struct tNode *address;
-typedef struct tNode {  ElType Info;
-                        address Next;
+typedef visitor ElType;
+typedef struct qNode *qaddress;
+typedef struct qNode {  ElType Info;
+                        qaddress Next;
                         int Prio;
-                     } Node;
-typedef struct { address HEAD;
+                     } queueNode;
+typedef struct { qaddress HEAD;
                } Queue;
 
 /* ********* AKSES (Selektor) ********* */

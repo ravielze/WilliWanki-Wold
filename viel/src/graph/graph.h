@@ -41,4 +41,7 @@ void UpdateMatriksWahana(AdrVertex* V, WAHANA W);
 
 boolean isCollideWahanaBuilding(AdrVertex* V, WAHANA W);
     /* Mengecek apakah suatu wahana menabrak tembok atau tidak */
+
+//TODO belom dibuat char X= W,A,O
+boolean isNear(AdrVertex* V, char X);
 #endif 

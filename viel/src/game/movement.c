@@ -1,6 +1,6 @@
-#include "../adt/word/mesinkata.h"
-#include "../adt/matrix/matrix.h"
-#include "../adt/graph/graph.h"
+#include "../word/mesinkata.h"
+#include "../matrix/matrix.h"
+#include "../graph/graph.h"
 
 int main() {
     MATRIKS Peta1, Peta2, Peta3, Peta4;
