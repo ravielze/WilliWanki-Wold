@@ -5,7 +5,6 @@
 #include "game.h"
 
 typedef struct{
-    MapArea DataArea;
     MapWahana DataWahana;
     MapMaterial DataMaterial;
     Stack StackAksi;
@@ -13,11 +12,8 @@ typedef struct{
 
 /* SELEKTOR */
 #define manact MANAGER_ACTION
-#define AMappingA(X) (X).DataArea
 #define AMappingW(X) (X).DataWahana
 #define AMappingM(X) (X).DataMaterial
 #define StackAksi(X) (X).StackAksi
-
-void execute(manact * ma);
 
 #endif

@@ -73,6 +73,6 @@ MATERIAL MMGetMaterial(MapMaterial MM, int id);
 
 /* Get Value List */
 WAHANA * MWListWahana(MapWahana MW);
-MATERIAL * MWListMaterial(MapMaterial MW);
-
+MATERIAL * MMListMaterial(MapMaterial MM);
+//TODO belum diimplementasikan
 #endif

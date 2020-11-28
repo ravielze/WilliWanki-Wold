@@ -3,15 +3,19 @@
 #include "../map/map.h"
 #include "../array/array.h"
 #include "game.h"
-
+/*
+0 | Wahana A
+1 | Wahana B
+2 | Wahana C
+*/
 typedef struct{
     MapWahana ListWahana; //Map untuk listing Wahana yang tersedia
     int LastIDWahana;
     MapMaterial ListMaterial; //Map Untuk listing Material yang
     int LastIDMaterial;
     ARRAYLIST StorageWahana; // Array List ID Wahana yang dipunyai
-    ARRAYLIST StorageMaterial; // Array List ID Material yang dipunyai
     GAME * game;
+    BinTree
 } MANAGER_STORAGE;
 
 /* SELEKTOR */
@@ -21,19 +25,20 @@ typedef struct{
 #define LIDWahana(X) (X).LastIDWahana
 #define LIDMaterial(X) (X).LastIDMaterial
 #define StorageW(X) (X).StorageWahana
-#define StorageM(X) (X).StorageMaterial
 #define Game(X) (X).game
 
 manstor createManagerStorage(GAME * game);
 
+void initStorageManager(char* wahanafilename, char* materialfilename, char* treefilename, manstor* ms);
+
 /* Menambahkan wahana ke wahana yang tersedia */
-void createWahana(manstor * ms, WAHANA whn);
+void ScreateWahana(manstor * ms, WAHANA whn);
 /* Menambahkan wahana ke storage */
 void addWahana(manstor * ms, int id);
 void deleteWahana(manstor * ms, int id);
 
 
-void createMaterial(manstor * ms, MATERIAL mat);
+void ScreateMaterial(manstor * ms, MATERIAL mat);
 /* Menambahkan material ke storage */
 void addMaterial(manstor * ms, int id);
 void deleteMaterial(manstor * ms, int id);

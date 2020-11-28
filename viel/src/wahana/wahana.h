@@ -6,6 +6,7 @@
 #include "../boolean.h"
 #include "../jam/jam.h"
 #include "../point/point.h"
+#include "../tree/tree.h"
 
 typedef struct Whn{
     char nama[100];
@@ -18,7 +19,11 @@ typedef struct Whn{
     boolean rusak;
 
     POINT lokasi;
-    JAM durasi;
+    int durasi;
+    boolean isDasar;
+
+    BinTree uptree;
+    MATERIAL bahan;
 } WAHANA;
 
 /*** Selektor ***/
@@ -31,6 +36,9 @@ typedef struct Whn{
 #define RusakGakSih(W) (W).rusak
 #define LokWhn(W) (W).lokasi
 #define DurasiWhn(W) (W).durasi
+#define WahanaDasar(W) (W).isDasar
+#define Bahan(W) (W).bahan
+#define UpgradeTree(W) (W).uptree
 
 /*
  * Membuat Wahana dari String. Format: %s %s %s %d %d %f %d %d %d %d %d

@@ -39,6 +39,8 @@ typedef struct {
 /* ************ Prototype ************ */
 /* *** Konstruktor/Kreator *** */
 void MakeStack (Stack *S);
+
+Aksi createAksi(int id, char aksi);
 /* I.S. sembarang; */
 /* F.S. Membuat sebuah stack S yang kosong berkapasitas MaxEl */
 /* jadi indeksnya antara 0.. MaxEl */

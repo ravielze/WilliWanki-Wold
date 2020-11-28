@@ -15,12 +15,13 @@
 typedef struct{
     char* Pemain;
     float Money;
-    POINT PosisiPlayer;
+
     JAM CurrTime;
     JAM BuildTime;
     int currentDay;
     int executionTimes;
     boolean isMainPhase;
+
     manstor StorageManager;
     manact ActionManager;
 } GAME;
@@ -59,7 +60,7 @@ void upgrade(GAME * game);
     2. Pilih material
     3. Cek resource dan uang dan waktu
     4. Push ke stack aksi */
-void buyMaterial(GAME * game, int jumlah, int idMaterial);
+void buyMaterial(GAME * game, int jumlah, MATERIAL* mat);
 
 /* Pop sekali */
 void undo(GAME * game);

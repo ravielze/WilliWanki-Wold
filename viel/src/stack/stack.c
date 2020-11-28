@@ -9,6 +9,13 @@ void MakeStack (Stack *S) {
     IsiStack(*S) = (Aksi *) malloc (10* sizeof(infotype));
 }
 
+Aksi createAksi(int id, char aksi){
+    Aksi a;
+    IDAksi(a) = id;
+    InfoAksi(a) = aksi;
+    return a;
+}
+
 boolean IsStackEmpty (Stack S) {
     return Top(S) == Nil;
 }

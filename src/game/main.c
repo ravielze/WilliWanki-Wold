@@ -3,16 +3,6 @@
 #include <stdio.h>
 #include <time.h>
 
-long long randInt(long X){
-    // Random dari [0,X)
-    time_t t = time(NULL);
-    time_t t2 = time(NULL);
-    t %= X;
-    long long A = (41+(t*37))%X;
-    long long B = (23+(t*101))%X
-    return (A^B);
-}
-
 int main() {
     while (true){
         STARTKATA();

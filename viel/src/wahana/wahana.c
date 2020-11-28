@@ -2,9 +2,6 @@
 #include <stdio.h>
 #include <string.h>
 
-/*
- * Membuat Wahana dari String. Format: %s %s %s %d %d %f %d %d %d %d %d
- */
 WAHANA createWahana(char* in){
     WAHANA whn;
     char copied[1000];
@@ -12,7 +9,7 @@ WAHANA createWahana(char* in){
     sscanf(copied, "%s %s %s %d %d %f %d %d %d %d %d",
         NamaWhn(whn), TipeWhn(whn), DeskripsiWhn(whn), &(KpstsWhn(whn)),
         &(SizeWhn(whn)), &(HargaTiket(whn)), &(RusakGakSih(whn)), &(Absis(LokWhn(whn))), &(Ordinat(LokWhn(whn))),
-        &(Hour(DurasiWhn(whn))), &(Minute(DurasiWhn(whn))));
+        &(DurasiWhn(whn)), &(WahanaDasar(whn)));
 
     return whn;
 }
@@ -25,7 +22,7 @@ void WahanatoString(WAHANA whn, char* result){
     sprintf(rsl, "%s %s %s %d %d %f %d %d %d %d %d",
         NamaWhn(whn), TipeWhn(whn), DeskripsiWhn(whn), (KpstsWhn(whn)),
         (SizeWhn(whn)), (HargaTiket(whn)), (RusakGakSih(whn)), (Absis(LokWhn(whn))), (Ordinat(LokWhn(whn))),
-        (Hour(DurasiWhn(whn))), (Minute(DurasiWhn(whn))));
+        (DurasiWhn(whn)), (WahanaDasar(whn)));
     result = rsl;
 }
 
