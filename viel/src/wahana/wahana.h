@@ -7,6 +7,7 @@
 #include "../jam/jam.h"
 #include "../point/point.h"
 #include "../tree/tree.h"
+#include "../material/material.h"
 
 typedef struct Whn{
     char nama[100];
@@ -21,6 +22,7 @@ typedef struct Whn{
     POINT lokasi;
     int durasi;
     boolean isDasar;
+    float hargaBuild; //TODO masukin ke wahana.c
 
     BinTree uptree;
     MATERIAL bahan;
@@ -39,6 +41,7 @@ typedef struct Whn{
 #define WahanaDasar(W) (W).isDasar
 #define Bahan(W) (W).bahan
 #define UpgradeTree(W) (W).uptree
+#define HargaBuild(W) (W).hargaBuild
 
 /*
  * Membuat Wahana dari String. Format: %s %s %s %d %d %f %d %d %d %d %d

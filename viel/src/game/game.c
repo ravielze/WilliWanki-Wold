@@ -15,12 +15,50 @@ void action(GAME * game){
     //- mainphase
     char * Ans;
     printf("Apa yang ingin dilakukan?\n");
-    scanf("%s", &Ans);    
+    printf("  1. Bangun wahana      : build\n");
+    printf("  2. Beli material      : buy\n");
+    printf("  3. Upgrade wahana     : upgrade\n");
+    printf("  4. Execute stack      : execute\n");
+    printf("  5. Undo last action   : undo\n");
+    printf("  6. Skip to main phase : main\n");
+    printf("Masukkan perintah:\n");
+    scanf("%s", Ans);
+    if (Ans == "build") {
+        buildPush(game);
+    } else if (Ans == "buy") {
+        // masih kurang ngerti kapan push ke stack(?)
+    } else if (Ans == "")
 }
 
-void 
+void buildPush(GAME * game){
+    manstor Manstor = Smanag(*game);
+    MapWahana MW = SMappingW(Manstor);
+    int neffMW = NEff(MW);
+    WAHANA* whnlist = MWListWahana(MW);
 
-void build(GAME * game) {
+    printf("Ingin membangun apa?\n");
+    printf("List wahana tersedia : \n");
+
+    WAHANA select[neffMW];
+    for (int i=0 ; i < neffMW; i++){
+        WAHANA currwhn = whnlist[i];
+        if (WahanaDasar(currwhn)){
+            select[i] = currwhn;
+            printf("%d. ", (i+1));
+            printf("%s \n", NamaWahana(currwhn));
+        }
+    }
+
+    int selectuser;
+    scanf("%d", &selectuser);
+    selectuser--;
+    WAHANA whn_selected = select[selectuser];
+
+    
+
+}
+
+void buildPop(GAME * game) {
     manstor Manstor = Smanag(*game);
     MapWahana MW = SMappingW(Manstor);
     int neffMW = NEff(MW);
@@ -102,19 +140,40 @@ void buyMaterial(GAME * game, int jumlahBeli, MATERIAL * mat){
 /* Pop sekali
    waktu juga berkurang */
 void undo(GAME * game){
-    if (!IsStackEmpty(StackAksi(Amanag(*game)))){
+    if (!IsStackEmpty(StackAksi(Amanag(*game)))) {
         Aksi dump;
-        PopAksi(&(StackAksi(Amanag(*game))),&dump); //pop dari stack
-        WAHANA W = MWGetWahana(AMappingW(Amanag(*game)),IDAksi(dump)); //dapet data wahana
-        long total_time = JamToDetik(BuildTime(*game));
-        long last_time = JamToDetik(DurasiBangun(W));
-        long difference_time = total_time - last_time;
-        JAM time_after;
-        MakeJamFromDetik(&time_after, difference_time);
-        BuildTime(*game) = time_after;
-        // MakeJamFromDetik(&BuildTime(*game),JamToDetik(BuildTime(*game))-JamToDetik(DurasiBangun(W)));//kurang waktu total buat bangun
-        // apa perlu lakukan sesuatu ke area(?)
+        PopAksi(&(StackAksi(Amanag(*game))), &dump); // POPPPPPPP
+        WAHANA W = MWGetWahana(AMappingW(Amanag(*game)), IDAksi(dump)); // yeet data wahana cuy
+
+        // ngurusin jam
+        int build_time = TimeUsed(Amanag(*game));
+        int undo_time = DurasiWhn(W);
+        int difference_time = build_time - undo_time;
+        TimeUsed(Amanag(*game)) = difference_time;
+
+        // ngurusin total aksi yeeeeeeeeeee
+        actionTimes(*game)--;
+        
+        // money money money
+        float action_price = MoneyUsed(Amanag(*game));
+        
     }
+    
+    
+    
+    // if (!IsStackEmpty(StackAksi(Amanag(*game)))){
+    //     Aksi dump;
+    //     PopAksi(&(StackAksi(Amanag(*game))),&dump); //pop dari stack
+    //     WAHANA W = MWGetWahana(AMappingW(Amanag(*game)),IDAksi(dump)); //dapet data wahana
+    //     long total_time = JamToDetik(BuildTime(*game));
+    //     long last_time = JamToDetik(DurasiBangun(W));
+    //     long difference_time = total_time - last_time;
+    //     JAM time_after;
+    //     MakeJamFromDetik(&time_after, difference_time);
+    //     BuildTime(*game) = time_after;
+    //     // MakeJamFromDetik(&BuildTime(*game),JamToDetik(BuildTime(*game))-JamToDetik(DurasiBangun(W)));//kurang waktu total buat bangun
+    //     // apa perlu lakukan sesuatu ke area(?)
+    // }
 }
 
 /* langsung ke main phase dan kosongkan stack */
@@ -145,7 +204,9 @@ boolean IsBuildAbleSenpai(WAHANA thefkinwahana,GAME *game){
     if (IsStackEmpty(StackAksi(Manak))){
         for (int i = 0; i < Top(StackAksi(Manak)); i++){
             if ((InfoAksi(IsiStack(StackAksi(Manak))[i])) == 'b'){
-                *AFK*
+                WAHANA temp;
+                getWahanaa(&Manak, IDAksi(IsiStack(StackAksi(Manak))[i]), &temp);
+                if (isCollide(temp,thefkinwahana)) return false;
             }
         }
     }
@@ -153,4 +214,5 @@ boolean IsBuildAbleSenpai(WAHANA thefkinwahana,GAME *game){
     for (int i = 0; i < Neff(StorageW(Manstor));i++){
         if (isCollide(thefkinwahana,MWGetWahana(SMappingW(Manstor),i))) return false;
     }
-}
+    // Lewat semua cek
+    return true;

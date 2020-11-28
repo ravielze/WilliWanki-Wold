@@ -6,6 +6,7 @@
 #include "../matrix/matrix.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "../wahana/wahana.h"
 
 #define Nil NULL
 
@@ -35,7 +36,9 @@ void MovePlayer (AdrVertex* V, int difX, int difY);
     /* Mengupdate MATRIKS Map berukuran 11 x 11 dengan posisi Xplayer dan Yplayer diubah */
     /* sisi terluarnya adalah # yaitu pagar, sisi dalamnya adalah . yaitu lahan */
 
-void UpdateMatriksWahana(AdrVertex* V);
+void UpdateMatriksWahana(AdrVertex* V, WAHANA W);
     /* Mengupdate MATRIKS Map dengan posisi wahana terbaru */
 
+boolean isCollideWahanaBuilding(AdrVertex* V, WAHANA W);
+    /* Mengecek apakah suatu wahana menabrak tembok atau tidak */
 #endif 

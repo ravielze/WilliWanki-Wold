@@ -16,26 +16,28 @@ typedef struct{
     char* Pemain;
     float Money;
 
-    JAM CurrTime;
-    JAM BuildTime;
+    JAM Time;
     int currentDay;
     int executionTimes;
+    int actionTimes;
     boolean isMainPhase;
 
     manstor StorageManager;
     manact ActionManager;
+
+    antrian SEMOGABANYAKPELANGGAN;
 } GAME;
 
 #define Pemain(G) (G).Pemain
 #define Money(G) (G).Money
 #define PosisiPlayer(G) (G).PosisiPlayer
-#define CurrTime(G) (G).CurrTime
-#define BuildTime(G) (G).BuildTime
+#define Time(G) (G).Time
 #define CurrDay(G) (G).currentDay
 #define ExecTimes(G) (G).executionTimes
 #define IsMP(G) (G).isMainPhase
 #define Amanag(G) (G).ActionManager
 #define Smanag(G) (G).StorageManager
+#define actionTimes(G) (G).actionTimes
 
 
 GAME createGame();
@@ -78,7 +80,7 @@ void execute(GAME * game);
 /* Main Phase */
 
 /* Generate Pengunjung diawal main phase */
-void generatePengunjung(GAME * game);
+void generatePengunjung(GAME * game); //TODO dipikir, ADT Pengunjung???
 /*  Upgrade Wahana
     1. Print Tree Upgrade
     2. Pilih kanan atau kiri
