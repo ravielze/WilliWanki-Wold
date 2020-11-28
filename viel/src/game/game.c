@@ -5,8 +5,21 @@
 GAME createGame() {
 
 }
-/* Push sekali, napas, push lagi, repeat sampe anaknya keluar
-    */
+void action(GAME * game){
+    //si game nanya player mau ngapain?
+    //- build
+    //- beli material
+    //- upgrade
+    //- execute
+    //- undo
+    //- mainphase
+    char * Ans;
+    printf("Apa yang ingin dilakukan?\n");
+    scanf("%s", &Ans);    
+}
+
+void 
+
 void build(GAME * game) {
     manstor Manstor = Smanag(*game);
     MapWahana MW = SMappingW(Manstor);
@@ -32,30 +45,30 @@ void build(GAME * game) {
     WAHANA whn_selected = select[selectuser];
     MATERIAL bahan_whn_selected = Bahan(whn_selected);
     
-    //TODO cek is collide / tabrakan sama wahana lain
-    MapMaterial MM = SMappingM(Manstor);
-    MATERIAL * matlist = MMListMaterial(MM);
-    int neffMM = NEff(MM);
-    
-    for (int i=0; i < neffMM; i++){
-        MATERIAL currmat = matlist[i];
-        if (isMaterialEqual(currmat,bahan_whn_selected)){
-            
-        }
-    }
 
+    ARRAYLISTMAT storageM = StorageM(Manstor);
+    int idx_material_selected = SearchIdxMAT(storageM,bahan_whn_selected);
+    MATERIAL * currMat = &ItemOf(storageM, idx_material_selected);
+
+    
     int jlhButuh = Punya(bahan_whn_selected);
-    int jlhPunya = Punya
+    int jlhPunya = Punya(*currMat);
+    
+    
+    //TODO dilanjutin, ada masalah materia
+    if (jlhPunya < jlhButuh){
+        printf("Bahan yang dipunya tidak mencukupi.\n");
+    }
+    else{
+        Punya(*currMat) -= jlhButuh;
+    }
     
 
     /*  Build Wahana
     1. Print List Wahana Dasar -> lgsg aja loop semua wahana yg ada trus print kalau WahanaDasar(W) == true
     2. Pilih wahana dasar -> berarti scanf trus simpen ke WAHANA w
     3. Cek resource dan uang dan waktu -> 
-    4. Push ke stack aksi */
-// lu tanya mau bangun apa pake scanf berarti
-// cek bahannya cukup atau engga
-// kalau cukup, masukin ke stack aksi
+    */
 }
 /*  Upgrade Wahana 
     1. Print Tree Upgrade
@@ -122,5 +135,22 @@ void ExecutePhase(GAME * game) {
     while (!IsStackEmpty(target)) {
         PopAksi(&target, &temp);
         // terus ini harusnya execute gitu tergantung dari aksi tempnya naon
+    }
+}
+
+boolean IsBuildAbleSenpai(WAHANA thefkinwahana,GAME *game){
+    manact Manak = Amanag(*game);
+    manstor Manstor = Smanag(*game);
+    // Cek tabrakan sama yang plan
+    if (IsStackEmpty(StackAksi(Manak))){
+        for (int i = 0; i < Top(StackAksi(Manak)); i++){
+            if ((InfoAksi(IsiStack(StackAksi(Manak))[i])) == 'b'){
+                *AFK*
+            }
+        }
+    }
+    // Cek tabrakan sama yang udah dibuat
+    for (int i = 0; i < Neff(StorageW(Manstor));i++){
+        if (isCollide(thefkinwahana,MWGetWahana(SMappingW(Manstor),i))) return false;
     }
 }

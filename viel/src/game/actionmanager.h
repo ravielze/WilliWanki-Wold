@@ -6,8 +6,9 @@
 
 typedef struct{
     MapWahana DataWahana;
-    MapMaterial DataMaterial;
+    MapMaterial DataMaterial; //TODO dipikir gmn cr masukin materialnya
     Stack StackAksi;
+    float MoneyUsed;
 } MANAGER_ACTION;
 
 /* SELEKTOR */
@@ -15,5 +16,6 @@ typedef struct{
 #define AMappingW(X) (X).DataWahana
 #define AMappingM(X) (X).DataMaterial
 #define StackAksi(X) (X).StackAksi
+#define MoneyUsed(X) (X).MoneyUsed
 
 #endif

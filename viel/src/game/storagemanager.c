@@ -65,9 +65,31 @@ void initStorageManager(char* wahanafilename, char* materialfilename, char* tree
 
    retval = fscanf(TreeFile, "%d\n", &N);
    while(N--){
-        boolean ;
+        int from, to;
+        char LorR;
 
+        retval = fscanf("%d %c %d\n", &from, &LorR, &to);
+        if (LorR == 'L') {
+            WAHANA whn;
+            getWahana(ms, from, &whn);
 
+            if (UpgradeTree(whn) != Nil){
+                Left(UpgradeTree(whn)) = AlokasiT(to); 
+            } else {
+                BinTree T = Tree(from, AlokasiT(to), Nil);
+                UpgradeTree(whn) = T;
+            }
+        } else {
+            WAHANA whn;
+            getWahana(ms, from, &whn);
+
+            if (UpgradeTree(whn) != Nil){
+                Right(UpgradeTree(whn)) = AlokasiT(to); 
+            } else {
+                BinTree T = Tree(from, Nil, AlokasiT(to) );
+                UpgradeTree(whn) = T;
+            }
+        }
    }
 }
 
@@ -101,4 +123,8 @@ void ScreateMaterial(manstor * ms, MATERIAL mat){
     LIDMaterial(*ms)++;
     MapEntryMaterial MEM = CreateMapEMaterial(LIDMaterial(*ms),mat);
     AddEntryMaterial(&(SMappingM(*ms)), MEM);
+}
+
+void getWahana(manstor* ms, int id, WAHANA* whn){
+    
 }

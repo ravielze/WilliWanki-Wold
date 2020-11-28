@@ -13,6 +13,8 @@ typedef struct {
   char aksi;
 } Aksi;
 
+// 'b' for build yeahh
+// 'm' for buy material
 
 /* Contoh deklarasi variabel bertype stack dengan ciri TOP : */
 /* Versi I : dengan menyimpan tabel dan alamat top secara eksplisit*/

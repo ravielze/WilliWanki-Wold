@@ -1,29 +1,29 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "array.h"
+#include "arraymat.h"
 
-void CreateEmptyAL(ARRAYLIST * arr, int maxel) {
+void CreateEmptyMAT(ARRAYLISTMAT * arr, int maxel) {
     infotype * TI = (infotype*)malloc(maxel*sizeof(infotype));
     TI(*arr) = TI;
     Neff(*arr) = 0;
     MaxEl(*arr) = maxel;
 }
 
-void DealokasiAL(ARRAYLIST * arr) {
+void DealokasiMAT(ARRAYLISTMAT * arr) {
     free(TI(*arr));
     Neff(*arr) = -1;
     MaxEl(*arr) = -1;
 }
 
-boolean IsALFull(ARRAYLIST arr) {
+boolean IsMATFull(ARRAYLISTMAT arr) {
     return Neff(arr) == MaxEl(arr);
 }
 
-boolean IsALEmpty(ARRAYLIST arr) {
+boolean IsMATEmpty(ARRAYLISTMAT arr) {
     return Neff(arr) == 0;
 }
 
-void InsertFirstAL(ARRAYLIST *arr, int X) {
+void InsertFirstMAT(ARRAYLISTMAT *arr, infotype X) {
     if (IsAlFull(*arr)){
         MaxEl(*arr) += 10;
         infotype * temp = (infotype*)realloc(TI(*arr), (MaxEl(*arr)*sizeof(infotype)));
@@ -46,7 +46,7 @@ void InsertFirstAL(ARRAYLIST *arr, int X) {
 
 }
 
-void InsertLastAL(ARRAYLIST * arr, int X) {
+void InsertLastMAT(ARRAYLISTMAT * arr, infotype X) {
     if (IsAlFull(*arr)) {
         MaxEl(*arr) += 10;
         infotype* temp = (infotype *) realloc (TI(*arr), (MaxEl(*arr) * sizeof(infotype)));
@@ -63,9 +63,9 @@ void InsertLastAL(ARRAYLIST * arr, int X) {
     Neff(*arr)++;
 }
 
-infotype DeleteFirstAL(ARRAYLIST *arr) {
+infotype DeleteFirstMAT(ARRAYLISTMAT *arr) {
     // Mengambil elemen pertama array
-    int temp = ItemOf(*arr, 0);
+    infotype temp = ItemOf(*arr, 0);
     // Geser semuanya ke kiri
     for (int i = 0; i < Neff(*arr); i++) {
         ItemOf(*arr, i) = ItemOf(*arr, i+1);
@@ -75,13 +75,13 @@ infotype DeleteFirstAL(ARRAYLIST *arr) {
     return temp;
 }
 
-infotype DeleteLastAL(ARRAYLIST *arr) {
-    int temp = ItemOf(*arr, Neff(*arr)-1);
+infotype DeleteLastMAT(ARRAYLISTMAT *arr) {
+    infotype temp = ItemOf(*arr, Neff(*arr)-1);
     Neff(*arr) -= 1;
     return temp;
 }
 
-void InsertNAL(ARRAYLIST *arr, int idx, int X) {
+void InsertNMAT(ARRAYLISTMAT *arr, int idx, infotype X) {
     if (IsAlFull(*arr)){
         MaxEl(*arr) += 10;
         infotype * temp = (infotype*)realloc(TI(*arr), (MaxEl(*arr)*sizeof(infotype)));
@@ -103,7 +103,7 @@ void InsertNAL(ARRAYLIST *arr, int idx, int X) {
     Neff(*arr)++;
 }
 
-infotype DeleteNAL(ARRAYLIST *arr, int idx) {
+infotype DeleteNMAT(ARRAYLISTMAT *arr, int idx) {
     if (Neff(*arr) <= (MaxEl(*arr) / 4)) {
         MaxEl(*arr) /= 2;
         infotype* temp = (infotype *) realloc (TI(*arr), (MaxEl(*arr) * sizeof(infotype)));
@@ -122,30 +122,29 @@ infotype DeleteNAL(ARRAYLIST *arr, int idx) {
     }
 }
 
-infotype SearchNAL(ARRAYLIST arr, int X) {
+infotype SearchNMAT(ARRAYLISTMAT arr, infotype X) {
 // Ini nyari X ada ga di Search, kalau ada, return infotype, kalau ga ada, return apa kek wait, ini kan return infotype X yang jadi parameter fungsi(?)
 // Pake yg return indeks aja(?)
     for (int i = 0; i < Neff(arr); i++) {
-        if (ItemOf(arr, i) == X) {
+        if (isMaterialEqual(ItemOf(arr,i) , X)) {
             return X;
         }
     }
-    return -999;
 }
 
-int SearchIdxAL(ARRAYLIST arr, int X) {
+int SearchIdxMAT(ARRAYLISTMAT arr, infotype X) {
 // Ini nyari X ada ga di Search, kalau ada, return idx, kalau ga ada, return apa kek
     for (int i = 0; i < Neff(arr); i++) {
-        if (ItemOf(arr, i) == X) {
+        if (isMaterialEqual(ItemOf(arr,i) , X)) {
             return i;
         }
     }
     return -1; // IdxUndef
 }
 
-boolean SearchAL(ARRAYLIST arr, int X){
+boolean SearchMAT(ARRAYLISTMAT arr, infotype X){
     for (int i = 0; i < Neff(arr); i++) {
-        if (ItemOf(arr, i) == X) {
+        if (isMaterialEqual(ItemOf(arr,i) , X)) {
             return true;
         }
     return false; 

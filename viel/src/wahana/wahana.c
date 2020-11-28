@@ -32,6 +32,7 @@ void setRusak(WAHANA* whn, boolean rusakgak){
 }
 
 // Apakah nabrak sama wahana laen?
+// TODO di map beda masih nabrak, harusnya di map yang sama
 boolean isCollide(WAHANA whn, WAHANA whn2){
     boolean result = (SizeWhn(whn) == SizeWhn(whn2));
     result = result && ((Absis(LokWhn(whn))) == (Absis(LokWhn(whn2))));
@@ -52,8 +53,4 @@ boolean isCollide(WAHANA whn, WAHANA whn2){
 
     return (x11 <= x21 && x21 <= x12 && y11 <= y21 && y21 <= y22)
             || (x11 <= x22 && x22 <= x12 && y11 <= y22 && y22 <= y22);
-}
-
-WAHANA copyWahana(WAHANA whn){
-    //TODO
 }

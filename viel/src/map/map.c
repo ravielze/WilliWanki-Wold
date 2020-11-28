@@ -130,7 +130,7 @@ void DeleteEntryMaterial(MapMaterial *MM,int id) {
 /* Add Key */
 void AddEntryWahana(MapWahana *MW, MapEntryWahana entry){
     if (IsMapWFull(*MW)){
-        MapEntry(*MW) = (MapWahana*)realloc(MapEntry(*MW), ((MaxEl(*MW)+5)*sizeof(MapWahana)));
+        MapEntry(*MW) = (MapEntryWahana*)realloc(MapEntry(*MW), ((MaxEl(*MW)+5)*sizeof(MapEntryWahana)));
         MaxEl(*MW) += 5;
     }
     MapEntry(*MW)[NEff(*MW)] = entry;
@@ -139,7 +139,7 @@ void AddEntryWahana(MapWahana *MW, MapEntryWahana entry){
 
 void AddEntryMaterial(MapMaterial *MM, MapEntryMaterial entry){
     if (IsMapMFull(*MM)){
-        MapEntry(*MM) = (MapMaterial*)realloc(MapEntry(*MM), ((MaxEl(*MM)+5)*sizeof(MapMaterial)));
+        MapEntry(*MM) = (MapEntryMaterial*)realloc(MapEntry(*MM), ((MaxEl(*MM)+5)*sizeof(MapEntryMaterial)));
         MaxEl(*MM) += 5;
     }
     MapEntry(*MM)[NEff(*MM)] = entry;
@@ -167,4 +167,13 @@ MATERIAL MMGetMaterial(MapMaterial MM, int id) {
     }
 
     return value(MapEntry(MM)[rid]);
+}
+
+WAHANA* MWListWahana(MapWahana MW){
+    WAHANA* result = (WAHANA*) malloc(NEff(MW)*sizeof(WAHANA));
+    int i;
+    for(i=0;i <NEff(MW);i++){
+        result[i] = value(MapEntry(MW)[i]);
+    }
+    return result;
 }

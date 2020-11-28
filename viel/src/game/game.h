@@ -41,19 +41,23 @@ typedef struct{
 GAME createGame();
 /* Preparation Phase */
 
+void action(GAME * game);
+
 /*  Build Wahana
     1. Print List Wahana Dasar
     2. Pilih wahana dasar
     3. Cek resource dan uang dan waktu
     4. Push ke stack aksi */
-void build(GAME * game);
+void buildPush(GAME * game);
+void buildPop(GAME * game);
 
 /*  Upgrade Wahana
     1. Print Tree Upgrade
     2. Pilih kanan atau kiri
     3. Cek resource dan uang dan waktu
     4. Push ke stack aksi */
-void upgrade(GAME * game);
+void upgradePush(GAME * game);
+void upgradePop(GAME * game);
 
 /*  Upgrade Wahana
     1. Print List Material

@@ -19,6 +19,7 @@ typedef struct {
 
 /* MATERIAL */
 typedef struct{
+    //MapEntryWahana TME[...];
     MapEntryWahana* TME;
     int MaxEl;
     int NEff;
@@ -72,7 +73,5 @@ WAHANA MWGetWahana(MapWahana MW, int id);
 MATERIAL MMGetMaterial(MapMaterial MM, int id);
 
 /* Get Value List */
-WAHANA * MWListWahana(MapWahana MW);
-MATERIAL * MMListMaterial(MapMaterial MM);
-//TODO belum diimplementasikan
+WAHANA* MWListWahana(MapWahana MW);
 #endif

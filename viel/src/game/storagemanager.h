@@ -2,6 +2,7 @@
 #define SM_H
 #include "../map/map.h"
 #include "../array/array.h"
+#include "../array/arraymat.h"
 #include "game.h"
 /*
 0 | Wahana A
@@ -14,8 +15,8 @@ typedef struct{
     MapMaterial ListMaterial; //Map Untuk listing Material yang
     int LastIDMaterial;
     ARRAYLIST StorageWahana; // Array List ID Wahana yang dipunyai
+    ARRAYLISTMAT StorageMaterial;
     GAME * game;
-    BinTree
 } MANAGER_STORAGE;
 
 /* SELEKTOR */
@@ -25,6 +26,7 @@ typedef struct{
 #define LIDWahana(X) (X).LastIDWahana
 #define LIDMaterial(X) (X).LastIDMaterial
 #define StorageW(X) (X).StorageWahana
+#define StorageM(X) (X).StorageMaterial
 #define Game(X) (X).game
 
 manstor createManagerStorage(GAME * game);
@@ -42,5 +44,8 @@ void ScreateMaterial(manstor * ms, MATERIAL mat);
 /* Menambahkan material ke storage */
 void addMaterial(manstor * ms, int id);
 void deleteMaterial(manstor * ms, int id);
+
+//TODO dapetin wahana dengan idnya      V output
+void getWahana(manstor * ms, int id, WAHANA * whn);
 
 #endif

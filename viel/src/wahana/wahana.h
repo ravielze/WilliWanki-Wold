@@ -56,5 +56,4 @@ void setRusak(WAHANA* whn, boolean rusakgak);
 // Apakah nabrak sama wahana laen?
 boolean isCollide(WAHANA whn, WAHANA whn2);
 
-WAHANA copyWahana(WAHANA whn);
 #endif
