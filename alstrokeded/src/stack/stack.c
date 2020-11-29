@@ -42,9 +42,7 @@ void PushChar (Stack * S, char C) {
 }
 
 void PushAksi (Stack * S, Aksi X) {
-    printf("dhskfhsakfjas\n");
     if (IsStackFull(*S)) {
-        printf("hai\n");
         MaxEl(*S) += 10;
         Aksi* temp = (Aksi *) realloc(IsiStack(*S), (MaxEl(*S) * sizeof(Aksi)));
         if (temp == Nil) {
@@ -55,11 +53,8 @@ void PushAksi (Stack * S, Aksi X) {
             IsiStack(*S) = temp;
         }
     }
-    printf("ioerpqowiropieqwopr\n");
     Top(*S)++;
-    printf("klmcnvanckx\n");
     InfoTop(*S) = X;
-    printf("ajsdjkajslkdjfs\n");
 }
 
 void PopAksi (Stack * S, Aksi* X) {
@@ -105,8 +100,6 @@ void MoveStack (Stack * S1, Stack * S2) {
     while (!IsStackEmpty(temp)) {
         Aksi P;
         PopAksi(&temp, &P);
-        printf("aaaaaaaaaaaaaaaaaaaaaaaanjing %d\n", IDAksi(P));
         PushAksi(S2, P);
-        printf("ueiruworq\n");
     }
 }

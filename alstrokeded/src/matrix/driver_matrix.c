@@ -16,6 +16,8 @@ int main(){
 
     /* INIT PETA */
     MATRIKS hiya;
+    InitPeta ("./hiyahiyahiya.txt",&hiya);
+    TulisMATRIKS(hiya);
     
     /* COPY MATRIKS */
     MATRIKS yey;

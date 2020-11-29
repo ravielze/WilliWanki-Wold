@@ -4,7 +4,17 @@
 #include "./word/mesinkar.h"
 #include "boolean.h"
 
-void printpilih(){
+void printMenu(GAME g){
+    printf("\n+=====+=====+=====+\n");
+    printf("|      STATUS     |\n");
+    printf("|      Day #%d     |\n", CurrDay(g) );
+    printf("+=====+=====+=====+\n\n");
+    printf("Player: %s\n", Pemain(g) );
+    printf("Time Remaining: %d\n", TimeRemaining(Amanag(g) ) );
+    printf("Money: %.2f\n", Money(g) );
+
+    TulisMATRIKS(InfoMATRIKS(Graf(g)));
+
     printf("Apa yang ingin dilakukan?\n");
     printf("  1. Bangun wahana      : build\n");
     printf("  2. Beli material      : buy\n");
@@ -13,17 +23,7 @@ void printpilih(){
     printf("  5. Undo last action   : undo\n");
     printf("  6. Skip to main phase : main\n");
     printf("  7. Untuk pergerakan   : w, a, s, d\n\n");
-    printf("Masukkan perintah:\n");
-}
-
-void printStats(GAME g){
-    printf("\n+=====+=====+=====+\n");
-    printf("|      STATUS     |\n");
-    printf("|      Day #%d     |\n", CurrDay(g) );
-    printf("+=====+=====+=====+\n\n");
-    printf("Player: %s\n", Pemain(g) );
-    printf("Time Remaining: %d\n", TimeRemaining(Amanag(g) ) );
-    printf("Money: %.2f\n", Money(g) );
+    printf("Masukkan perintah: ");
 }
 
 int main(){
@@ -35,9 +35,7 @@ int main(){
     STARTKATA();
     Pemain(g) = CKata.TabKata;
     ADVKATA();
-    printStats(g);
-    TulisMATRIKS(InfoMATRIKS(Graf(g)));
-    printpilih();
+    printMenu(g);
     while (true) {
         STARTKATA();
         while (!EndKata){
@@ -96,9 +94,7 @@ int main(){
             ADVKATA();
         }
         if (p){
-            printStats(g);
-            TulisMATRIKS(InfoMATRIKS(Graf(g)));
-            printpilih();
+            printMenu(g);
         } else {
             p = !p;
         }

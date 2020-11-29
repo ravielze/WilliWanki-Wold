@@ -108,7 +108,7 @@ int NbElmtLL(List L){
 }
 
 /*** Insert/Delete ***/
-boolean InsertAfterLL(List* L, LLaddress N, LLElType X){
+void InsertAfterLL(List* L, LLaddress N, LLElType X){
 /* Menambahkan elemen Y setelah elemen X pada list */
     if (!IsEmptyLL(*L)){
         LLaddress P = AlokasiLL(X);
@@ -118,16 +118,14 @@ boolean InsertAfterLL(List* L, LLaddress N, LLElType X){
                 if (a == N){
                     ANext(P) = ANext(a);
                     ANext(a) = P;
-                    return true;
                 }
                 a = ANext(a);
             }
         }
     }
-    return false;
 }
 
-boolean InsertFirstLL(List* L, LLElType X){
+void InsertFirstLL(List* L, LLElType X){
 /* Menambahkan elemen X di awal list */
     LLaddress P = AlokasiLL(X);
     if (P != Nil){
@@ -138,12 +136,10 @@ boolean InsertFirstLL(List* L, LLElType X){
             ANext(P) = First(*L);
             First(*L) = P;
         }
-        return true;
     }
-    return false;
 }
 
-boolean InsertLastLL(List* L, LLElType X){
+void InsertLastLL(List* L, LLElType X){
 /* Menambahkan elemen X di akhir list */
     LLaddress P = AlokasiLL(X);
     if (P != Nil){
@@ -154,9 +150,7 @@ boolean InsertLastLL(List* L, LLElType X){
             ANext(Last(*L)) = P;
             Last(*L) = P;
         }
-        return true;
     }
-    return false;
 }
 
 void DeleteAfterLL(List*L, LLaddress N){
@@ -201,6 +195,7 @@ void DeleteLastLL(List* L){
             if (ANext(a) == Last(*L)){
                 DealokasiLL(&Last(*L));
                 ANext(a) = Nil;
+                Last(*L) = a;
             }
             a = ANext(a);
         }

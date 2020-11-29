@@ -1,5 +1,4 @@
 //make test
-
 #include <stdio.h>
 #include "./game/game.h"
 #include "./word/mesinkata.h"
@@ -36,9 +35,11 @@ int main(){
     
 
 
-    MATERIAL mat = createMaterial("Air", "Elemen_dasar", "galon", 100, 15, 1);
-    ScreateMaterial(&(Smanag(g)), mat);
-
+    printf("Whay is your name: ");
+    STARTKATA();
+    Pemain(g) = CKata.TabKata;
+    ADVKATA();
+    printStats(g);
     TulisMATRIKS(InfoMATRIKS(Graf(g)));
     printpilih();
     while (true) {

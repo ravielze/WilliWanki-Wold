@@ -135,9 +135,9 @@ void buildPush(GAME * game){
                 printf("money used bertambah\n"); //remove later
 
                 // Update Map
-                UpdateMatriksWahana(&(Graf(*game)) , whn_selected);
+                UpdateMatriksWahana(&vertex , whn_selected);
                 printf("map di update\n"); //remove later
-
+                Graf(*game) = vertex;
                 // Push aksi ke stack
                 manact Manact = Amanag(*game);
                 MapWahana MW_AM = AMappingW(Manact);
@@ -603,19 +603,25 @@ void mainphase(GAME * game) {
 
 /* InverseStack, terus pop 1 per 1 terus jalanin */
 void ExecutePhase(GAME * game) {
-    // TODO: state main phase
-    Stack target;
+    // pindah state main phase
+    IsMP(*game) = true;
+    Stack target = StackAksi(Amanag(*game));
     Aksi temp;
     MakeStack(&target);
     InverseStack(&(StackAksi(Amanag(*game))), &target);
     MoveStack(&target, &(StackAksi(Amanag(*game))));
     
+    printf("Ready to action \n");
     /* Do stack actions */
     while (!IsStackEmpty(StackAksi(Amanag(*game)))) {
         temp = InfoTop(StackAksi(Amanag(*game)));
         if (InfoAksi(temp) == 'b') buildPop(game);
         else if (InfoAksi(temp) == 'u') upgradePop(game);
-        else if (InfoAksi(temp) == 'm') buyMaterialPop(game);
+        else if (InfoAksi(temp) == 'm'){
+            printf("Buy lets go \n");
+            buyMaterialPop(game);
+            printf("Bought.\n");
+        }
     }
 
     ExecTimes(*game)++;
@@ -734,6 +740,23 @@ void deleteWeaboo(GAME* g) {
     }
 }
 
+void angryWeaboo(GAME*g,int id){
+    if (visitorid(Info(Head(GameQueue(*g)))) == id) {
+        ElTypeQ dump;
+        Dequeue (&GameQueue(*g), &dump);
+        Head(GameQueue(*g)) = Next(Head(GameQueue(*g)));
+    } else {
+        int cnt;
+        qaddress A = Head(GameQueue(*g));
+        ElTypeQ trashWeaboo;
+        while (visitorid(Info(Next(A))) != id) {
+            A = Next(A);
+            cnt++;
+        }
+        DequeueN(&GameQueue(*g),&trashWeaboo,cnt);
+    }
+}
+
 /* Update the Visitor patience and priority depending on the time they enter/re-enter the queue */
 void updateWeaboo(GAME*g) {
     JAM time_now = Time(*g);
@@ -784,23 +807,6 @@ void initRNG(){
     srand((unsigned) time(&t));
 }
 //NOTE jgn lupa kasih fungsi kalau tiba2 wahana rusak, atau emang udah ada subtitusinya?
-
-void angryWeaboo(GAME*g,int id){
-    if (visitorid(Info(Head(GameQueue(*g)))) == id) {
-        ElTypeQ dump;
-        Dequeue (&GameQueue(*g), &dump);
-        Head(GameQueue(*g)) = Next(Head(GameQueue(*g)));
-    } else {
-        int cnt;
-        qaddress A = Head(GameQueue(*g));
-        ElTypeQ trashWeaboo;
-        while (visitorid(Info(Next(A))) != id) {
-            A = Next(A);
-            cnt++;
-        }
-        DequeueN(&GameQueue(*g),&trashWeaboo,cnt);
-    }
-}
 
 
 void WahanaGoBoomBoom(WAHANA*w,GAME*g){

@@ -89,6 +89,9 @@ void Repair(GAME *game);
 /* Tick Waktu N Menit */
 void TickTime(GAME *game , int menit);
 
+/* Go to Preparation Phase */
+void GoToPrepare(GAME *game);
+
 time_t t;
 
 void initRNG();

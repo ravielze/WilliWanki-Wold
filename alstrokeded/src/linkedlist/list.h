@@ -36,7 +36,7 @@ boolean IsXElmtLL(List L, LLElType X);
 int CountXElmtLL(List L, LLElType X);
 /* Menghitung jumlah kemunculan X pada list */
 
-LLaddress FindAdrElmtXLL(List L, LLElType X);
+LLaddress FindAdrFirstElmtXLL(List L, LLElType X);
 /* Mengembalikan adress dari node yang berelement X */
 
 boolean DoesAdressExistLL(List L, LLaddress a);
@@ -47,13 +47,13 @@ int NbElmtLL(List L);
 /* Menghitung total banyaknya Elemen pada list */
 
 /*** Insert/Delete ***/
-boolean InsertAfterLL(List* L, LLaddress a, LLElType X);
+void InsertAfterLL(List* L, LLaddress a, LLElType X);
 /* Menambahkan elemen Y setelah elemen X pada list */
 
-boolean InsertFirstLL(List* L, LLElType X);
+void InsertFirstLL(List* L, LLElType X);
 /* Menambahkan elemen X di awal list */
 
-boolean InsertLastLL(List* L, LLElType X);
+void InsertLastLL(List* L, LLElType X);
 /* Menambahkan elemen X di akhir list */
 
 void DeleteAfterLL(List*L, LLaddress a);

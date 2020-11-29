@@ -138,7 +138,7 @@ void MovePlayer (AdrVertex* V, int difX, int difY) {
 }
 
 void UpdateMatriksWahana(AdrVertex* V, WAHANA W) {
-    if (!(SizeWhn(W) >= NBrsEff(InfoMATRIKS(*V) ) - 1 || SizeWhn(W) <= NKolEff(InfoMATRIKS(*V) ) - 1 ) ){
+    if (!(SizeWhn(W) >= NBrsEff(InfoMATRIKS(*V) ) - 1 || SizeWhn(W) >= NKolEff(InfoMATRIKS(*V) ) - 1 ) ){
         int startI = Ordinat(LokWhn(W) ) - SizeWhn(W)/2;
         int endI = Ordinat(LokWhn(W) ) + SizeWhn(W)/2;
         int startJ = Absis(LokWhn(W) ) - SizeWhn(W)/2;
@@ -166,7 +166,7 @@ void UpdateMatriksWahana(AdrVertex* V, WAHANA W) {
                 }
             }
         }
-    }
+    } else printf("Wahana kebesaran!\n");
 }
 
 void DeleteMatriksWahana(AdrVertex* V, WAHANA W) {

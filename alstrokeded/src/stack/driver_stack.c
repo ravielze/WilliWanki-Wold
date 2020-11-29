@@ -41,7 +41,8 @@ int main() {
     
     /* MUF */ // DISINI SEGMEN FOLTNYA
     Stack set_ek; // SET EK WKAKWAKWKKWAKAWKAWKWAKWAKAWKKWAKWAKAWKAWKKWAKWAKWAKAWKKWKWAK
+    MakeStack(&set_ek);
     MoveStack(&se_tek, &set_ek);
-    
+    printf("DONE\n");
     return 0;//
 }

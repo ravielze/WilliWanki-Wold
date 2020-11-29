@@ -42,28 +42,11 @@ Mengirimkan banyaknya daun pohon */
 int TinggiT(BinTree P);
 /* Pohon Biner mungkin kosong.
 Mengirim “height”, yaitu tinggi dari pohon  */
-boolean SearchT(BinTree P, TRElType X);
-boolean SearchDaun(BinTree P, TRElType X);
-
-int LevelT(BinTree P, TRElType X);
-/* { Mengirimkan level dari node X yang merupakan salah satu daun
-dari pohon biner P. Akar(P) level-nya adalah 1. Pohon P tidak
-kosong dan elemen-elemennya unik. }
-*/
-
-void AddDaun(BinTree *P, TRElType X, TRElType Y, boolean Kiri);
-/* I.S. P tidak kosong, X adalah daun Pohon Biner P 
-F.S. P bertambah simpulnya, dengan Y sebagai anak kiri X (jika
-Kiri), atau sebagai anak Kanan X (jika not Kiri). Jika ada lebih
-dari satu daun bernilai X, Y ditambahkan pada daun paling kiri. */
-
-void DelDaun(BinTree *P, TRElType X);
-/* I.S. P tidak kosong, minimum 1 daun bernilai X 
-F.S. Semua daun yang bernilai X dihapus dari P */
 
 /* Print pohon */
-void printUpTree(BinTree P, int h);
+void PrintTree(BinTree P, int h);
 
 /* tree P1 = tree P2 ga ya hm*/
+void BetterPrintTree(BinTree P, int h, int lv);
 boolean isTreeEqual(BinTree P1, BinTree P2);
 #endif
