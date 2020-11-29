@@ -1,6 +1,7 @@
 #ifndef ARRAY_MAT_H
 #define ARRAY_MAT_H
 #include "../constant/adt.h"
+#include "../material/material.h"
 
 void CreateEmptyMAT(ARRAYLISTMAT * arr, int maxel);
 void DealokasiMAT(ARRAYLISTMAT * arr);
@@ -11,9 +12,8 @@ void InsertLastMAT(ARRAYLISTMAT * arr, minfotype X);
 minfotype DeleteFirstMAT(ARRAYLISTMAT *arr);
 minfotype DeleteLastMAT(ARRAYLISTMAT *arr);
 void InsertNMAT(ARRAYLISTMAT *arr, int idx, minfotype X);
-minfotype DeleteNMAT(ARRAYLISTMAT *arr, int idx);
+void DeleteNMAT(ARRAYLISTMAT *arr, int idx);
 
-minfotype SearchNMAT(ARRAYLISTMAT arr, minfotype X);
 // Ini nyari X ada ga di Search, kalau ada, return minfotype, kalau ga ada, return -999
 boolean SearchMAT(ARRAYLISTMAT arr, minfotype X);
 // Ini nyari apakah X ada di ArrayList

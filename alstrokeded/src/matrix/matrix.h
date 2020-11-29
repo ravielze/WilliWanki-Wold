@@ -7,13 +7,6 @@
 /* Indeks matriks yang digunakan: [BrsMin..BrsMax][KolMin..KolMax] */
 /* Memori matriks yang dipakai selalu di "ujung kiri atas" */
 
-/* *** Selektor *** */
-#define NBrsEff(M) (M).NBrsEff
-#define NKolEff(M) (M).NKolEff
-#define Elmt(M,i,j) (M).Mem[(i)][(j)]
-#define Xplayer(M) (M).Xplayer
-#define Yplayer(M) (M).Yplayer
-
 /* ********** DEFINISI PROTOTIPE PRIMITIF ********** */              
 /* *** Konstruktor membentuk MATRIKS *** */
 void MakeEmptyMATRIKS (int NB, int NK, MATRIKS* M);

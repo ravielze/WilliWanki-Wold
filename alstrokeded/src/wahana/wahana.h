@@ -25,4 +25,9 @@ boolean isWahanaEqual(WAHANA whn1, WAHANA whn2);
 
 boolean isNearWahana(POINT P, WAHANA whn);
 
+void enqueueWahana(WAHANA*w,Visitor v);
+
+/* Return visitor id */
+int dequeueWahana(WAHANA*w);
+
 #endif

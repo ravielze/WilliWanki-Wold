@@ -6,7 +6,7 @@ void MakePoint (POINT * P, int X, int Y) {
 }
 
 void TulisPoint (POINT P) {
-    printf("(%.2f,%.2f)", Absis(P), Ordinat(P));
+    printf("(%d,%d)", Absis(P), Ordinat(P));
 }
 
 boolean PEQ (POINT P1, POINT P2) {

@@ -139,8 +139,6 @@ void MovePlayer (AdrVertex* V, int difX, int difY) {
 
 void UpdateMatriksWahana(AdrVertex* V, WAHANA W) {
     if (!(SizeWhn(W) >= NBrsEff(InfoMATRIKS(*V) ) - 1 || SizeWhn(W) <= NKolEff(InfoMATRIKS(*V) ) - 1 ) ){
-        Elmt(InfoMATRIKS(*V), Ordinat(LokWhn(W) ), Absis(LokWhn(W) ) ) = 'W';
-
         int startI = Ordinat(LokWhn(W) ) - SizeWhn(W)/2;
         int endI = Ordinat(LokWhn(W) ) + SizeWhn(W)/2;
         int startJ = Absis(LokWhn(W) ) - SizeWhn(W)/2;
@@ -161,7 +159,7 @@ void UpdateMatriksWahana(AdrVertex* V, WAHANA W) {
                     || Elmt(InfoMATRIKS(*V), i, j) == 'A' 
                     || Elmt(InfoMATRIKS(*V), i, j) == 'W') continue;
                 else {
-                    Elmt(InfoMATRIKS(*V), i, j) == 'P'; 
+                    Elmt(InfoMATRIKS(*V), i, j) = 'P'; 
                     Xplayer(InfoMATRIKS(*V) ) = j;
                     Yplayer(InfoMATRIKS(*V) ) = i;
                     playerPositionFound = true;
@@ -172,12 +170,12 @@ void UpdateMatriksWahana(AdrVertex* V, WAHANA W) {
 }
 
 /* *** Mengecek Wahana tertabrak Wall atau Antrian atau Office *** */
-boolean isCollideWahanaBuilding(AdrVertex* V, WAHANA W) {
+boolean isCollideWahanaBuilding(AdrVertex V, WAHANA W) {
     boolean isCollided = false;
 
     for (int i = Ordinat(LokWhn(W) ); (i <= Ordinat(LokWhn(W) ) + SizeWhn(W)/2) && !isCollided; i++){
         for (int j = Absis(LokWhn(W) ); (j <= Absis(LokWhn(W) ) + SizeWhn(W)/2) && !isCollided; j++){
-            if (Elmt(InfoMATRIKS(*V), i, j) == '#' || Elmt(InfoMATRIKS(*V), i, j) == 'O' || Elmt(InfoMATRIKS(*V), i, j) == 'A'){
+            if (Elmt(InfoMATRIKS(V), i, j) == '#' || Elmt(InfoMATRIKS(V), i, j) == 'O' || Elmt(InfoMATRIKS(V), i, j) == 'A'){
                 isCollided = true;
             }
         }
@@ -185,7 +183,7 @@ boolean isCollideWahanaBuilding(AdrVertex* V, WAHANA W) {
 
     for (int i = Ordinat(LokWhn(W) ); (i <= Ordinat(LokWhn(W) ) + SizeWhn(W)/2) && !isCollided; i++){
         for (int j = Absis(LokWhn(W) ); (j >= Absis(LokWhn(W) ) - SizeWhn(W)/2) && !isCollided; j--){
-            if (Elmt(InfoMATRIKS(*V), i, j) == '#' || Elmt(InfoMATRIKS(*V), i, j) == 'O' || Elmt(InfoMATRIKS(*V), i, j) == 'A'){
+            if (Elmt(InfoMATRIKS(V), i, j) == '#' || Elmt(InfoMATRIKS(V), i, j) == 'O' || Elmt(InfoMATRIKS(V), i, j) == 'A'){
                 isCollided = true;
             }
         }
@@ -193,7 +191,7 @@ boolean isCollideWahanaBuilding(AdrVertex* V, WAHANA W) {
 
     for (int i = Ordinat(LokWhn(W) ); (i >= Ordinat(LokWhn(W) ) + SizeWhn(W)/2) && !isCollided; i--){
         for (int j = Absis(LokWhn(W) ); (j <= Absis(LokWhn(W) ) + SizeWhn(W)/2) && !isCollided; j++){
-            if (Elmt(InfoMATRIKS(*V), i, j) == '#' || Elmt(InfoMATRIKS(*V), i, j) == 'O' || Elmt(InfoMATRIKS(*V), i, j) == 'A'){
+            if (Elmt(InfoMATRIKS(V), i, j) == '#' || Elmt(InfoMATRIKS(V), i, j) == 'O' || Elmt(InfoMATRIKS(V), i, j) == 'A'){
                 isCollided = true;
             }
         }
@@ -201,7 +199,7 @@ boolean isCollideWahanaBuilding(AdrVertex* V, WAHANA W) {
 
     for (int i = Ordinat(LokWhn(W) ); (i >= Ordinat(LokWhn(W) ) + SizeWhn(W)/2) && !isCollided; i--){
         for (int j = Absis(LokWhn(W) ); (j >= Absis(LokWhn(W) ) + SizeWhn(W)/2) && !isCollided; j--){
-            if (Elmt(InfoMATRIKS(*V), i, j) == '#' || Elmt(InfoMATRIKS(*V), i, j) == 'O' || Elmt(InfoMATRIKS(*V), i, j) == 'A'){
+            if (Elmt(InfoMATRIKS(V), i, j) == '#' || Elmt(InfoMATRIKS(V), i, j) == 'O' || Elmt(InfoMATRIKS(V), i, j) == 'A'){
                 isCollided = true;
             }
         }
@@ -210,15 +208,18 @@ boolean isCollideWahanaBuilding(AdrVertex* V, WAHANA W) {
     return isCollided;
 }
 
-boolean isNear(AdrVertex* V, char X){
-    return (Elmt(InfoMATRIKS(*V), Yplayer(InfoMATRIKS(*V) ) + 1, Xplayer(InfoMATRIKS(*V) ) ) == X 
-            || Elmt(InfoMATRIKS(*V), Yplayer(InfoMATRIKS(*V) ) - 1, Xplayer(InfoMATRIKS(*V) ) ) == X
-            || Elmt(InfoMATRIKS(*V), Yplayer(InfoMATRIKS(*V) ), Xplayer(InfoMATRIKS(*V) ) + 1) == X 
-            || Elmt(InfoMATRIKS(*V), Yplayer(InfoMATRIKS(*V) ), Xplayer(InfoMATRIKS(*V) ) - 1) == X );
+boolean isNear(AdrVertex V, char X){
+    return (Elmt(InfoMATRIKS(V), Yplayer(InfoMATRIKS(V) ) + 1, Xplayer(InfoMATRIKS(V) ) ) == X 
+            || Elmt(InfoMATRIKS(V), Yplayer(InfoMATRIKS(V) ) - 1, Xplayer(InfoMATRIKS(V) ) ) == X
+            || Elmt(InfoMATRIKS(V), Yplayer(InfoMATRIKS(V) ), Xplayer(InfoMATRIKS(V) ) + 1) == X 
+            || Elmt(InfoMATRIKS(V), Yplayer(InfoMATRIKS(V) ), Xplayer(InfoMATRIKS(V) ) - 1) == X );
 }
 
-POINT getPlayer(AdrVertex* V){
+POINT getPlayer(AdrVertex V){
     POINT P;
 
-    Absis(P) = 
+    Absis(P) = Xplayer(InfoMATRIKS(V) );
+    Ordinat(P) = Yplayer(InfoMATRIKS(V) );
+
+    return P;
 }

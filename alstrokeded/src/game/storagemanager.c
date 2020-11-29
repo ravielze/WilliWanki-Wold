@@ -111,6 +111,7 @@ void ScreateMaterial(manstor * ms, MATERIAL mat){
     AddEntryMaterial(&(SMappingM(*ms)), MEM);
 }
 
-void getWahana(manstor* ms, int id, WAHANA* whn){
-    
+void getWahana(manstor * ms, int id, WAHANA* whn) {
+    MapWahana list = SMappingW(*ms);
+    *whn = MWGetWahana(list, id);
 }

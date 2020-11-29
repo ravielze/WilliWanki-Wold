@@ -22,7 +22,7 @@ boolean IsALEmpty(ARRAYLIST arr) {
 }
 
 void InsertFirstAL(ARRAYLIST *arr, int X) {
-    if (IsAlFull(*arr)){
+    if (IsALFull(*arr)){
         MaxEl(*arr) += 10;
         ainfotype * temp = (ainfotype*)realloc(TI(*arr), (MaxEl(*arr)*sizeof(ainfotype)));
         if (temp == Nil) {
@@ -45,7 +45,7 @@ void InsertFirstAL(ARRAYLIST *arr, int X) {
 }
 
 void InsertLastAL(ARRAYLIST * arr, int X) {
-    if (IsAlFull(*arr)) {
+    if (IsALFull(*arr)) {
         MaxEl(*arr) += 10;
         ainfotype* temp = (ainfotype *) realloc (TI(*arr), (MaxEl(*arr) * sizeof(ainfotype)));
         if (temp == Nil) {
@@ -80,7 +80,7 @@ ainfotype DeleteLastAL(ARRAYLIST *arr) {
 }
 
 void InsertNAL(ARRAYLIST *arr, int idx, int X) {
-    if (IsAlFull(*arr)){
+    if (IsALFull(*arr)){
         MaxEl(*arr) += 10;
         ainfotype * temp = (ainfotype*)realloc(TI(*arr), (MaxEl(*arr)*sizeof(ainfotype)));
         if (temp == Nil) {
@@ -101,7 +101,7 @@ void InsertNAL(ARRAYLIST *arr, int idx, int X) {
     NEff(*arr)++;
 }
 
-ainfotype DeleteNAL(ARRAYLIST *arr, int idx) {
+void DeleteNAL(ARRAYLIST *arr, int idx) {
     if (NEff(*arr) <= (MaxEl(*arr) / 4)) {
         MaxEl(*arr) /= 2;
         ainfotype* temp = (ainfotype *) realloc (TI(*arr), (MaxEl(*arr) * sizeof(ainfotype)));
@@ -118,6 +118,7 @@ ainfotype DeleteNAL(ARRAYLIST *arr, int idx) {
     for (int i = idx; i < NEff(*arr); i++) {
         ItemOf(*arr, i) = ItemOf(*arr, i+1);
     }
+    return;
 }
 
 ainfotype SearchNAL(ARRAYLIST arr, int X) {
@@ -146,5 +147,6 @@ boolean SearchAL(ARRAYLIST arr, int X){
         if (ItemOf(arr, i) == X) {
             return true;
         }
+    }
     return false; 
 }

@@ -10,8 +10,6 @@
 #include <time.h>
 #include "../boolean.h"
 
-#include "../game/game.h"
-
 
 /* JAM */
 typedef struct {
@@ -37,30 +35,6 @@ typedef struct Mtrl{
     float Harga;
     int WaktuBeli;
 } MATERIAL;
-
-/* WAHANA */
-typedef struct Whn{
-    char nama[100];
-    char tipewahana[100];
-    char deskripsi[255];
-
-    int kapasitas;
-    int ukuran; //Harus ganjil dan >= 1
-    float hargatiket;
-    boolean rusak;
-
-    POINT lokasi;
-    int durasi;
-    boolean isDasar;
-    float hargaBuild; 
-    int vertex; 
-    int durasiBuild; 
-    
-    BinTree uptree;
-    MATERIAL bahan;
-
-    Queue antrian_wahana; 
-} WAHANA;
 
 /* AKSI */
 typedef struct {
@@ -122,27 +96,6 @@ typedef struct {
     LLaddress First, Last;
 } List;
 
-/* ADT MAP BUKAN PETA */
-typedef struct {
-    int id;
-    WAHANA value;
-} MapEntryWahana;
-typedef struct{
-    MapEntryWahana* TME;
-    int MaxEl;
-    int NEff;
-} MapWahana;
-
-typedef struct {
-    int id;
-    MATERIAL value;
-} MapEntryMaterial;
-typedef struct{
-    MapEntryMaterial* TME;
-    int MaxEl;
-    int NEff;
-} MapMaterial;
-
 /* STACK BUKAN SETEK */
 typedef struct {
   int MaxEl;
@@ -169,7 +122,7 @@ typedef struct ttNode {
 } TRNode;
 typedef taddress BinTree;
 
-/* QUEUE */
+/* KUEWE */
 typedef Visitor ElTypeQ;
 typedef struct qNode* qaddress;
 typedef struct qNode {
@@ -179,6 +132,51 @@ typedef struct qNode {
 } queueNode;
 typedef struct { qaddress HEAD;
                } Queue;
+
+/* WAHANA */
+typedef struct Whn{
+    char nama[100];
+    char tipewahana[100];
+    char deskripsi[255];
+
+    int kapasitas;
+    int ukuran; //Harus ganjil dan >= 1
+    float hargatiket;
+    boolean rusak;
+
+    POINT lokasi;
+    int durasi;
+    boolean isDasar;
+    float hargaBuild; 
+    int vertex; 
+    int durasiBuild; 
+    
+    BinTree uptree;
+    MATERIAL bahan;
+
+    Queue antrian_wahana; 
+} WAHANA;
+
+/* ADT MAP BUKAN PETA */
+typedef struct {
+    int id;
+    WAHANA value;
+} MapEntryWahana;
+typedef struct{
+    MapEntryWahana* TME;
+    int MaxEl;
+    int NEff;
+} MapWahana;
+
+typedef struct {
+    int id;
+    MATERIAL value;
+} MapEntryMaterial;
+typedef struct{
+    MapEntryMaterial* TME;
+    int MaxEl;
+    int NEff;
+} MapMaterial;
 
 /* ACTION MANAGER - AMANAG */
 typedef struct{

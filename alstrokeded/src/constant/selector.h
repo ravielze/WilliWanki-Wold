@@ -50,8 +50,10 @@
 #define VertexID(P) (P)->VertexID
 
 /* LINKED LIST */
-#define AInfo(P) (P)->info // ALIAS ARROW INFO
-#define ANext(P) (P)->next // ALIAS ARROW NEXT
+#define AInfo(P) ((P)->info)
+// ALIAS ARROW INFO
+#define ANext(P) ((P)->next)
+// ALIAS ARROW NEXT
 #define First(L) ((L).First)
 #define Last(L) ((L).Last)
 
@@ -69,6 +71,13 @@
 #define IsiStack(S) (S).TA
 #define IDAksi(A) (A).id
 #define InfoAksi(A) (A).aksi
+
+/* MATRIKS */
+#define NBrsEff(M) (M).NBrsEff
+#define NKolEff(M) (M).NKolEff
+#define Elmt(M,i,j) (M).Mem[(i)][(j)]
+#define Xplayer(M) (M).Xplayer
+#define Yplayer(M) (M).Yplayer
 
 /* VISITOR */
 #define todo(V) (V).todo

@@ -10,12 +10,11 @@ MATERIAL createMaterial(char* in){
     sscanf(copied, "%s %s %s %d %f %d",
         Nama(mat), Deskripsi(mat), Satuan(mat), &(Punya(mat)),
         &(Harga(mat)), &(Waktu(mat)));
-    /* Bingung kenapa nggak pake ampersand ;-; */
     return mat;
 }
 
 /**
- * Mengubah Materialmenjadi String.
+ * Mengubah Material menjadi String.
  */
 
 void MaterialtoString(MATERIAL mat, char* result) {

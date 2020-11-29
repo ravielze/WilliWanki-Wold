@@ -4,14 +4,17 @@
 /* UNTUK INITIALIZATION GAME, BUKAN UNTUK BUAT GAME */
 /* F.S  GAME SUDAH DIISI DENGAN DATA YANG DIPERLUKAN*/
 GAME createGame() {
+    // TODO: pemain belom ;(( mungkin di parameter masukin namanya?
+    initRNG(); /* RANDOM INITIALIZATION  */
     GAME g;
     float m = 1000;
     JAM j;
-    MakeJam(&j, 9, 0);
+    MakeJam(&j, 21, 0);
     int cd = 0;
     int et = 0;
     int at = 0;
     boolean mp = false;
+    Queue q; CreateEmptyQ(&q);
     createManagerStorage(&g);
     createManagerStorage(&g);
 
@@ -21,7 +24,7 @@ GAME createGame() {
     ExecTimes(g) = et;
     IsMP(g) = mp;
     actionTimes(g) = at;
-    generateWeaboo(&g); /* GENERATING START QUEUE */
+    GameQueue(g) = q;
     
     MATRIKS Peta1, Peta2, Peta3, Peta4;
 
@@ -58,6 +61,8 @@ void move(GAME * g){
                 MovePlayer(&G, 0, 1);
             } else if (IsKataSama(CKata, CreateKata("D") ) || IsKataSama(CKata, CreateKata("d") ) ) {
                 MovePlayer(&G, 1, 0);
+            } else {
+                printf("Command tidak valid!\n");
             }
             
             ADVKATA();
@@ -148,15 +153,25 @@ void buildPush(GAME * game){
             int time_remain = TimeRemaining(Manact);
             int time_for_build = DurasiBuild(whn_selected);
 
+            float money_total = Money(*game);
+            float money_for_build = hargaBuild(whn_selected);
+            float money_used = MoneyUsed(Manact); 
+
             if (jlhPunya < jlhButuh){
                 printf("Bahan yang dipunya tidak mencukupi.\n");
             }
             else if (time_remain - time_for_build < 0){
                 printf("Waktu tidak mencukupi.\n");
             }
+            else if (money_used + money_for_build > money_total) {
+                printf("Uang tidak mencukupi.\n");
+            }
             else{
                 // Kurangin waktu 
                 TimeRemaining(Manact) -= time_for_build;
+
+                // Kurangin duit di Manact
+                MoneyUsed(Manact) -= money_for_build;
 
                 // Push aksi ke stack
                 manact Manact = Amanag(*game);
@@ -274,17 +289,30 @@ void upgradePush(GAME * game) {
             int time_remain = TimeRemaining(Manact);
             int time_for_build = DurasiBuild(whn_up);
 
+            float money_total = Money(*game);
+            float money_for_upgrade = HargaBuild(whn_up);
+            float money_used = MoneyUsed(Manact);
+
             if (jlhPunya < jlhButuh){
                 printf("Bahan yang dipunya tidak mencukupi.\n");
             } 
             else if (time_remain - time_for_build < 0){
                 printf("Waktu tidak mencukupi.\n");
-            } else {
+            } 
+            else if (money_used + money_for_upgrade > money_total) {
+                prinf("Uang tidak mencukupi.\n");
+            }
+            else {   
+                // Kurangin waktu
+                TimeRemaining(Manact) -= time_for_build; 
+                
+                // Kurangin duit di Manact   
+                MoneyUsed(Manact) -= money_for_upgrade;
+
                 // Push aksi ke stack
                 manact Manact = Amanag(*game);
                 MapWahana MW_AM = AMappingW(Manact);
                 Stack Stack_AM = StackAksi(Manact);
-                TimeRemaining(Manact) -= time_for_build;  
 
                 int id = Top(Stack_AM);
                 Aksi aksi_up = createAksi(id, 'u');
@@ -292,11 +320,11 @@ void upgradePush(GAME * game) {
                 AddEntryWahana(&MW_AM, CreateMapEWahana(id, whn_up));
             }
         }
-        // TODO: Remove wahana sebelumnya ATAU edit IsNearWahana untuk upgrade maksimum
     }
 }
 
 void upgradePop(GAME *game) {
+    // TODO: wahana lama harusnya dibikin gon dri storage
     Aksi aksi_up;
     PopAksi(&(StackAksi(Amanag(*game))), &aksi_up);
     WAHANA whn_up = MWGetWahana(AMappingW(Amanag(*game)), IDAksi(aksi_up));
@@ -326,6 +354,7 @@ void upgradePop(GAME *game) {
 
 void buyMaterialPush(GAME * game){
     manstor Manstor = Smanag(*game);
+    manact Manact = Amanag(*game);
 
     // Print List Material
     printf("Ingin membeli apa?\n");
@@ -355,12 +384,13 @@ void buyMaterialPush(GAME * game){
     Punya(mat_selected) = jumlahBeli;
 
     float hargaBeli = Harga(mat_selected) * jumlahBeli;
+    float total_money = Money(*game);
+    float money_used = MoneyUsed(Manact);
 
-    manact Manact = Amanag(*game);
     int time_remain = TimeRemaining(Manact);
     int time_for_buy = Waktu(mat_selected);
 
-    if (Money(*game) < hargaBeli){
+    if (money_used + hargaBeli > total_money){
         printf("Uang tidak mencukupi.");
     }
     else if (time_remain - time_for_buy < 0){
@@ -404,7 +434,8 @@ boolean IsBuildAbleSenpai(WAHANA thefkinwahana,GAME *game) {
     // TODO: keliatannya plan ga perlu(?) karena d spek tuh langsung d kasih liat wahana tuh dmna
     manact Manak = Amanag(*game);
     manstor Manstor = Smanag(*game);
-    //TODO implement iscollide dari graf buat ngecek nabrak A, O atau tembok
+    AdrVertex V = Graf(*game);
+    if (isCollideWahanaBuilding(V, thefkinwahana)) return false;
     // Cek tabrakan sama yang plan
     if (!IsStackEmpty(StackAksi(Manak))){
         for (int i = 0; i < Top(StackAksi(Manak)); i++){
@@ -464,13 +495,16 @@ void ExecutePhase(GAME * game) {
     Aksi temp;
     MakeEmpty(&target);
     InverseStack(&(StackAksi(Amanag(*game))), &target);
-    MoveStack(&target, &(StackAksi(Amanag(*game))));    
+    MoveStack(&target, &(StackAksi(Amanag(*game))));
+    /* Do stack actions */
     while (!IsStackEmpty(StackAksi(Amanag(*game)))) {
         PopAksi(&(StackAksi(Amanag(*game))), &temp);
         if (InfoAksi(temp) == 'b') buildPop(game);
         else if (InfoAksi(temp) == 'u') upgradePop(game);
         else if (InfoAksi(temp) == 'm') buyMaterialPop(game);
     }
+    /* BATAS INI */
+    generateWeaboo(game); /* GENERATING START QUEUE */
 }
 
 void Serve(GAME * game) {

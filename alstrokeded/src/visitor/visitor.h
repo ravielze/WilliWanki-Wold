@@ -2,8 +2,14 @@
 #define VISITOR_H
 #include "../constant/adt.h"
 
+#include "../map/map.h"
+#include "../wahana/wahana.h"
+
+#include "../stack/stack.h"
+#include "../jam/jam.h"
+
 /* Ambil wahana yang ingin dinaiki (paling atas stack) */
-WAHANA todonow(Visitor v, GAME *g);
+int todonow(Visitor v);
 
 /* Spawn Visitor */
 Visitor SpawnVisitor(int patience, GAME * g);

@@ -117,12 +117,13 @@ void updateWeaboo(GAME*g) {
     }
 }
 
-// anjir dikeri toper
 /******************************** >><< AFK REHAT DLO *******************************************/
 /* Visitor coming back to queue after the rides */
-void getbacktoWeaboo(GAME*g) {
+void getbacktoWeaboo(GAME*g,WAHANA*w) {
     /* TO DO : GET VISITOR FROM WAHANA, CURRENTLY UNKNOW SINCE WAHANA DOESNT HAVE QUEUE */
-    int vid; /* somehow get Visitor id */
+    int vid = dequeueWahana(WAHANA*w); /* somehow get Visitor id */
+
+    
 
     qaddress A = Head(GameQueue(*g));
     while (A != Nil && visitorid(Info(A)) != vid) A = Next(A); /* Travesal until visitorid(A) is vid */

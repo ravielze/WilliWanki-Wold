@@ -1,7 +1,7 @@
 #include "stack.h"
 
 void MakeStack (Stack *S) {
-    Top(*S) = Nil;
+    Top(*S) = -1;
     MaxEl(*S) = 10;
     IsiStack(*S) = (Aksi *) malloc (10* sizeof(Aksi));
 }
@@ -14,7 +14,7 @@ Aksi createAksi(int id, char aksi){
 }
 
 boolean IsStackEmpty (Stack S) {
-    return Top(S) == Nil;
+    return (Top(S) == -1);
 }
 
 boolean IsStackFull (Stack S) {
@@ -22,9 +22,6 @@ boolean IsStackFull (Stack S) {
 }
 
 void PushChar (Stack * S, char C) {
-    if (IsStackEmpty(*S)) {
-        Top(*S) = -1;
-    }
     if (IsStackFull(*S)) {
         MaxEl(*S) += 10;
         Aksi* temp = (Aksi *) realloc(IsiStack(*S), (MaxEl(*S) * sizeof(Aksi)));
@@ -44,9 +41,6 @@ void PushChar (Stack * S, char C) {
 }
 
 void PushAksi (Stack * S, Aksi X) {
-    if (IsStackEmpty(*S)) {
-        Top(*S) = -1;
-    }
     if (IsStackFull(*S)) {
         MaxEl(*S) += 10;
         Aksi* temp = (Aksi *) realloc(IsiStack(*S), (MaxEl(*S) * sizeof(Aksi)));

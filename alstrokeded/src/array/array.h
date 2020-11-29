@@ -11,7 +11,7 @@ void InsertLastAL(ARRAYLIST * arr, int X);
 ainfotype DeleteFirstAL(ARRAYLIST *arr);
 ainfotype DeleteLastAL(ARRAYLIST *arr);
 void InsertNAL(ARRAYLIST *arr, int idx, int X);
-ainfotype DeleteNAL(ARRAYLIST *arr, int idx);
+void DeleteNAL(ARRAYLIST *arr, int idx);
 
 ainfotype SearchNAL(ARRAYLIST arr, int X);
 // Ini nyari X ada ga di Search, kalau ada, return infotype, kalau ga ada, return -999

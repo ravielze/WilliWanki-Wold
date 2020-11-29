@@ -21,6 +21,10 @@
 //TODO apa yang belum dipikirkan? linked list taruh mana
 
 GAME createGame();
+
+/* gerak mang */
+void move (GAME * g);
+
 /* Preparation Phase */
 
 void action(GAME * game);
@@ -60,25 +64,6 @@ void mainphase(GAME * game);
 
 /* Generate Pengunjung diawal main phase */
 void generatePengunjung(GAME * game);
-/*  Upgrade Wahana
-    1. Print Tree Upgrade
-    2. Pilih kanan atau kiri
-    3. Cek resource dan uang dan waktu
-    4. Push ke stack aksi */
-void upgrade(GAME * game);
-
-/*  Upgrade Wahana
-    1. Print List Material
-    2. Pilih material
-    3. Cek resource dan uang dan waktu
-    4. Push ke stack aksi */
-void buyMaterial(GAME * game);
-
-/* Pop sekali */
-void undo(GAME * game);
-
-/* langsung ke main phase dan kosongkan stack */
-void mainphase(GAME * game);
 
 /* InverseStack, terus pop 1 per 1 terus jalanin */
 void ExecutePhase(GAME * game);

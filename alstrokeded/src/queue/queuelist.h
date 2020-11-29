@@ -7,7 +7,6 @@
 void AlokasiQ(qaddress *P, ElTypeQ X, int Prio);
 void DealokasiQ(qaddress P);
 boolean IsEmptyQ (Queue Q);
-boolean IsFullQ (Queue Q);
 int NBElmtQ (Queue Q);
 
 /* *** Kreator *** */

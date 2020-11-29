@@ -24,11 +24,7 @@ void deleteWahana(manstor * ms, int id);
 
 
 void ScreateMaterial(manstor * ms, MATERIAL mat);
-/* Menambahkan material ke storage */
-void addMaterial(manstor * ms, int id);
-void deleteMaterial(manstor * ms, int id);
 
-// dapetin wahana dengan idnya V output
-void getWahana(manstor * ms, int id, WAHANA * whn);
+void getWahana(manstor * ms, int id, WAHANA* whn);
 
 #endif

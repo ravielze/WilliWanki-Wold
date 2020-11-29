@@ -3,6 +3,8 @@
 #define graph_H
 
 #include "../constant/adt.h"
+#include "../matrix/matrix.h"
+#include "../point/point.h"
 
 AdrVertex AlokasiVertex (MATRIKS M);
 /* Mengalokasi MATRIKS M dengan edge semuanya menunjuk Nil */
@@ -17,11 +19,11 @@ void MovePlayer (AdrVertex* V, int difX, int difY);
 void UpdateMatriksWahana(AdrVertex* V, WAHANA W);
     /* Mengupdate MATRIKS Map dengan posisi wahana terbaru */
 
-boolean isCollideWahanaBuilding(AdrVertex* V, WAHANA W);
+boolean isCollideWahanaBuilding(AdrVertex V, WAHANA W);
     /* Mengecek apakah suatu wahana menabrak tembok atau tidak */
 
-boolean isNear(AdrVertex* V, char X);
+boolean isNear(AdrVertex V, char X);
     /* Mengecek apakah player berdeketan dengan suatu building seperti W, A, O */
 
-POINT getPlayer(AdrVertex* V);
+POINT getPlayer(AdrVertex V);
 #endif 

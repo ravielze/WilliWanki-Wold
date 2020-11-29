@@ -22,7 +22,7 @@ boolean IsMATEmpty(ARRAYLISTMAT arr) {
 }
 
 void InsertFirstMAT(ARRAYLISTMAT *arr, minfotype X) {
-    if (IsAlFull(*arr)){
+    if (IsMATFull(*arr)){
         MaxEl(*arr) += 10;
         minfotype * temp = (minfotype*)realloc(TI(*arr), (MaxEl(*arr)*sizeof(minfotype)));
         if (temp == Nil) {
@@ -45,7 +45,7 @@ void InsertFirstMAT(ARRAYLISTMAT *arr, minfotype X) {
 }
 
 void InsertLastMAT(ARRAYLISTMAT * arr, minfotype X) {
-    if (IsAlFull(*arr)) {
+    if (IsMATFull(*arr)) {
         MaxEl(*arr) += 10;
         minfotype* temp = (minfotype *) realloc (TI(*arr), (MaxEl(*arr) * sizeof(minfotype)));
         if (temp == Nil) {
@@ -80,7 +80,7 @@ minfotype DeleteLastMAT(ARRAYLISTMAT *arr) {
 }
 
 void InsertNMAT(ARRAYLISTMAT *arr, int idx, minfotype X) {
-    if (IsAlFull(*arr)){
+    if (IsMATFull(*arr)){
         MaxEl(*arr) += 10;
         minfotype * temp = (minfotype*)realloc(TI(*arr), (MaxEl(*arr)*sizeof(minfotype)));
         if (temp == Nil) {
@@ -101,7 +101,7 @@ void InsertNMAT(ARRAYLISTMAT *arr, int idx, minfotype X) {
     NEff(*arr)++;
 }
 
-minfotype DeleteNMAT(ARRAYLISTMAT *arr, int idx) {
+void DeleteNMAT(ARRAYLISTMAT *arr, int idx) {
     if (NEff(*arr) <= (MaxEl(*arr) / 4)) {
         MaxEl(*arr) /= 2;
         minfotype* temp = (minfotype *) realloc (TI(*arr), (MaxEl(*arr) * sizeof(minfotype)));
@@ -120,16 +120,6 @@ minfotype DeleteNMAT(ARRAYLISTMAT *arr, int idx) {
     }
 }
 
-minfotype SearchNMAT(ARRAYLISTMAT arr, minfotype X) {
-// Ini nyari X ada ga di Search, kalau ada, return minfotype, kalau ga ada, return apa kek wait, ini kan return minfotype X yang jadi parameter fungsi(?)
-// Pake yg return indeks aja(?)
-    for (int i = 0; i < NEff(arr); i++) {
-        if (isMaterialEqual(ItemOf(arr,i) , X)) {
-            return X;
-        }
-    }
-}
-
 int SearchIdxMAT(ARRAYLISTMAT arr, minfotype X) {
 // Ini nyari X ada ga di Search, kalau ada, return idx, kalau ga ada, return apa kek
     for (int i = 0; i < NEff(arr); i++) {
@@ -145,5 +135,6 @@ boolean SearchMAT(ARRAYLISTMAT arr, minfotype X){
         if (isMaterialEqual(ItemOf(arr,i) , X)) {
             return true;
         }
+    }
     return false; 
 }

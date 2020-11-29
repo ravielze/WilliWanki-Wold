@@ -103,7 +103,7 @@ void TulisMATRIKS (MATRIKS M){
     4 5 6
     8 9 10
     */
-   printf("+=====+=====+=====+\n\n");
+   printf("\n+=====+=====+=====+\n\n");
    for (int i = BrsMin; i <= GetLastIdxBrs(M); i++){
         for (int j = KolMin; j <= GetLastIdxKol(M); j++){
             printf("%c", Elmt(M, i, j) );

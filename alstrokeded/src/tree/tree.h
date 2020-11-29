@@ -15,22 +15,22 @@ BinTree AlokasiT(TRElType X);
 menghasilkan P, maka Info(P)=X, Left(P)=Nil, Right(P)=Nil 
 { Jika alokasi gagal, mengirimkan Nil } */
 
-void DealokasiT(taddress * P);
+void DealokasiT(taddress P);
 /* I.S. P terdefinisi 
 * F.S. P dikembalikan ke sistem 
 * Melakukan dealokasi/pengembalian address P */
 
 boolean IsTreeEmpty(BinTree P);
 /* Mengirimkan true jika P adalah pohon biner yang kosong */
-boolean IsOneElmtT(BinTree P);
+boolean IsTreeOneElmt(BinTree P);
 /*  Mengirimkan true jika P tidak kosong dan hanya terdiri atas 1 elemen  */
-boolean IsUnerLeft(BinTree P);
+boolean IsUnerLeftT(BinTree P);
 /* Mengirimkan true jika pohon biner tidak kosong, P adalah pohon unerleft:
 hanya mempunyai subpohon kiri */
-boolean IsUnerRight(BinTree P);
+boolean IsUnerRightT(BinTree P);
 /* Mengirimkan true jika pohon biner tidak kosong, P adalah pohon unerright:
 hanya mempunyai subpohon kanan */
-boolean isBiner(BinTree P);
+boolean isBinerT(BinTree P);
 /* Mengirimkan true jika pohon biner tidak kosong, P adalah pohon biner:
 mempunyai subpohon kiri dan subpohon kanan */
 
@@ -60,6 +60,9 @@ dari satu daun bernilai X, Y ditambahkan pada daun paling kiri. */
 void DelDaun(BinTree *P, TRElType X);
 /* I.S. P tidak kosong, minimum 1 daun bernilai X 
 F.S. Semua daun yang bernilai X dihapus dari P */
+
+/* Print pohon */
+void printUpTree(BinTree P, int h);
 
 /* tree P1 = tree P2 ga ya hm*/
 boolean isTreeEqual(BinTree P1, BinTree P2);

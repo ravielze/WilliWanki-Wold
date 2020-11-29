@@ -12,17 +12,21 @@ BinTree Tree(TRElType Akar, BinTree L, BinTree R){
 taddress AlokasiT(TRElType X){
     taddress P = (taddress)malloc(sizeof(TRNode));
     Akar(P) = X;
+    Left(P) = Nil;
+    Right(P) = Nil;
+
+    return P;
 }
 
-void DealokasiT(taddress * P) {
-    free(*P);
+void DealokasiT(taddress P) {
+    free(P);
 }
 
 boolean IsTreeEmpty(BinTree P){
-    return Akar(P) == Nil;
+    return (P == Nil);
 }
 
-boolean IsOneElmtT(BinTree P){
+boolean IsTreeOneElmt(BinTree P){
     if (IsTreeEmpty(P)){
         return false;
     }
@@ -30,32 +34,47 @@ boolean IsOneElmtT(BinTree P){
 }
 
 boolean IsUnerLeftT(BinTree P){
-    return (Left(P)!=Nil && Right(P)==Nil);
+    if (IsTreeEmpty(P)){
+        return false;
+    }
+    else{
+        return ((Left(P) != Nil) && (Right(P) == Nil));
+    }
 }
 boolean IsUnerRightT(BinTree P){
-    return (Left(P)==Nil && Right(P)!=Nil);
+    if (IsTreeEmpty(P)){
+        return false;
+    }
+    else{
+        return ((Left(P) == Nil) && (Right(P) != Nil));
+    }
 }
-boolean isBinerT(BinTree P) {
-    return Left(P) != Nil && Right(P) != Nil;
+boolean IsBinerT(BinTree P) {
+    if (IsTreeEmpty(P)){
+        return false;
+    }
+    else{
+        return ((Left(P) != Nil) && (Right(P) != Nil));
+    }
 }
 
 int NbElmtT(BinTree P){
-    if (IsOneElmtT(P)){
-        return 1;
+    if (IsTreeEmpty(P)){
+        return 0;
     }
     else{
-        if (IsUnerLeft(P)) return NbElmtT(Left(P)) + 1;
-        else if(IsUnerRight(P)) return NbElmtT(Right(P)) + 1;
-        else return NbElmtT(Left(P)) + 1 + NbElmt(Right(P));
+        return (1 + NbElmtT(Left(P)) + NbElmtT(Right(P)));
     }
 }
 
 int NbDaun(BinTree P){
-    if (IsOneElmtT(P)){
+    if (IsTreeEmpty(P)){
+        return 0;
+    }
+    else if (IsTreeOneElmt(P)){
         return 1;
-    } else {
-        if (IsUnerLeftT(P)) return(NbDaun(Left(P)));
-        else if (IsUnerRightT(P)) return(NbDaun(Right(P)));
+    }
+    else{
         return (NbDaun(Left(P)) + NbDaun(Right(P)));
     }
 }
@@ -65,8 +84,14 @@ int TinggiT(BinTree P){
 Mengirim “height”, yaitu tinggi dari pohon  */
     if (IsTreeEmpty(P)){
         return 0;
-    } else {
-        return (1 + max(TinggiT(Left(P)),TinggiT(Right(P))));
+    }
+    else{
+        if (TinggiT(Left(P)) >= TinggiT(Right(P))){
+            return (1 + TinggiT(Left(P)));
+        }
+        else{
+            return (1 + TinggiT(Right(P)));
+        }
     }
 }
 
@@ -79,17 +104,17 @@ boolean SearchT(BinTree P, TRElType X){
             return true;
         }
         else{
-            return (Search(Left(P), X) || Search(Right(P),X));       
+            return (SearchT(Left(P), X) || SearchT(Right(P),X));       
         }
     }
 } 
 
 boolean SearchDaun(BinTree P, TRElType X){
-    if (IsOneElmtT(P)){
+    if (IsTreeOneElmt(P)){
         return (Akar(P) == X);
     }
     else{
-        if (Search(Left(P),X)){
+        if (SearchT(Left(P),X)){
             return SearchDaun(Left(P),X);
         }
         else{
@@ -108,10 +133,10 @@ kosong dan elemen-elemennya unik. }
     }
     else{
         if (SearchDaun(Left(P),X)){
-            return 1 + Level(Left(P),X);
+            return 1 + LevelT(Left(P),X);
         }
         else{
-            return 1 + Level(Right(P),X);
+            return 1 + LevelT(Right(P),X);
         }
     }
 }
@@ -124,18 +149,18 @@ dari satu daun bernilai X, Y ditambahkan pada daun paling kiri. }
  */
     if (Akar(*P) == X) {
         if (Kiri) {
-            Left(*P) = Y;
+            Left(*P) = AlokasiT(Y);
         }
         else {
-            Right(*P) = Y;
+            Right(*P) = AlokasiT(Y);
         }
     }
     else {
         if (SearchDaun(Left(*P), X) && Kiri) {
-            AddDaun(Left(*P), X, Y, Kiri);
+            AddDaun(&(Left(*P)), X, Y, Kiri);
         }
         else {
-            AddDaun(Right(*P), X, Y, Kiri);
+            AddDaun(&(Right(*P)), X, Y, Kiri);
         }
     }
 }
@@ -144,30 +169,40 @@ void DelDaun(BinTree *P, TRElType X){
 /* { I.S. P tidak kosong, minimum 1 daun bernilai X }
 { F.S. Semua daun yang bernilai X dihapus dari P }
  */
-    if (IsOneElmtT(*P) && Akar(*P) == X) *P = Nil;
+    if (IsTreeOneElmt(*P) && (Akar(*P) == X)){
+        taddress PTemp = *P;
+        *P = Nil;
+        DealokasiT(PTemp);
+    }
     else{
-        if (IsOneElmtT(Left(*P))){
-            if (Akar(*P) == X){
-                BinTree temp, Del;
-                Del = Left(*P);
-                Dealokasi(&Del);
-                temp = Left(*P);
-            
-            }
+        if (IsUnerLeftT(*P)){
+            DelDaun(&Left(*P),X);
         }
-        
+        else if (IsUnerRightT(*P)){
+            DelDaun(&Right(*P),X);
+        }
+        else if (IsBinerT(*P)){
+            DelDaun(&Left(*P),X);
+            DelDaun(&Right(*P),X);
+        }
     }
 }
 
-void printUpTree(BinTree P) {
-    //TODO realisasi
+void printUpTree(BinTree P, int h) {
+    if (!IsTreeEmpty(P) ){
+      printf("%d\n", Akar(P) );
+      if (Left(P) != Nil) for (int i = 0; i < h; i++) printf(" ");
+      printUpTree(Left(P), h*2);
+      if (Right(P) != Nil) for (int i = 0; i < h; i++) printf(" ");
+      printUpTree(Right(P), h*2);
+  }
 }
 
 boolean isTreeEqual(BinTree P1, BinTree P2) {
     if (IsTreeEmpty(P1) && IsTreeEmpty(P2)) return true;
     if (Akar(P1) != Akar(P2)) return false;
-    if (IsUnerLeft(P1) && IsUnerLeft(P2)) return isTreeEqual(Left(P1), Left(P2));
-    else if (IsUnerRight(P1) && IsUnerRight(P2)) return isTreeEqual(Right(P1), Right(P2));
-    else if (IsBiner(P1) && IsBiner(P2)) return isTreeEqual(Left(P1), Left(P2)) && isTreeEqual(Right(P1), Right(P2));
+    if (IsUnerLeftT(P1) && IsUnerLeftT(P2)) return isTreeEqual(Left(P1), Left(P2));
+    else if (IsUnerRightT(P1) && IsUnerRightT(P2)) return isTreeEqual(Right(P1), Right(P2));
+    else if (IsBinerT(P1) && IsBinerT(P2)) return isTreeEqual(Left(P1), Left(P2)) && isTreeEqual(Right(P1), Right(P2));
     else return false;
 }
