@@ -45,7 +45,7 @@ void ScreateMaterial(manstor * ms, MATERIAL mat);
 void addMaterial(manstor * ms, int id);
 void deleteMaterial(manstor * ms, int id);
 
-//TODO dapetin wahana dengan idnya      V output
+// dapetin wahana dengan idnya V output
 void getWahana(manstor * ms, int id, WAHANA * whn);
 
 #endif

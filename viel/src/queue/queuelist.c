@@ -1,7 +1,7 @@
 #include "queuelist.h"
 
-void AlokasiQ(qaddress *P, ElType X, int Prio){
-    *P = (qaddress)malloc(1*sizeof(Node));
+void AlokasiQ(qaddress *P, ElTypeQ X, int Prio){
+    *P = (qaddress) malloc (1*sizeof(queueNode));
     if (P!=Nil){
         Info(*P) = X;
         Next(*P) = Nil;
@@ -37,54 +37,31 @@ void CreateEmptyQ (Queue * Q){
 }
 
 /* *** Primitif Add/Delete *** */
-void Enqueue (Queue * Q, ElType X, int Prio){
-    qaddress P;
-    Alokasi(&P,X,Prio);
-    int PrioHead;
+void Enqueue (Queue * Q, ElTypeQ X, int NewPrio){
+    qaddress P; // untuk alokasi
+    Alokasi(&P,X,NewPrio);
 
-    if (!IsEmpty(*Q)){
-        PrioHead = Prio(Head(*Q));
-    }
-
-    if ((PrioHead > Prio)||(IsEmpty(*Q))){
-        Next(P) = Head(*Q);
-        Head(*Q) = P;
-    }
-    else{
-        qaddress Prev = Nil;
-        qaddress After = Head(*Q);
-        while ((Prio >= Prio(After)) && (Next(After) != Nil)){
-            After = Next(After);
-
-            if (Prev == Nil){
-                Prev = Head(*Q);
-            }
-            else{
-                Prev = Next(Prev);
-            }
-        }
-
-        if (Next(After) == Nil){
-            if (Prio >= Prio(After)){
-                Next(After) = P;
-            }
-            else{
-                Next(P) = After;
-                if (Prev != Nil){
-                    Next(Prev) = P;
-                }
-            }
-        }
-        else{
-            Next(P) = After;
-            if (Prev != Nil){
-                Next(Prev) = P;
+    if (IsEmptyQ(*Q)) Head(*Q) == P;
+    else {
+        if (Prio(Head(*Q)) <= NewPrio){// Prio Head sama dengan NewPrio maka NewPrio taruh paling depan
+            Next(P) = Head(*Q);
+            Head(*Q) = P;
+        } else { 
+            qaddress A = Head(*Q); 
+            // Travesal hingga Prio(Next(A)) > NewPrio
+            while (Next(A) != Nil && (Prio(Next(A)) > NewPrio)) A = Next(A);
+            // Berdasarkan hasil travesal akan dimasukan
+            // Jika next == nil maka dimasukkan paling akhir queue
+            if (Next(A) == Nil) Next(A) = P;
+            else { // Jika dimasukkan ditengah (tapi di paling depan prio)
+                Next(P) = Next(A);
+                Next(A) = P;
             }
         }
     }
 }
 
-void Dequeue (Queue * Q, ElType * X){
+void Dequeue (Queue * Q, ElTypeQ * X){
 
     qaddress P;
     *X = InfoHead(*Q);
@@ -99,7 +76,7 @@ void Dequeue (Queue * Q, ElType * X){
     Dealokasi(P);
 }
 
-void DequeueN (Queue * Q, ElType * X, int N, int *Ndequeued){
+void DequeueN (Queue * Q, ElTypeQ * X, int N, int *Ndequeued){
     int temp = N;
     while ((!IsEmpty(*Q)) && (temp != 0)){
         qaddress P;

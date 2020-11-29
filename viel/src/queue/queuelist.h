@@ -8,13 +8,13 @@
 
 #define Nil NULL
 
-
-typedef visitor ElType;
-typedef struct qNode *qaddress;
-typedef struct qNode {  ElType Info;
-                        qaddress Next;
-                        int Prio;
-                     } queueNode;
+typedef visitor ElTypeQ;
+typedef struct qNode* qaddress;
+typedef struct qNode {
+   ElTypeQ Info;
+   qaddress Next;
+   int Prio;
+} queueNode;
 typedef struct { qaddress HEAD;
                } Queue;
 
@@ -26,8 +26,8 @@ typedef struct { qaddress HEAD;
 #define Prio(P) (P)->Prio
 
 /* ********* Prototype ********* */
-void AlokasiQ(address *P, ElType X, int Prio);
-void DealokasiQ(address P);
+void AlokasiQ(qaddress *P, ElTypeQ X, int Prio);
+void DealokasiQ(qaddress P);
 boolean IsEmptyQ (Queue Q);
 boolean IsFullQ (Queue Q);
 int NBElmtQ (Queue Q);
@@ -36,8 +36,8 @@ int NBElmtQ (Queue Q);
 void CreateEmptyQ (Queue * Q);
 
 /* *** Primitif Add/Delete *** */
-void Enqueue (Queue * Q, ElType X, int Prio);
-void Dequeue (Queue * Q, ElType * X);
-void DequeueN (Queue * Q, ElType * X, int N, int *Ndequeued);
+void Enqueue (Queue * Q, ElTypeQ X, int Prio);
+void Dequeue (Queue * Q, ElTypeQ * X);
+void DequeueN (Queue * Q, ElTypeQ * X, int N, int *Ndequeued);
 
 #endif

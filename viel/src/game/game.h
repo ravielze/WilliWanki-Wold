@@ -12,28 +12,31 @@
 #include "../wahana/wahana.h"
 #include "../map/map.h"
 #include "../stack/stack.h"
+#include "../graph/graph.h"
+#include "../matrix/matrix.h"
 #include "storagemanager.h"
 #include "actionmanager.h"
-
+//TODO apa yang belum dipikirkan? linked list taruh mana, queue per wahana ditaruh dimana
 typedef struct{
     char* Pemain;
     float Money;
     JAM Time;
+
     int currentDay;
     int executionTimes;
     int actionTimes;
-    boolean isMainPhase;
+    boolean isMainPhase; // penanda phase
 
-    manstor StorageManager;
-    manact ActionManager;
+    manstor StorageManager; // ini untuk semua hal yang dimiliki player
+    manact ActionManager; // ini untuk semua aksi yang akan dilakukan
 
-    Queue Queue;
+    Queue GameQueue; // ini untuk antrian
+    Graph graphGame;
 } GAME;
 
-#define Queue(G) (G).Queue
+#define GameQueue(G) (G).GameQueue
 #define Pemain(G) (G).Pemain
 #define Money(G) (G).Money
-#define PosisiPlayer(G) (G).PosisiPlayer
 #define Time(G) (G).Time
 #define CurrDay(G) (G).currentDay
 #define ExecTimes(G) (G).executionTimes
@@ -41,6 +44,8 @@ typedef struct{
 #define Amanag(G) (G).ActionManager
 #define Smanag(G) (G).StorageManager
 #define actionTimes(G) (G).actionTimes
+#define Graph(G) (G).graphGame
+#define QueueG(G) (G).Queue 
 
 
 GAME createGame();
@@ -105,5 +110,8 @@ void mainphase(GAME * game);
 
 /* InverseStack, terus pop 1 per 1 terus jalanin */
 void ExecutePhase(GAME * game);
+
+/* Seperti namanya, melayani pelayanan */
+void Serve(GAME * game);
 
 #endif

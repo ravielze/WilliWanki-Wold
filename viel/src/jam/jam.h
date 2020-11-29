@@ -82,6 +82,6 @@ JAM PrevNMenit (JAM J, int N);
 /* Mengirim N menit sebelum J dalam bentuk JAM */
 /* *** Kelompok Operator Aritmetika *** */
 long Durasi (JAM JAw, JAM JAkh);
-/* Mengirim JAkh-JAw dlm Detik, dengan kalkulasi */
+/* Mengirim JAkh-JAw dlm Menit, dengan kalkulasi */
 /* Jika JAw > JAkh, maka JAkh adalah 1 hari setelah JAw */
 #endif

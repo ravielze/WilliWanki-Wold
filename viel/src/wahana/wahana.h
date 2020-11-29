@@ -24,9 +24,12 @@ typedef struct Whn{
     boolean isDasar;
     float hargaBuild; //TODO masukin ke wahana.c
     int vertex; //TODO masukin ke wahana.c
-
+    int durasiBuild; //TODO masukin ke wahana.c
+    
     BinTree uptree;
     MATERIAL bahan;
+
+    Queue antrian_wahana; //TODO masukin ke wahana.c
 } WAHANA;
 
 /*** Selektor ***/
@@ -44,6 +47,8 @@ typedef struct Whn{
 #define UpgradeTree(W) (W).uptree
 #define HargaBuild(W) (W).hargaBuild
 #define InVertex(W) (W).vertex
+#define DurasiBuild(W) (W).durasiBuild
+#define QueueWahana(W) (W).antrian_wahana
 
 /*
  * Membuat Wahana dari String. Format: %s %s %s %d %d %f %d %d %d %d %d %f %d

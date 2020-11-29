@@ -85,7 +85,7 @@ void PopAksi (Stack * S, Aksi* X) {
 void InverseStack (Stack * S1, Stack * S2) {
     while (!IsStackEmpty(*S1)) {
         Aksi temp;
-        PopStack(S1, &temp);
+        PopAksi(S1, &temp);
         PushAksi(S2, temp);
     }
 }
@@ -99,4 +99,15 @@ boolean isIDInStack(Stack S, int id) {
         }
     }
     return false;
+}
+
+void MoveStack (Stack * S1, Stack * S2) {
+    Aksi temp;
+    MakeStack(&temp);
+    InverseStack(S1, &temp);
+    while (!IsStackEmpty(temp)) {
+        Aksi P;
+        PopAksi(&temp, &P);
+        PushAksi(S2, P);
+    }
 }

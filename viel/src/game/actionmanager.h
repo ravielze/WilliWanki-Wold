@@ -18,8 +18,10 @@ typedef struct{
 #define AMappingM(X) (X).DataMaterial
 #define StackAksi(X) (X).StackAksi
 #define MoneyUsed(X) (X).MoneyUsed
-#define TimeRemaining(X) (X).timeRemaining //TODO ganti logika
+#define TimeRemaining(X) (X).timeRemaining //TODO cek lagi semua yg make ini udh bner apa belom
 
-//TODO dapetin wahana dengan idnya      V output
+void createManagerAction(GAME * game);
+
+// dapetin wahana dengan idnya V output
 void getWahanaa(manact * ma, int id, WAHANA * whn);
 #endif

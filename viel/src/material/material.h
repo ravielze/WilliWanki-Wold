@@ -11,7 +11,7 @@ typedef struct Mtrl{
     char NamaMaterial[100];
     char Deskripsi[255];
     char Satuan[50];
-    int   Jumlah;
+    int Jumlah;
 
     //Untuk penjualan
     float Harga;
@@ -26,7 +26,7 @@ typedef struct Mtrl{
 #define Waktu(X) (X).WaktuBeli
 #define Punya(X) (X).Jumlah
 /*
- * Membuat Material dari String. Format: %s %s %s %d %f %d %d
+ * Membuat Material dari String. Format: %s %s %s %d %f %d
  */
 MATERIAL createMaterial(char* in);
 
@@ -37,5 +37,4 @@ void MaterialtoString(MATERIAL mat, char* result);
 
 // mat = mat2 ga ya? hmmmm
 boolean isMaterialEqual(MATERIAL mat, MATERIAL mat2);
-//TODO
 #endif

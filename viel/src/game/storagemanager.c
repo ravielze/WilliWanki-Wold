@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "storagemanager.h"
 
-manstor createManagerWahana(GAME * game){
+manstor createManagerStorage(GAME * game){
     manstor ms;
     Game(ms) = game;
 
@@ -26,9 +26,6 @@ manstor createManagerWahana(GAME * game){
 
 void initStorageManager(char* wahanafilename, char* materialfilename, char* treefilename, manstor* ms){
 
-// ngebaca dari file
-// WAHANA w = create....
-// screatewahana
     static int retval;
     int N;
     FILE* WahanaFile = fopen(wahanafilename, "r");
