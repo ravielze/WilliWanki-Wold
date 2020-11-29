@@ -16,7 +16,8 @@
 #include "../matrix/matrix.h"
 #include "storagemanager.h"
 #include "actionmanager.h"
-//TODO apa yang belum dipikirkan? linked list taruh mana, queue per wahana ditaruh dimana
+#include "../word/mesinkata.h"
+//TODO apa yang belum dipikirkan? linked list taruh mana
 typedef struct{
     char* Pemain;
     float Money;
@@ -27,11 +28,11 @@ typedef struct{
     int actionTimes;
     boolean isMainPhase; // penanda phase
 
-    manstor StorageManager; // ini untuk semua hal yang dimiliki player
-    manact ActionManager; // ini untuk semua aksi yang akan dilakukan
+    MANAGER_STORAGE StorageManager; // ini untuk semua hal yang dimiliki player
+    MANAGER_ACTION ActionManager; // ini untuk semua aksi yang akan dilakukan
 
     Queue GameQueue; // ini untuk antrian
-    Graph graphGame;
+    Graph Graf;
 } GAME;
 
 #define GameQueue(G) (G).GameQueue
@@ -44,8 +45,8 @@ typedef struct{
 #define Amanag(G) (G).ActionManager
 #define Smanag(G) (G).StorageManager
 #define actionTimes(G) (G).actionTimes
-#define Graph(G) (G).graphGame
-#define QueueG(G) (G).Queue 
+#define QueueG(G) (G).GameQueue
+#define Graf(G) (G).Graf
 
 
 GAME createGame();
@@ -87,7 +88,7 @@ void mainphase(GAME * game);
 /* Main Phase */
 
 /* Generate Pengunjung diawal main phase */
-void generatePengunjung(GAME * game); //TODO dipikir, ADT Pengunjung???
+void generatePengunjung(GAME * game);
 /*  Upgrade Wahana
     1. Print Tree Upgrade
     2. Pilih kanan atau kiri

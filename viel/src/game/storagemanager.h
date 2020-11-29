@@ -16,7 +16,6 @@ typedef struct{
     int LastIDMaterial;
     ARRAYLIST StorageWahana; // Array List ID Wahana yang dipunyai
     ARRAYLISTMAT StorageMaterial; // Array List semua material yang tersedia
-    GAME * game;
 } MANAGER_STORAGE;
 
 /* SELEKTOR */
@@ -27,9 +26,8 @@ typedef struct{
 #define LIDMaterial(X) (X).LastIDMaterial
 #define StorageW(X) (X).StorageWahana
 #define StorageM(X) (X).StorageMaterial
-#define Game(X) (X).game
 
-manstor createManagerStorage(GAME * game);
+void createManagerStorage(GAME * game);
 
 void initStorageManager(char* wahanafilename, char* materialfilename, char* treefilename, manstor* ms);
 

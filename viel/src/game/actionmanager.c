@@ -26,3 +26,7 @@ void getWahanaa(manact * ma, int id, WAHANA * whn) {
     MapWahana list = AMappingW(*ma);
     *whn = MWGetWahana(list, id);    
 }
+
+void resetTimeRemaining(manact * ma) {
+    TimeRemaining(*ma) = 720;
+}

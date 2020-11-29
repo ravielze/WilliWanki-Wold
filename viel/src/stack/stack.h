@@ -6,7 +6,7 @@
 #define Nil NULL
 /* Nil adalah stack dengan elemen kosong . */
 #define infotype Aksi
-#define idx int
+#define idxs int
 
 typedef struct {
   int id;
@@ -23,7 +23,7 @@ typedef struct {
 typedef struct {
   int MaxEl;
   Aksi *TA; /* tabel penyimpan elemen */
-  idx TOP; /* alamat TOP: elemen puncak */
+  idxs TOP; /* alamat TOP: elemen puncak */
 } Stack;
 
 /* Definisi stack S kosong : S.TOP = Nil */

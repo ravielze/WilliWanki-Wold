@@ -2,9 +2,8 @@
 #include <stdlib.h>
 #include "storagemanager.h"
 
-manstor createManagerStorage(GAME * game){
+void createManagerStorage(GAME * game){
     manstor ms;
-    Game(ms) = game;
 
     LIDMaterial(ms) = -1;
     LIDWahana(ms) = -1;
@@ -21,7 +20,7 @@ manstor createManagerStorage(GAME * game){
     MakeEmptyMapMaterial(&MapMat, 20);
     SMappingM(ms) = MapMat;
 
-    return ms;
+    Smanag(*game) = ms;
 }
 
 void initStorageManager(char* wahanafilename, char* materialfilename, char* treefilename, manstor* ms){

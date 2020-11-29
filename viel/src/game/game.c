@@ -4,7 +4,6 @@
 #include "game.h"
 
 GAME createGame() {
-    //TODO vertex, pemain
     GAME g;
     float m = 1000;
     JAM j;
@@ -13,7 +12,7 @@ GAME createGame() {
     int et = 0;
     int at = 0;
     boolean mp = false;
-    manstor sm = createManagerStorage(&g);
+    createManagerStorage(&g);
     createManagerStorage(&g);
     Queue q;
     CreateEmptyQ(&q);
@@ -23,9 +22,18 @@ GAME createGame() {
     CurrDay(g) = cd;
     ExecTimes(g) = et;
     IsMP(g) = mp;
-    Smanag(g) = sm;
     actionTimes(g) = at;
     QueueG(g) = q;
+
+    MATRIKS Peta1, Peta2, Peta3, Peta4;
+
+    InitPeta("../../database/peta/peta1.txt", &Peta1);
+    InitPeta("../../database/peta/peta2.txt", &Peta2);
+    InitPeta("../../database/peta/peta3.txt", &Peta3);
+    InitPeta("../../database/peta/peta4.txt", &Peta4);
+
+    Graph Gr = InitGraphPeta(Peta1, Peta2, Peta3, Peta4);
+    Graf(g) = Gr;
 
     return g;
 }
@@ -36,6 +44,30 @@ GAME createGame() {
 //- upgrade
 //- execute
 //- undo
+
+void move(GAME * g){
+    printf("Intial Map\n");
+    Graph G = Graf(*g);
+    TulisMATRIKS(InfoMATRIKS(G));
+    while (true) {
+        STARTKATA();
+        while (!EndKata){
+            if (IsKataSama(CKata, CreateKata("W") ) || IsKataSama(CKata, CreateKata("w") ) ) {
+                MovePlayer(&G, 0, -1);
+            } else if (IsKataSama(CKata, CreateKata("A") ) || IsKataSama(CKata, CreateKata("a") ) ) {
+                MovePlayer(&G, -1, 0);
+            } else if (IsKataSama(CKata, CreateKata("S") ) || IsKataSama(CKata, CreateKata("s") ) ) {
+                MovePlayer(&G, 0, 1);
+            } else if (IsKataSama(CKata, CreateKata("D") ) || IsKataSama(CKata, CreateKata("d") ) ) {
+                MovePlayer(&G, 1, 0);
+            }
+            
+            ADVKATA();
+        }
+
+        TulisMATRIKS(InfoMATRIKS(G));
+    }
+}
 
 void action(GAME * game) {
     char Ans[10];
@@ -126,7 +158,7 @@ void buildPush(GAME * game){
             }
             else{
                 // Kurangin waktu 
-                time_remain -= time_for_build;
+                TimeRemaining(Manact) -= time_for_build;
 
                 // Push aksi ke stack
                 manact Manact = Amanag(*game);
@@ -187,8 +219,8 @@ void upgradePush(GAME * game) {
     WAHANA whn_ada[Neff(storageW)];
     while (!found && i < Neff(storageW)) {
         WAHANA currwhn = whn_ada[i];
-        int X = Xplayer(InfoMATRIKS(Graph(*game)));
-        int Y = Yplayer(InfoMATRIKS(Graph(*game)));
+        int X = Xplayer(InfoMATRIKS(Graf(*game)));
+        int Y = Yplayer(InfoMATRIKS(Graf(*game)));
         POINT point_player;
         MakePoint (&point_player, X, Y);
         if (IsNearWahana(point_player, currwhn)) {
@@ -253,7 +285,8 @@ void upgradePush(GAME * game) {
                 // Push aksi ke stack
                 manact Manact = Amanag(*game);
                 MapWahana MW_AM = AMappingW(Manact);
-                Stack Stack_AM = StackAksi(Manact);        
+                Stack Stack_AM = StackAksi(Manact);
+                TimeRemaining(Manact) -= time_for_build;  
 
                 int id = Top(Stack_AM);
                 Aksi aksi_up = createAksi(id, 'u');
@@ -340,6 +373,7 @@ void buyMaterialPush(GAME * game){
         manact Manact = Amanag(*game);
         MapMaterial MM_AM = AMappingM(Manact);
         Stack Stack_AM = StackAksi(Manact);  
+        TimeRemaining(Manact) -= time_for_buy;
 
         int id = Top(Stack_AM);
         Aksi aksi_build = createAksi(id, 'm');
@@ -406,12 +440,12 @@ void undo(GAME * game){
         if (InfoAksi(dump) == 'b' || InfoAksi(dump) == 'u') {
             WAHANA W = MWGetWahana(AMappingW(Amanag(*game)), IDAksi(dump)); // yeet data wahana cuy
             MoneyUsed(Amanag(*game)) -= HargaBuild(W);
-            TimeRemaining(Amanag(*game)) -= DurasiBuild(W);
+            TimeRemaining(Amanag(*game)) += DurasiBuild(W);
         }
         else {
             MATERIAL M = MMGetMaterial(AMappingM(Amanag(*game)), IDAksi(dump)); // yeet data material cuy
             MoneyUsed(Amanag(*game)) -= (Harga(M) * Punya(M));
-            TimeRemaining(Amanag(*game)) -= (WaktuBeli(M) * Punya(M));
+            TimeRemaining(Amanag(*game)) += (WaktuBeli(M) * Punya(M));
         }
     }
 }

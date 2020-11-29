@@ -6,7 +6,7 @@
 
 typedef struct{
     MapWahana DataWahana;
-    MapMaterial DataMaterial; //TODO dipikir gmn cr masukin materialnya
+    MapMaterial DataMaterial;
     Stack StackAksi;
     float MoneyUsed;
     int timeRemaining; //dalam menit
@@ -18,10 +18,12 @@ typedef struct{
 #define AMappingM(X) (X).DataMaterial
 #define StackAksi(X) (X).StackAksi
 #define MoneyUsed(X) (X).MoneyUsed
-#define TimeRemaining(X) (X).timeRemaining //TODO cek lagi semua yg make ini udh bner apa belom
+#define TimeRemaining(X) (X).timeRemaining
 
 void createManagerAction(GAME * game);
 
 // dapetin wahana dengan idnya V output
 void getWahanaa(manact * ma, int id, WAHANA * whn);
+
+void resetTimeRemaining(manact * ma);
 #endif
