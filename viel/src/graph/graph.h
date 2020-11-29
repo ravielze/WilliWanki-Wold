@@ -22,4 +22,6 @@ boolean isCollideWahanaBuilding(AdrVertex* V, WAHANA W);
 
 boolean isNear(AdrVertex* V, char X);
     /* Mengecek apakah player berdeketan dengan suatu building seperti W, A, O */
+
+POINT getPlayer(AdrVertex* V);
 #endif 

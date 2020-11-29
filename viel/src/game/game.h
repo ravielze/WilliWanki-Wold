@@ -6,7 +6,7 @@
 #define Nil NULL
 
 #include "../constant/adt.h"
-#include "../plane/point.h"
+#include "../point/point.h"
 #include "../jam/jam.h"
 #include "../queue/queuelist.h"
 #include "../wahana/wahana.h"
@@ -17,6 +17,7 @@
 #include "storagemanager.h"
 #include "actionmanager.h"
 #include "../word/mesinkata.h"
+#include "../visitor/visitor.h"
 //TODO apa yang belum dipikirkan? linked list taruh mana
 
 GAME createGame();

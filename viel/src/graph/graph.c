@@ -60,6 +60,16 @@ void MovePlayer (AdrVertex* V, int difX, int difY) {
             Yplayer(InfoMATRIKS(*V) ) -= difY;
             printf("You can't go to the Wahana!\n");
             break;
+        case 'A':
+            Xplayer(InfoMATRIKS(*V) ) -= difX;
+            Yplayer(InfoMATRIKS(*V) ) -= difY;
+            printf("You can't go to the Antrian!\n");
+            break;
+        case 'O':
+            Xplayer(InfoMATRIKS(*V) ) -= difX;
+            Yplayer(InfoMATRIKS(*V) ) -= difY;
+            printf("You are already in the Office!\n");
+            break;
         case '>':
             Elmt(InfoMATRIKS(*V) , Ybefore, Xbefore) = '.';
             *V = Right(*V);
@@ -142,6 +152,7 @@ void UpdateMatriksWahana(AdrVertex* V, WAHANA W) {
             }
         }
 
+        // Teleport player to out wahana
         boolean playerPositionFound = false;
         for (int i = startI - 1; (i <= endI + 1) && !playerPositionFound; i++) {
             for (int j = startJ - 1; (j <= endJ + 1) && !playerPositionFound; j++) {
@@ -150,6 +161,7 @@ void UpdateMatriksWahana(AdrVertex* V, WAHANA W) {
                     || Elmt(InfoMATRIKS(*V), i, j) == 'A' 
                     || Elmt(InfoMATRIKS(*V), i, j) == 'W') continue;
                 else {
+                    Elmt(InfoMATRIKS(*V), i, j) == 'P'; 
                     Xplayer(InfoMATRIKS(*V) ) = j;
                     Yplayer(InfoMATRIKS(*V) ) = i;
                     playerPositionFound = true;
@@ -203,4 +215,10 @@ boolean isNear(AdrVertex* V, char X){
             || Elmt(InfoMATRIKS(*V), Yplayer(InfoMATRIKS(*V) ) - 1, Xplayer(InfoMATRIKS(*V) ) ) == X
             || Elmt(InfoMATRIKS(*V), Yplayer(InfoMATRIKS(*V) ), Xplayer(InfoMATRIKS(*V) ) + 1) == X 
             || Elmt(InfoMATRIKS(*V), Yplayer(InfoMATRIKS(*V) ), Xplayer(InfoMATRIKS(*V) ) - 1) == X );
+}
+
+POINT getPlayer(AdrVertex* V){
+    POINT P;
+
+    Absis(P) = 
 }

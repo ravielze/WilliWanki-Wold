@@ -1,12 +1,12 @@
 #include "visitor.h"
 /* Ambil wahana yang ingin dinaiki (paling atas stack) */
-WAHANA todonow(Visitor v, GAME *g){
-    MapWahana CMap = SMappingW(Smanag(*g));
+int todonow(Visitor v){
+    int idwahana = -1;
     if (!IsStackEmpty(todo(v))){
-        int idwahana = IDAksi(InfoTop(todo(v)));
-        return MWGetWahana(CMap,idwahana);
+        idwahana = IDAksi(InfoTop(todo(v)));
+        return idwahana;
     }
-    return MWGetWahana(CMap,-1);
+    return idwahana;
 }
 
 /* Spawn Visitor */
@@ -69,10 +69,14 @@ void weabooGoToConcert(GAME*g) {
     while (A != Nil && inrides(Info(A))) A = Next(A);//Traversal untill found somone not in rides or till end of queue
     if (A != Nil) { /* Found Visitor foremost Visitor that is not in rides */
         /* Get used data */
-        ElTypeQ fmv; Visitor V = fmv;
+        ElTypeQ fmv;
         int cprio = Prio(A);
 
-        WAHANA wantodothiswahana = todonow(Info(A),g); /* TO DO : GATAU QUEUE WAHANA DIMANA, JADI GATAU MAU DIAPAIN WAKAWKWAKKAW */
+        /* Send visitor to wahana */
+        int idwahanatoride = todonow(fmv); /* TO DO : GATAU QUEUE WAHANA DIMANA, JADI GATAU MAU DIAPAIN WAKAWKWAKKAW */
+        Visitor V = fmv;
+        enqueueWahana(MWGetWahana(SMappingW(Smanag(*g)), idwahanatoride),V);
+
         /* Delete from todo list */
         Aksi dump;
         PopAksi(&todo(V),&dump); 
@@ -100,7 +104,7 @@ void updateWeaboo(GAME*g) {
         long durasi = Durasi(time_Visitor , time_now);
 
         // Waktu update kesabaran : 10 menit
-        long waktu_update_kesabaran = 10;
+        long waktu_update_kesabaran = 30;
         
         if (durasi > waktu_update_kesabaran){
             int kesabaran_turun = durasi % waktu_update_kesabaran;

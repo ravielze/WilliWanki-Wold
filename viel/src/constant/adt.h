@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <time.h>
 #include "../boolean.h"
 
 #include "../game/game.h"
@@ -51,14 +52,14 @@ typedef struct Whn{
     POINT lokasi;
     int durasi;
     boolean isDasar;
-    float hargaBuild; //TODO masukin ke wahana.c
-    int vertex; //TODO masukin ke wahana.c
-    int durasiBuild; //TODO masukin ke wahana.c
+    float hargaBuild; 
+    int vertex; 
+    int durasiBuild; 
     
     BinTree uptree;
     MATERIAL bahan;
 
-    Queue antrian_wahana; //TODO masukin ke wahana.c
+    Queue antrian_wahana; 
 } WAHANA;
 
 /* AKSI */
@@ -91,7 +92,7 @@ typedef struct {
 typedef int Mindeks; /* Mindeks baris, kolom */
 typedef char MElType; 
 typedef struct { 
-	MElType Mem[BrsMax+1][KolMax+1];
+	MElType Mem[99+1][99+1];
     int NBrsEff; /* banyaknya/ukuran baris yg terdefinisi */
 	int NKolEff; /* banyaknya/ukuran kolom yg terdefinisi */
     int Xplayer;

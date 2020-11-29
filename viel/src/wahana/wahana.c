@@ -1,4 +1,5 @@
 #include "wahana.h"
+#include "../queue/queuelist.h"
 
 WAHANA createWahana(char* in){
     WAHANA whn;
@@ -8,20 +9,20 @@ WAHANA createWahana(char* in){
         NamaWhn(whn), TipeWhn(whn), DeskripsiWhn(whn), &(KpstsWhn(whn)),
         &(SizeWhn(whn)), &(HargaTiket(whn)), &(RusakGakSih(whn)), &(Absis(LokWhn(whn))), &(Ordinat(LokWhn(whn))),
         &(DurasiWhn(whn)), &(WahanaDasar(whn)), &(HargaBuild(whn)), &(InVertex(whn)));
-
+    CreateEmptyueueWahana(whn);
     return whn;
 }
 
 /**
- * Mengubah Wahana menjadi String.
+ * Mengubah Wahana menjadi String. 
  */
-void WahanatoString(WAHANA whn, char* result){
+void WahanatoString(WAHANA whn, char* result) {
     char rsl[1000];
     sprintf(rsl, "%s %s %s %d %d %f %d %d %d %d %d %f %d",
         NamaWhn(whn), TipeWhn(whn), DeskripsiWhn(whn), (KpstsWhn(whn)),
         (SizeWhn(whn)), (HargaTiket(whn)), (RusakGakSih(whn)), (Absis(LokWhn(whn))), (Ordinat(LokWhn(whn))),
-        (DurasiWhn(whn)), (WahanaDasar(whn)), (HargaBuild(whn)), (InVertex(whn)));
-    result = rsl;
+        (DurasiWhn(whn)), (WahanaDasar(whn)), (HargaBuild(whn)), (InVertex(whn)), (DurasiBuild(whn)));
+    *result = rsl;
 }
 
 // Wahananya mau rusak/enggak?
@@ -87,4 +88,18 @@ boolean isNearWahana(POINT P, WAHANA whn){
     }
 
     return IsNear;
+}
+
+
+/* Enqueue visitor to rides with always 0 priority */
+void enqueueWahana(WAHANA*w,Visitor v){
+    Enqueue(&QueueWahana(*w),v,0); 
+}
+
+/* Dequeue visitor from rides */
+int dequeueWahana(WAHANA*w){
+    int idvisitorreturned;
+    Visitor v;
+    Dequeue(&QueueWahana(*w),&v);
+    return visitorid(v);
 }

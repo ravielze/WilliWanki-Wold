@@ -1,8 +1,8 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "game.h"
 
+
+/* UNTUK INITIALIZATION GAME, BUKAN UNTUK BUAT GAME */
+/* F.S  GAME SUDAH DIISI DENGAN DATA YANG DIPERLUKAN*/
 GAME createGame() {
     GAME g;
     float m = 1000;
@@ -14,8 +14,6 @@ GAME createGame() {
     boolean mp = false;
     createManagerStorage(&g);
     createManagerStorage(&g);
-    Queue q;
-    CreateEmptyQ(&q);
 
     Money(g) = m;
     Time(g) = j;
@@ -23,8 +21,8 @@ GAME createGame() {
     ExecTimes(g) = et;
     IsMP(g) = mp;
     actionTimes(g) = at;
-    GameQueue(g) = q;
-
+    generateWeaboo(&g); /* GENERATING START QUEUE */
+    
     MATRIKS Peta1, Peta2, Peta3, Peta4;
 
     InitPeta("../../database/peta/peta1.txt", &Peta1);
@@ -216,8 +214,8 @@ void upgradePush(GAME * game) {
     // Traversal dekat wahana di list wahana
     int i = 0;
     boolean found = false;
-    WAHANA whn_ada[Neff(storageW)];
-    while (!found && i < Neff(storageW)) {
+    WAHANA whn_ada[NEff(storageW)];
+    while (!found && i < NEff(storageW)) {
         WAHANA currwhn = whn_ada[i];
         int X = Xplayer(InfoMATRIKS(Graf(*game)));
         int Y = Yplayer(InfoMATRIKS(Graf(*game)));
@@ -336,8 +334,8 @@ void buyMaterialPush(GAME * game){
     // ARRAYLISTMAT isinya smua material    
     ARRAYLISTMAT mat_storage = StorageM(Manstor);
     MATERIAL * matList = TI(mat_storage);
-    MATERIAL select[Neff(mat_storage)];
-    for (int i=0 ; i < Neff(mat_storage) ; i++){
+    MATERIAL select[NEff(mat_storage)];
+    for (int i=0 ; i < NEff(mat_storage) ; i++){
         MATERIAL currMat = matList[i];
         select[i] = currMat;
         printf("%d. ", (i+1));
@@ -406,6 +404,7 @@ boolean IsBuildAbleSenpai(WAHANA thefkinwahana,GAME *game) {
     // TODO: keliatannya plan ga perlu(?) karena d spek tuh langsung d kasih liat wahana tuh dmna
     manact Manak = Amanag(*game);
     manstor Manstor = Smanag(*game);
+    //TODO implement iscollide dari graf buat ngecek nabrak A, O atau tembok
     // Cek tabrakan sama yang plan
     if (!IsStackEmpty(StackAksi(Manak))){
         for (int i = 0; i < Top(StackAksi(Manak)); i++){
@@ -427,7 +426,6 @@ boolean IsBuildAbleSenpai(WAHANA thefkinwahana,GAME *game) {
 /* Pop sekali
    waktu juga berkurang */
 void undo(GAME * game){
-    // TODO: kalo build, bikin 'W' jadi gon d petanya   
     if (!IsStackEmpty(StackAksi(Amanag(*game)))) {
         // ngurusin total aksi yeeeeeeeeeee 
         actionTimes(*game)--;
