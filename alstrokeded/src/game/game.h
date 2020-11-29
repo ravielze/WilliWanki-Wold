@@ -95,6 +95,9 @@ void GoToPrepare(GAME *game);
 /* Office Detail */
 void office_detail(GAME *game);
 
+/* Detail di samping wahana */
+void detail(GAME *game);
+
 time_t t;
 
 void initRNG();

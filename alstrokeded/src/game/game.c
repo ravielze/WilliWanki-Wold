@@ -7,10 +7,7 @@ GAME createGame() {
     GAME g;
     float m = 1000;
     JAM j;
-    MakeJam(&j, 21, 0);
-    int cd = 1;
-    int et = 0;
-    int at = 0;
+    MakeJam(&j, 18, 0);
     boolean mp = false;
     Queue q; CreateEmptyQ(&q);
     createManagerStorage(&g);
@@ -18,10 +15,10 @@ GAME createGame() {
 
     Money(g) = m;
     Time(g) = j;
-    CurrDay(g) = cd;
-    ExecTimes(g) = et;
+    CurrDay(g) = 1;
+    ExecTimes(g) = 0;
     IsMP(g) = mp;
-    actionTimes(g) = at;
+    actionTimes(g) = 0;
     GameQueue(g) = q;
     
     MATRIKS Peta1, Peta2, Peta3, Peta4;
@@ -384,6 +381,13 @@ void upgradePop(GAME *game) {
     int idWahana = MWGetKey(SMappingW(Smanag(*game)),whn_up);
     InsertLastAL(&(StorageW(Smanag(*game))), idWahana);
 
+    // Update keterangan wahana baru 
+    History(whn_up) = History(whn_before);
+    InsertLastLL(&History(whn_up), MWGetKey(SMappingW(Smanag(*game)), whn_before));
+    MakeEmptyLL(&History(whn_before));
+
+    setRusak(&whn_before, false);
+    MakePoint (&LokWhn(whn_before), -1, -1);
 }
 
 void buyMaterialPush(GAME * game){
@@ -545,7 +549,7 @@ void mainphase(GAME * game) {
 
 /* InverseStack, terus pop 1 per 1 terus jalanin */
 void ExecutePhase(GAME * game) {
-    if (CurrDay(*game) >= ExecTimes(*game)){
+    if (CurrDay(*game) <= ExecTimes(*game)){
         printf("Anda sudah melakukan execution hari ini.");
         return;
     }
@@ -573,6 +577,10 @@ void ExecutePhase(GAME * game) {
             }
         }
         GeneratePengunjung(game);
+
+        // Set variabel jam ke jam buka
+        JAM jam_buka; MakeJam(&jam_buka, 6, 0);
+        Time(*game) = jam_buka;
         
         ExecTimes(*game)++;
     }
@@ -830,6 +838,9 @@ void GoToPrepare(GAME *game){
 
     // Ganti boolean IsMainPhase
     IsMP(*game) = false;
+    MakeStack(&(StackAksi(Amanag(*game))));
+    MoneyUsed(Amanag(*game)) = 0;
+    TimeRemaining(Amanag(*game)) = 720;
 
     // Usir semua pelanggan
     deleteWeaboo(game);
@@ -912,4 +923,36 @@ void printWahanaOffice (WAHANA w,GAME*g) {
     
     printf("Durasi    : %d\n", DurasiWhn(w));
     printf("Ukuran    : %d\n", SizeWhn(w));
+}
+
+/* Detail di samping wahana */
+void detail(GAME *game){
+    WAHANA W;
+
+    // Traversal dekat wahana di list wahana
+    int i = 0;
+    boolean found = false;
+
+    // Ambil posisi player
+    POINT point_player = getPlayer(Graf(*game));
+
+    while (!found && i < NEff(StorageW(Smanag(*game)))) {
+        getWahana(&(Smanag(*game)), ItemOf(StorageW(Smanag(*game)), i), &W);
+
+        printf("Apakah loop ini di jalankan");
+
+        if (isNearWahana(point_player, W)) {
+            found = true;
+        } else {
+            i++;
+        }
+    }
+
+    if (!found){
+        printf("Tidak berada di dekat suatu wahana.\n");
+    }
+    else{
+        printWahana(W,game);
+    }
+
 }

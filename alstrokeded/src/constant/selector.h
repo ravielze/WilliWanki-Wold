@@ -119,7 +119,7 @@
 #define GameQueue(G) (G).GameQueue
 #define Pemain(G) (G).Pemain
 #define Money(G) (G).Money
-#define Time(G) (G).Time
+#define Time(G) (G).Time // JAM
 #define CurrDay(G) (G).currentDay
 #define ExecTimes(G) (G).executionTimes
 #define IsMP(G) (G).isMainPhase

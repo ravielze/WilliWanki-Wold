@@ -13,23 +13,35 @@ void printMenu(GAME g){
     printf("|          Day #%d         |\n", CurrDay(g) );
     printf("+=====++=====+=====++=====+\n\n");
     printf("Player: %s\n", Pemain(g) );
-    JAM j; MakeJamFromMenit(&j, TimeRemaining(Amanag(g))-360);
-    printf("Time Remaining: "); TulisJam(j); printf("\n");
+    printf("Current Time:\n "); TulisJam(Time(g)); printf("\n");
     printf("Money: %.2f\n", Money(g) );
 
     TulisMATRIKS(InfoMATRIKS(Graf(g)));
     
+    printf("Player: %s\n", Pemain(g) );
+    printf("Money: %.2f\n", Money(g) );
+
     if (IsMP(g)) {
         printf("Apa yang ingin dilakukan?\n");
         printf("  - Perbaiki wahana     : REPAIR\n");
         printf("  - Lihat detail wahana : DETAIL\n");
-        printf("  - Untuk pergerakan    : OFFICE\n");
+        if (isNear(Graf(g) , 'O')) printf("  - Masuk ke office     : OFFICE\n");
         if (isNear(Graf(g) , 'A')) printf("  - Melayani pengunjung : SERVE\n");
         printf("  - Skip to prep phase  : PREPARE\n");
         printf("  - Keluar game         : QUIT\n");
         printf("  - Untuk pergerakan    : w, a, s, d\n");
         printf("Masukkan perintah: ");    
     } else {
+        printf("Current Time: 18.00\n");
+        printf("Opening Time: 06.00\n");
+        printf("Time Remaining: ");
+        JAM j; MakeJamFromMenit(&j, TimeRemaining(Amanag(g))-360); TimeRemain(j);
+        printf("\nTotal aksi yang akan dilakukan: %d\n", actionTimes(g));
+        printf("Total waktu yang dibutuhkan: "); 
+        JAM j2; MakeJamFromMenit(&j2, (720 - TimeRemaining(Amanag(g)))); TimeRemain(j2);
+        // Jam j1; MakeJamFromMenit(&j1, TimeRemaining(Amanag(g)))
+        printf("\nTotal uang yang dibutuhkan: %f\n", MoneyUsed(Amanag(g)));
+
         printf("Apa yang ingin dilakukan?\n");
         printf("  - Bangun wahana       : BUILD\n");
         printf("  - Beli material       : BUY\n");
@@ -84,9 +96,9 @@ int main(){
                 upgradePush(&g);
             } else if (IsKataSama(CKata, CreateKata("EXECUTE")) && (!IsMP(g))) {
                 ExecutePhase(&g);
-            } else if (IsKataSama(CKata, CreateKata("UNDO")) && (IsMP(g))) {
+            } else if (IsKataSama(CKata, CreateKata("UNDO")) && (!IsMP(g))) {
                 undo(&g);
-            } else if (IsKataSama(CKata, CreateKata("QUIT")) && (IsMP(g))) {
+            } else if (IsKataSama(CKata, CreateKata("QUIT"))) {
                 printf("DEFEAT THE TUBES DRAGON FIRST!\n");
                 return 0;
             } else if (IsKataSama(CKata, CreateKata("REPAIR")) && (IsMP(g))){
