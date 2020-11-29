@@ -1,15 +1,14 @@
 #include "wahana.h"
-#include "../queue/queuelist.h"
 
 WAHANA createWahana(char* in){
     WAHANA whn;
     char copied[1000];
     strcpy(copied, in);
-    sscanf(copied, "%s %s %s %d %d %f %d %d %d %d %d %f %d",
+    sscanf(copied, "%s %s %s %d %d %f %d %d %d %d %d %f %d %d",
         NamaWhn(whn), TipeWhn(whn), DeskripsiWhn(whn), &(KpstsWhn(whn)),
         &(SizeWhn(whn)), &(HargaTiket(whn)), &(RusakGakSih(whn)), &(Absis(LokWhn(whn))), &(Ordinat(LokWhn(whn))),
-        &(DurasiWhn(whn)), &(WahanaDasar(whn)), &(HargaBuild(whn)), &(InVertex(whn)));
-    CreateEmptyueueWahana(whn);
+        &(DurasiWhn(whn)), &(WahanaDasar(whn)), &(HargaBuild(whn)), &(InVertex(whn)), &(DurasiBuild(whn)));
+    CreateEmptyQ(&(QueueWahana(whn)));
     return whn;
 }
 
@@ -18,11 +17,11 @@ WAHANA createWahana(char* in){
  */
 void WahanatoString(WAHANA whn, char* result) {
     char rsl[1000];
-    sprintf(rsl, "%s %s %s %d %d %f %d %d %d %d %d %f %d",
+    sprintf(rsl, "%s %s %s %d %d %f %d %d %d %d %d %f %d %d",
         NamaWhn(whn), TipeWhn(whn), DeskripsiWhn(whn), (KpstsWhn(whn)),
         (SizeWhn(whn)), (HargaTiket(whn)), (RusakGakSih(whn)), (Absis(LokWhn(whn))), (Ordinat(LokWhn(whn))),
         (DurasiWhn(whn)), (WahanaDasar(whn)), (HargaBuild(whn)), (InVertex(whn)), (DurasiBuild(whn)));
-    *result = rsl;
+    result = rsl;
 }
 
 // Wahananya mau rusak/enggak?
@@ -50,8 +49,8 @@ boolean isCollide(WAHANA whn, WAHANA whn2){
     int x22 = Absis(LokWhn(whn2)) + sz2;
     int y22 = Ordinat(LokWhn(whn2)) + sz2;
 
-    return (((x11 <= x21 && x21 <= x12 && y11 <= y21 && y21 <= y22)
-            || (x11 <= x22 && x22 <= x12 && y11 <= y22 && y22 <= y22)) && (InVertex(whn) == InVertex(whn2)));
+    return (((x11 <= x21 && x21 <= x12 && y11 <= y21 && y21 <= y12)
+            || (x11 <= x22 && x22 <= x12 && y11 <= y22 && y22 <= y12)) && (InVertex(whn) == InVertex(whn2)));
 }
 
 boolean isWahanaEqual(WAHANA whn1, WAHANA whn2){
@@ -98,7 +97,6 @@ void enqueueWahana(WAHANA*w,Visitor v){
 
 /* Dequeue visitor from rides */
 int dequeueWahana(WAHANA*w){
-    int idvisitorreturned;
     Visitor v;
     Dequeue(&QueueWahana(*w),&v);
     return visitorid(v);

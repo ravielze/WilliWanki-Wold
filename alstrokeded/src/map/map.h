@@ -1,6 +1,7 @@
 #ifndef _MAP_H_
 #define _MAP_H_
 #include "../constant/adt.h"
+#include "../wahana/wahana.h"
 
 /*** Operasi ***/
 /* CreateMap */

@@ -4,6 +4,10 @@
 #define WAHANA_H
 
 #include "../constant/adt.h"
+#include "../queue/queuelist.h"
+#include "../point/point.h"
+#include "../tree/tree.h"
+#include "../material/material.h"
 
 /*
  * Membuat Wahana dari String. Format: %s %s %s %d %d %f %d %d %d %d %d %f %d

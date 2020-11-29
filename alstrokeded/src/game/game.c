@@ -176,7 +176,9 @@ void buildPush(GAME * game){
                 // Push aksi ke stack
                 manact Manact = Amanag(*game);
                 MapWahana MW_AM = AMappingW(Manact);
-                Stack Stack_AM = StackAksi(Manact);        
+                Stack Stack_AM = StackAksi(Manact);
+                
+                 
 
                 int id = Top(Stack_AM);
                 Aksi aksi_build = createAksi(id, 'b');
@@ -398,7 +400,6 @@ void buyMaterialPush(GAME * game){
     }
     else{
         // Push Aksi
-        manact Manact = Amanag(*game);
         MapMaterial MM_AM = AMappingM(Manact);
         Stack Stack_AM = StackAksi(Manact);  
         TimeRemaining(Manact) -= time_for_buy;
@@ -481,6 +482,7 @@ void undo(GAME * game){
 
 /* langsung ke main phase dan kosongkan stack */
 void mainphase(GAME * game) {
+    // TODO: state main phase,
     Aksi temp;
     while (!IsStackEmpty(StackAksi(Amanag(*game)))) {
         Pop(&(StackAksi(Amanag(*game))), &temp);
@@ -490,7 +492,7 @@ void mainphase(GAME * game) {
 
 /* InverseStack, terus pop 1 per 1 terus jalanin */
 void ExecutePhase(GAME * game) {
-    // print money skrg, 
+    // TODO: state main phase
     Stack target;
     Aksi temp;
     MakeEmpty(&target);
@@ -504,9 +506,156 @@ void ExecutePhase(GAME * game) {
         else if (InfoAksi(temp) == 'm') buyMaterialPop(game);
     }
     /* BATAS INI */
-    generateWeaboo(game); /* GENERATING START QUEUE */
+    GeneratePengunjung(game); /* GENERATING START QUEUE */
 }
 
-void Serve(GAME * game) {
-    weabooGoToConcert(game);
+void Serve(GAME * g) {
+    qaddress A = Head(GameQueue(*g));
+    while (A != Nil && inrides(Info(A))) A = Next(A);//Traversal untill found somone not in rides or till end of queue
+    if (A != Nil) { /* Found Visitor foremost Visitor that is not in rides */
+        /* Get used data */
+        ElTypeQ fmv;
+        int cprio = Prio(A);
+
+        /* Send visitor to wahana */
+        int idwahanatoride = todonow(fmv); /* TO DO : GATAU QUEUE WAHANA DIMANA, JADI GATAU MAU DIAPAIN WAKAWKWAKKAW */
+        Visitor V = fmv;
+        WAHANA thewahana = MWGetWahana(SMappingW(Smanag(*g)),idwahanatoride);
+        enqueueWahana(&thewahana, V);
+
+        /* Delete from todo list */
+        Aksi dump;
+        PopAksi(&todo(V),&dump); 
+        /* Re enter queue with prio + 1 */
+        if (IsStackEmpty(todo(V))) { /* Visitor has completed his/her to do list */
+            Dequeue(A,&fmv);
+        }
+        else { /* Visitor has not yet completed his/her to do list */
+            Dequeue(A,&fmv); 
+            Enqueue(&GameQueue(*g),fmv,cprio+1);
+        }
+    }
 }
+
+void GeneratePengunjung (GAME * g) {
+    Visitor genV;
+    int maxVisitor = 5; /* CHANGE THIS TO CHANGE NUMBER OF VISITOR */
+    int theVisitor = rand() & maxVisitor;
+
+    /* Check if there a wahana exist or not */
+    if (!IsALEmpty(StorageW(Smanag(*g)))){
+        int id;
+        for (int i = 0; i < theVisitor; i++){
+            id = theVisitor-i; /* Create Visitor id */
+            genV = SpawnVisitor(id,g);
+            Enqueue(&GameQueue(*g),genV,0); /* Put Visitor in queue with 0 priority at start */
+        }
+    }
+}
+
+/* Ambil wahana yang ingin dinaiki (paling atas stack) */
+int todonow(Visitor v){
+    int idwahana = -1;
+    if (!IsStackEmpty(todo(v))){
+        idwahana = IDAksi(InfoTop(todo(v)));
+        return idwahana;
+    }
+    return idwahana;
+}
+
+/* Spawn Visitor */
+Visitor SpawnVisitor(int id, GAME * g){
+    Visitor v;
+    int startpatience = 10; /* EDIT THIS TO CHANGE START PATIENCE, 0 PATIENCE MEANS VISITOR LEAVE */
+    visitorid(v) = id;
+    todo(v) = generateToDo(g);
+    patience(v) = startpatience;
+    entertime(v) = Time(*g);
+    inrides(v) = false;
+    return v;
+}
+
+/* Menggenerate to do list Visitor */
+Stack generateToDo(GAME *g){
+    Stack S;
+
+    int todocap = 10; /* jumlah wahana yang akan dinaiki */
+
+    ARRAYLIST ownedrides = StorageW(Smanag(*g));
+
+    int totaltodo = rand() % todocap;
+    int i = 1;
+    int selectedid; Aksi selectedAksi;
+    while (i < NEff(ownedrides) && i < todocap){
+        selectedid = rand() % (NEff(ownedrides));
+        if (!isIDInStack(S,selectedid)) {
+            selectedAksi = createAksi(ItemOf(ownedrides, selectedid),'r');
+            PushAksi(&S,selectedAksi);
+        }
+    }
+    return S;
+}
+
+/* Force all Visitor to quit if its night time */
+void deleteWeaboo(GAME* g) {
+    int neff = NEff(StorageW(Smanag(*g) ) );
+    ARRAYLIST temp;
+    for (int i = 0; i < neff; i++){
+        WAHANA WW = MWGetWahana(SMappingW(Smanag(*g) ), ItemOf(StorageW(Smanag(*g) ), i) ); /* dapet wahana */
+        int doctorNEffario = NBElmtQ(QueueWahana(WW));
+        for (int j = 0; j < doctorNEffario;j++){
+            temp = StorageW(Smanag(*g));
+            dequeueWahana(&WW);
+        }
+    }
+}
+
+/* Update the Visitor patience and priority depending on the time they enter/re-enter the queue */
+void updateWeaboo(GAME*g) {
+    JAM time_now = Time(*g);
+    Queue antrian = GameQueue(*g);
+    int jlh_weaboo = NBElmtQ(antrian);
+
+    qaddress P = Head(antrian);
+    for (int i = 0; i < jlh_weaboo ; i++){
+        Visitor currV = Info(P);
+        JAM time_Visitor = entertime(currV);
+        long durasi = Durasi(time_Visitor , time_now);
+
+        // Waktu update kesabaran : 10 menit
+        long waktu_update_kesabaran = 30;
+        
+        if (durasi > waktu_update_kesabaran){
+            int kesabaran_turun = durasi % waktu_update_kesabaran;
+            patience(currV) -= kesabaran_turun;
+
+            // TODO : JAM tiap Visitor di update tiap kesabaran naik (?)
+            int menit_hilang = kesabaran_turun * waktu_update_kesabaran;
+            entertime(currV) = NextNMenit(time_Visitor,menit_hilang);
+        }
+    }
+}
+
+/* Visitor coming back to queue after the rides */
+void getbacktoWeaboo(GAME*g,WAHANA*w) {
+    /* TO DO : GET VISITOR FROM WAHANA, CURRENTLY UNKNOW SINCE WAHANA DOESNT HAVE QUEUE */
+    /* Get visitor id from dequeued wahana */
+    int vid = dequeueWahana(w); 
+
+    qaddress A = Head(GameQueue(*g));
+    while (A != Nil && visitorid(Info(A)) != vid) A = Next(A); /* Travesal until visitorid(A) is vid */
+    if (visitorid(Info(A)) == vid) inrides(Info(A)) = false; /* Visitor has yet finished rides he/she want */
+    /* else : Visitor is not found in main queue (has finished all rides he/she wanted) */
+}
+
+time_t t;
+
+void initRNG(){
+    srand((unsigned) time(&t));
+}
+
+void printRNG(){
+    printf("%d\n", RNG());
+}
+
+//NOTE jgn lupa kasih fungsi kalau tiba2 wahana rusak, atau emang udah ada subtitusinya?

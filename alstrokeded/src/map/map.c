@@ -19,13 +19,15 @@ MapEntryMaterial CreateMapEMaterial(int id, MATERIAL M) {
 
 /* Make Empty */
 void MakeEmptyMapWahana(MapWahana *MW,int max){
-    MapEntry(*MW) = (MapWahana*)malloc(max*sizeof(MapWahana));
+    MapEntryWahana * newTab = (MapEntryWahana *) malloc(max*sizeof(MapWahana));
+    MapEntry(*MW) = newTab;
     MaxEl(*MW) = max;
     NEff(*MW) = 0;
 }
 
 void MakeEmptyMapMaterial(MapMaterial *MM, int max){
-    MapEntry(*MM) = (MapMaterial*)malloc(max*sizeof(MapMaterial));
+    MapEntryMaterial * newTab = (MapEntryMaterial *) malloc(max*sizeof(MapMaterial));
+    MapEntry(*MM) = newTab;
     MaxEl(*MM) = max;
     NEff(*MM) = 0;
 }
@@ -100,7 +102,7 @@ void DeleteEntryWahana(MapWahana *MW,int id) {
 
 void DeleteEntryMaterial(MapMaterial *MM,int id) {
 // Mengurangi MaxEl jika yang terisi kurang dari 25%
-    if (Neff(*MM) <= (MaxEl(*MM) / 4)) {
+    if (NEff(*MM) <= (MaxEl(*MM) / 4)) {
         MaxEl(*MM) /= 2;
         MapEntryMaterial *temp = (MapEntryMaterial *) realloc(MapEntry(*MM), (MaxEl(*MM) * sizeof(MapMaterial)));
         if (temp == Nil) {
@@ -151,22 +153,12 @@ void AddEntryMaterial(MapMaterial *MM, MapEntryMaterial entry){
 WAHANA MWGetWahana(MapWahana MW, int id){
     /* Prekondisi : wahana ada*/
     int rid = IsEntryWahana(MW, id);
-    if (rid == -1){ 
-        WAHANA whnkosong;
-        return whnkosong;
-    }
-
     return value(MapEntry(MW)[rid]);
 }
 
 MATERIAL MMGetMaterial(MapMaterial MM, int id) {
     /* Prekondisi : material ada*/
     int rid = IsEntryMaterial(MM ,id);
-    if (rid == -1){
-        MATERIAL matkosong;
-        return matkosong;
-    }
-
     return value(MapEntry(MM)[rid]);
 }
 

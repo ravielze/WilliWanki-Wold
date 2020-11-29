@@ -18,7 +18,7 @@ boolean IsEmptyQ (Queue Q){
 }
 
 int NBElmtQ (Queue Q){
-    if (IsEmpty(Q)){
+    if (IsEmptyQ(Q)){
         return 0;
     }
     else{
@@ -39,9 +39,11 @@ void CreateEmptyQ (Queue * Q){
 /* *** Primitif Add/Delete *** */
 void Enqueue (Queue * Q, ElTypeQ X, int NewPrio){
     qaddress P; // untuk alokasi
-    Alokasi(&P,X,NewPrio);
+    AlokasiQ(&P,X,NewPrio);
 
-    if (IsEmptyQ(*Q)) Head(*Q) == P;
+    if (IsEmptyQ(*Q)){
+        Head(*Q) = P;
+    } 
     else {
         if (Prio(Head(*Q)) <= NewPrio){// Prio Head sama dengan NewPrio maka NewPrio taruh paling depan
             Next(P) = Head(*Q);
@@ -73,12 +75,12 @@ void Dequeue (Queue * Q, ElTypeQ * X){
     else{
         Head(*Q) = Nil;
     }
-    Dealokasi(P);
+    DealokasiQ(P);
 }
 
 void DequeueN (Queue * Q, ElTypeQ * X, int N, int *Ndequeued){
     int temp = N;
-    while ((!IsEmpty(*Q)) && (temp != 0)){
+    while ((!IsEmptyQ(*Q)) && (temp != 0)){
         qaddress P;
         *X = InfoHead(*Q);
         P = Head(*Q);
@@ -89,7 +91,7 @@ void DequeueN (Queue * Q, ElTypeQ * X, int N, int *Ndequeued){
         else{
             Head(*Q) = Nil;
         }
-        Dealokasi(P);
+        DealokasiQ(P);
 
         Ndequeued++;
         temp--;

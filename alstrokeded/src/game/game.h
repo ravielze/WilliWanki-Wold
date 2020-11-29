@@ -17,7 +17,7 @@
 #include "storagemanager.h"
 #include "actionmanager.h"
 #include "../word/mesinkata.h"
-#include "../visitor/visitor.h"
+//#include "../visitor/visitor.h"
 //TODO apa yang belum dipikirkan? linked list taruh mana
 
 GAME createGame();
@@ -70,5 +70,27 @@ void ExecutePhase(GAME * game);
 
 /* Seperti namanya, melayani pelayanan */
 void Serve(GAME * game);
+
+int todonow(Visitor v);
+
+/* Spawn Visitor */
+Visitor SpawnVisitor(int id, GAME * g);
+
+/* Menggenerate to do list Visitor */
+Stack generateToDo(GAME *g);
+
+/* Force all Visitor to quit if its night time */
+void deleteWeaboo(GAME* g);
+
+/* Update the Visitor patience and priority depending on the time they enter/re-enter the queue */
+void updateWeaboo(GAME*g);
+
+/* Visitor coming back to queue after the rides */
+void getbacktoWeaboo(GAME*g,WAHANA*w);
+
+time_t t;
+
+void initRNG();
+void printRNG();
 
 #endif
