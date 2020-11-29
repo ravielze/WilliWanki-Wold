@@ -18,16 +18,29 @@ void printMenu(GAME g){
     printf("Money: %.2f\n", Money(g) );
 
     TulisMATRIKS(InfoMATRIKS(Graf(g)));
-
-    printf("Apa yang ingin dilakukan?\n");
-    printf("  1. Bangun wahana      : build\n");
-    printf("  2. Beli material      : buy\n");
-    printf("  3. Upgrade wahana     : upgrade\n");
-    printf("  4. Execute stack      : execute\n");
-    printf("  5. Undo last action   : undo\n");
-    printf("  6. Skip to main phase : main\n");
-    printf("  7. Untuk pergerakan   : w, a, s, d\n\n");
-    printf("Masukkan perintah: ");
+    
+    if (IsMP(g)) {
+        printf("Apa yang ingin dilakukan?\n");
+        printf("  - Perbaiki wahana     : REPAIR\n");
+        printf("  - Lihat detail wahana : DETAIL\n");
+        printf("  - Untuk pergerakan    : OFFICE\n");
+        if (isNear(Graf(g) , 'A')) printf("  - Melayani pengunjung : SERVE\n");
+        printf("  - Skip to prep phase  : PREPARE\n");
+        printf("  - Keluar game         : QUIT\n");
+        printf("  - Untuk pergerakan    : w, a, s, d\n");
+        printf("Masukkan perintah: ");    
+    } else {
+        printf("Apa yang ingin dilakukan?\n");
+        printf("  - Bangun wahana       : BUILD\n");
+        printf("  - Beli material       : BUY\n");
+        printf("  - Upgrade wahana      : UPGRADE\n");
+        printf("  - Execute stack       : EXECUTE\n");
+        printf("  - Undo last action    : UNDO\n");
+        printf("  - Skip to main phase  : MAIN\n");
+        printf("  - Keluar game         : QUIT\n");
+        printf("  - Untuk pergerakan    : w, a, s, d\n\n");
+        printf("Masukkan perintah: ");
+    }
 }
 
 int main(){
@@ -35,7 +48,7 @@ int main(){
     GAME g = createGame();
     boolean p = true;
     
-    printf("Whay is your name: ");
+    printf("Who is your name: ");
     STARTKATA();
     Pemain(g) = CKata.TabKata;
     ADVKATA();
@@ -58,49 +71,41 @@ int main(){
                 if (IsMP(g) ) TickTime(&g, 1);
             } 
             /* Player Actions */ 
-            else if (IsKataSama(CKata, CreateKata("BUILD"))) {
+            else if (IsKataSama(CKata, CreateKata("BUILD")) && (!IsMP(g))) {
                 p = false;
                 buildPush(&g);
-            } else if (IsKataSama(CKata, CreateKata("BUY"))) {
+            } else if (IsKataSama(CKata, CreateKata("BUY")) && (!IsMP(g))) {
                 p = false;
                 buyMaterialPush(&g);
-            } else if (IsKataSama(CKata, CreateKata("SERVE"))) {
-                p = false;
+            } else if (IsKataSama(CKata, CreateKata("SERVE")) && (IsMP(g))) {
                 Serve(&g);
-            } else if (IsKataSama(CKata, CreateKata("UPGRADE"))) {
+            } else if (IsKataSama(CKata, CreateKata("UPGRADE")) && (!IsMP(g))) {
                 p = false;
                 upgradePush(&g);
-            } else if (IsKataSama(CKata, CreateKata("EXECUTE"))) {
-                // p = false;
+            } else if (IsKataSama(CKata, CreateKata("EXECUTE")) && (!IsMP(g))) {
                 ExecutePhase(&g);
-            } else if (IsKataSama(CKata, CreateKata("UNDO"))) {
-                p = false;
+            } else if (IsKataSama(CKata, CreateKata("UNDO")) && (IsMP(g))) {
                 undo(&g);
-            } else if (IsKataSama(CKata, CreateKata("QUIT"))) {
+            } else if (IsKataSama(CKata, CreateKata("QUIT")) && (IsMP(g))) {
                 printf("DEFEAT THE TUBES DRAGON FIRST!\n");
                 return 0;
-            } else if (IsKataSama(CKata, CreateKata("REPAIR"))){
+            } else if (IsKataSama(CKata, CreateKata("REPAIR")) && (IsMP(g))){
                 p = false;
-                //REPAIR
-            } else if (IsKataSama(CKata, CreateKata("DETAIL"))) {
+                Repair(&g);
+            } else if (IsKataSama(CKata, CreateKata("DETAIL")) && (IsMP(g))) {
+                detail(&g);
+            } else if (IsKataSama(CKata, CreateKata("OFFICE")) && (IsMP(g))) {
                 p = false;
-                //REPAIR
-            } else if (IsKataSama(CKata, CreateKata("OFFICE"))) {
                 office_detail(&g);
-                p = false;
-                //REPAIR
-            } else if (IsKataSama(CKata, CreateKata("REPORT"))) {
-                p = false;
-                //REPAIR
-            } else if (IsKataSama(CKata, CreateKata("PREPARE"))) {
-                p = false;
-                //REPAIR
-            } else if (IsKataSama(CKata, CreateKata("MAIN"))) {
-                p = false;
-                //REPAIR
+            } else if (IsKataSama(CKata, CreateKata("PREPARE")) && (IsMP(g))) {
+                GoToPrepare(&g);
+            } else if (IsKataSama(CKata, CreateKata("MAIN")) && (!IsMP(g))) {
+                mainphase(&g);
+            } else {
+                printf("Command tidak ditemukan atau tidak tepat saatnya.");
             }
             ADVKATA();
-        }
+        }    
         if (p){
             printMenu(g);
         } else {

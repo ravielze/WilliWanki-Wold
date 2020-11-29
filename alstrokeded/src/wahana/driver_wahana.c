@@ -1,6 +1,6 @@
 #include "wahana.h"
 
-// unused driver, too many 
+// unused driver, too many dependencies
 
 int main() {
     // WAHANA createWahana(char* namawhn, char* tipewhn, char* deskripsi, int kpstswhn, int sizewhn, float hargatiket, boolean rusakgasi, int durasi, boolean iswahanadasar,float hargabuild, int vertex, int durasibuild);
@@ -11,6 +11,7 @@ int main() {
     WahanatoString(W, string);
     // A  roller_coaster gk 1  1  3.5 6  1  8  -1 -1 9.5 10 11 0
     // %s %s             %s %d %d %f  %d %d %d %d %d %f  %d %d %d
+    printf("%s", string);
     
     // void setRusak(WAHANA* whn, boolean rusakgak);
     if (!RusakGakSih(W)) {
