@@ -100,8 +100,9 @@ driver.o: $(RUN_C)
 
 all: array.o jam.o list.o matrix.o material.o point.o tree.o stack.o mesinkar.o mesinkata.o queuelist.o graph.o arraymat.o wahana.o map.o actionmanager.o storagemanager.o game.o mesinkar.o mesinkata.o driver.o
 
-exc: clean all
+run: all
 	$(CC) -Wall -o run array.o jam.o list.o matrix.o material.o point.o tree.o stack.o queuelist.o graph.o arraymat.o wahana.o map.o actionmanager.o storagemanager.o game.o mesinkar.o mesinkata.o driver.o
+	./run
 
 .PHONY: clean all
 

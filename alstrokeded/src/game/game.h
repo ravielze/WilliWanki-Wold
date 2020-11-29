@@ -5,6 +5,7 @@
 
 #define Nil NULL
 
+// #include "../word/mesinkata.h"
 #include "../constant/adt.h"
 #include "../point/point.h"
 #include "../jam/jam.h"
@@ -16,13 +17,9 @@
 #include "../matrix/matrix.h"
 #include "storagemanager.h"
 #include "actionmanager.h"
-//TODO apa yang belum dipikirkan? linked list taruh mana
 
 GAME createGame();
 
-/* Preparation Phase */
-
-void action(GAME * game);
 
 /*  Build Wahana
     1. Print List Wahana Dasar
@@ -85,6 +82,9 @@ void getbacktoWeaboo(GAME*g,WAHANA*w);
 
 /* Get wahana dari point */
 WAHANA getWahanaFromPoint(POINT P, manstor ms);
+
+/* Repair wahana */
+void Repair(GAME *game);
 
 time_t t;
 

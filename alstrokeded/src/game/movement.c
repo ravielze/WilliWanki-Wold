@@ -1,14 +1,14 @@
-#include "../word/mesinkata.h"
-#include "../matrix/matrix.h"
-#include "../graph/graph.h"
+// #include "../word/mesinkata.h"
+// #include "../matrix/matrix.h"
+// #include "../graph/graph.h"
 
 
-int main(){
-    GAME G = createGame();
+// int main(){
+//     GAME G = createGame();
 
-    move(&G);
-    return 0;
-}
+//     move(&G);
+//     return 0;
+// }
 // int main() {
 //     MATRIKS Peta1, Peta2, Peta3, Peta4;
 

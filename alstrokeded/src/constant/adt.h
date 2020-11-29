@@ -10,7 +10,6 @@
 #include <time.h>
 #include "../boolean.h"
 
-
 /* JAM */
 typedef struct {
 	int HH; /* integer [0..23] */
@@ -141,6 +140,7 @@ typedef struct Whn{
     char deskripsi[255];
 
     int kapasitas;
+    List history;
     int ukuran; //Harus ganjil dan >= 1
     float hargatiket;
     boolean rusak;

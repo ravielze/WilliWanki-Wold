@@ -22,6 +22,7 @@
 #define TipeWhn(W) (W).tipewahana
 #define DeskripsiWhn(W) (W).deskripsi
 #define KpstsWhn(W) (W).kapasitas
+#define History(W) (W).history
 #define SizeWhn(W) (W).ukuran
 #define HargaTiket(W) (W).hargatiket
 #define RusakGakSih(W) (W).rusak

@@ -9,6 +9,7 @@ WAHANA createWahana(char* in){
         &(SizeWhn(whn)), &(HargaTiket(whn)), &(RusakGakSih(whn)), &(Absis(LokWhn(whn))), &(Ordinat(LokWhn(whn))),
         &(DurasiWhn(whn)), &(WahanaDasar(whn)), &(HargaBuild(whn)), &(InVertex(whn)), &(DurasiBuild(whn)));
     CreateEmptyQ(&(QueueWahana(whn)));
+    MakeEmptyLL(&(History(whn)));
     return whn;
 }
 
