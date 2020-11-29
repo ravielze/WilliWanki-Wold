@@ -17,6 +17,7 @@ WAHANA createWahana(char* namawhn, char* tipewhn, char* deskripsi, int kpstswhn,
     HargaBuild(whn) = hargabuild;
     InVertex(whn) = vertex;
     DurasiBuild(whn) = durasibuild;
+    PelangganCounter(whn) = 0;
 
     CreateEmptyQ(&(QueueWahana(whn)));
     MakeEmptyLL(&(History(whn)));
@@ -28,10 +29,10 @@ WAHANA createWahana(char* namawhn, char* tipewhn, char* deskripsi, int kpstswhn,
  */
 void WahanatoString(WAHANA whn, char* result) {
     char rsl[1000];
-    sprintf(rsl, "%s %s %s %d %d %f %d %d %d %d %d %f %d %d",
+    sprintf(rsl, "%s %s %s %d %d %f %d %d %d %d %d %f %d %d %d",
         NamaWhn(whn), TipeWhn(whn), DeskripsiWhn(whn), (KpstsWhn(whn)),
         (SizeWhn(whn)), (HargaTiket(whn)), (RusakGakSih(whn)), (Absis(LokWhn(whn))), (Ordinat(LokWhn(whn))),
-        (DurasiWhn(whn)), (WahanaDasar(whn)), (HargaBuild(whn)), (InVertex(whn)), (DurasiBuild(whn)));
+        (DurasiWhn(whn)), (WahanaDasar(whn)), (HargaBuild(whn)), (InVertex(whn)), (DurasiBuild(whn)), PelangganCounter(whn));
     result = rsl;
 }
 

@@ -35,6 +35,7 @@
 #define InVertex(W) (W).vertex
 #define DurasiBuild(W) (W).durasiBuild
 #define QueueWahana(W) (W).antrian_wahana
+#define PelangganCounter(W) (W).pelanggan_counter
 
 /* ARRAY dan ARRAYMAT */
 #define TI(T) (T).TI

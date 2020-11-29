@@ -156,6 +156,8 @@ typedef struct Whn{
     List history;
 
     Queue antrian_wahana; 
+
+    int pelanggan_counter;
 } WAHANA;
 
 /* ADT MAP BUKAN PETA */

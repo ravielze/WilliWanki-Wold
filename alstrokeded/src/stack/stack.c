@@ -22,25 +22,6 @@ boolean IsStackFull (Stack S) {
     return Top(S) == MaxEl(S)-1;
 }
 
-void PushChar (Stack * S, char C) {
-    if (IsStackFull(*S)) {
-        MaxEl(*S) += 10;
-        Aksi* temp = (Aksi *) realloc(IsiStack(*S), (MaxEl(*S) * sizeof(Aksi)));
-        if (temp == Nil) {
-            printf("Error reallocating memory.");
-            IsiStack(*S) = Nil;
-            return;
-        } else {
-            IsiStack(*S) = temp;
-        }
-    }
-    Top(*S)++;
-    Aksi a;
-    IDAksi(a) = Top(*S);
-    InfoAksi(a) = C;
-    InfoTop(*S) = a;
-}
-
 void PushAksi (Stack * S, Aksi X) {
     if (IsStackFull(*S)) {
         MaxEl(*S) += 10;
@@ -53,12 +34,18 @@ void PushAksi (Stack * S, Aksi X) {
             IsiStack(*S) = temp;
         }
     }
-    Top(*S)++;
+    Top(*S) += 1;
     InfoTop(*S) = X;
 }
 
 void PopAksi (Stack * S, Aksi* X) {
-    if (Top(*S) <= (MaxEl(*S)/4)) {
+    if (IsStackEmpty(*S)) return;
+    if (Top(*S) == 0){
+        *X = InfoTop(*S);
+        Top(*S) = -1;
+        return;
+    }
+    if (Top(*S) <= (MaxEl(*S)/4) && MaxEl(*S) > 10) {
         MaxEl(*S) /= 2;
         Aksi* temp = (Aksi *) realloc(IsiStack(*S), (MaxEl(*S) * sizeof(Aksi)));
         if (temp == Nil) {
@@ -75,6 +62,7 @@ void PopAksi (Stack * S, Aksi* X) {
 }
 
 void InverseStack (Stack * S1, Stack * S2) {
+    MakeStack(S2);
     while (!IsStackEmpty(*S1)) {
         Aksi temp;
         PopAksi(S1, &temp);

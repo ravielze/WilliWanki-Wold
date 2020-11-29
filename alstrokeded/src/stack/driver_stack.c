@@ -27,12 +27,13 @@ int main() {
     aksi1 = createAksi(2, 'b');
     aksi2 = createAksi(3, 'm');
     PushAksi(&setek, aksi1);
+    printf("Top: %c\n", InfoAksi(InfoTop(setek)));
     PushAksi(&setek, aksi2);
+    printf("Top: %c\n", InfoAksi(InfoTop(setek)));
     
-    printf("halo toper\n");
+    printf("Diinvers\n");
     Stack se_tek;
     MakeStack(&se_tek);
-    InverseStack(&setek, &se_tek);
     
     /* IS ID IN SETEK */
     printf("\nPUNTEN ADA GA SIH IDNYA\n");
@@ -44,5 +45,11 @@ int main() {
     MakeStack(&set_ek);
     MoveStack(&se_tek, &set_ek);
     printf("DONE\n");
+    MoveStack(&set_ek, &se_tek);
+    InverseStack(&setek, &se_tek);
+    printf("Top: %c\n", InfoAksi(InfoTop(se_tek)));
+    PopAksi(&se_tek, &aksi1);
+    printf("Top: %c\n", InfoAksi(InfoTop(se_tek)));
+    PopAksi(&se_tek, &aksi2);
     return 0;//
 }

@@ -92,6 +92,9 @@ void TickTime(GAME *game , int menit);
 /* Go to Preparation Phase */
 void GoToPrepare(GAME *game);
 
+/* Office Detail */
+void office_detail(GAME *game);
+
 time_t t;
 
 void initRNG();

@@ -139,6 +139,7 @@ void buildPush(GAME * game){
                 int id = Top(Stack_AM);
                 Aksi aksi_build = createAksi(id, 'b');
                 PushAksi(&Stack_AM,aksi_build);
+                StackAksi(Manact) = Stack_AM;
                 AddEntryWahana(&MW_AM, CreateMapEWahana(id, whn_selected));
             }
         }
@@ -802,3 +803,22 @@ void GoToPrepare(GAME *game){
     // Usir semua pelanggan
     deleteWeaboo(game);
 }
+
+/* Office Detail */
+void office_detail(GAME *game){
+    // Cek is near office
+    // Ambil posisi player
+    AdrVertex vertex = Graf(*game);
+    if (!IsNear(vertex , 'O')){
+        printf("Pergi ke office dulu bos..\n");
+    }
+    else{
+        ARRAYLIST X = StorageW(Smanag(*game));
+        WAHANA THEWAHANA;
+        for (int i=0;i<NEff(X);i++){
+            THEWAHANA = MWGetWahana(SMappingW(Smanag(*game)),ItemOf(X,i));
+            printf("%s | Penjualan : %d\n",NamaWhn(THEWAHANA),PelangganCounter(THEWAHANA));
+        }
+    }
+}
+// bisa exit dari office juga
