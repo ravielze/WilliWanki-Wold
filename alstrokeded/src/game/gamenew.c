@@ -761,14 +761,25 @@ WAHANA getWahanaFromPoint(POINT P, manstor ms) {
     return curr_whn;
 }
 
+
 /* Tick Waktu N Menit */
-void TickTime(GAME *game , int menit){
+void TickTime(GAME *game , int mnt_ticks){
     /* 
     - Tambah variabel jam global
     - Cek Hari (Main Phase) udah habis atau blm
     - Cek apakah kesabaran visitor naik
-    - Cek apakah 
     */
+
+    JAM jam_skrg = Time(*game);
+
+    // Tambah variabel jam global
+    jam_skrg = NextNMenit(jam_skrg, mnt_ticks);
+
+    // Cek Hari (Main Phase) udah habis atau blm
+    JAM jam_buka; MakeJam(&jam_buka, 9, 0);
+    JAM jam_tutup; MakeJam(&jam_tutup, 18,0);
+
+    int durasi
 
     
 }

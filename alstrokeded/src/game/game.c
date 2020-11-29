@@ -398,6 +398,56 @@ void upgradePop(GAME *game) {
     int vertex;    -> 
     */
     // AAA PUYENG
+    InsertLastAL(&whn_storage, idWahana);
+
+    // TODO: Update keterangan wahana baru -> afaik point, history, 
+    /*
+    List history;  -> copy ke whn_up, whn_before jadi null
+    boolean rusak; -> whn_before jadi false
+    POINT lokasi;  -> whn_up jadi lokasi whn_before, whn_before jadi null(?)
+    int vertex;    -> 
+    */
+    // AAA PUYENG
+    InsertLastAL(&whn_storage, idWahana);
+
+    // TODO: Update keterangan wahana baru -> afaik point, history, 
+    /*
+    List history;  -> copy ke whn_up, whn_before jadi null
+    boolean rusak; -> whn_before jadi false
+    POINT lokasi;  -> whn_up jadi lokasi whn_before, whn_before jadi null(?)
+    int vertex;    -> 
+    */
+    // AAA PUYENG
+    InsertLastAL(&whn_storage, idWahana);
+
+    // TODO: Update keterangan wahana baru -> afaik point, history, 
+    /*
+    List history;  -> copy ke whn_up, whn_before jadi null
+    boolean rusak; -> whn_before jadi false
+    POINT lokasi;  -> whn_up jadi lokasi whn_before, whn_before jadi null(?)
+    int vertex;    -> 
+    */
+    // AAA PUYENG
+    InsertLastAL(&whn_storage, idWahana);
+
+    // TODO: Update keterangan wahana baru -> afaik point, history, 
+    /*
+    List history;  -> copy ke whn_up, whn_before jadi null
+    boolean rusak; -> whn_before jadi false
+    POINT lokasi;  -> whn_up jadi lokasi whn_before, whn_before jadi null(?)
+    int vertex;    -> 
+    */
+    // AAA PUYENG
+    InsertLastAL(&whn_storage, idWahana);
+
+    // TODO: Update keterangan wahana baru -> afaik point, history, 
+    /*
+    List history;  -> copy ke whn_up, whn_before jadi null
+    boolean rusak; -> whn_before jadi false
+    POINT lokasi;  -> whn_up jadi lokasi whn_before, whn_before jadi null(?)
+    int vertex;    -> 
+    */
+    // AAA PUYENG
 }
 
 void buyMaterialPush(GAME * game){
@@ -439,7 +489,7 @@ void buyMaterialPush(GAME * game){
     int time_for_buy = Waktu(mat_selected);
 
     if (money_used + hargaBeli > total_money){
-        printf("Uang tidak mencukupi.");
+        printf("Uang tidak mencukupi.\n");
     }
     else if (time_remain - time_for_buy < 0){
             printf("Waktu tidak mencukupi.\n");
@@ -447,6 +497,7 @@ void buyMaterialPush(GAME * game){
     else{
         // Tambah action times
         actionTimes(*game)++;
+        printf("Action times bertambah.\n"); // remove later
 
         // Push Aksi
         MapMaterial MM_AM = AMappingM(Manact);
@@ -457,6 +508,27 @@ void buyMaterialPush(GAME * game){
         Aksi aksi_buy = createAksi(id, 'm');
         PushAksi(&Stack_AM,aksi_buy);
         AddEntryMaterial(&MM_AM, CreateMapEMaterial(id, mat_selected));
+        printf("Aksi dipush.\n"); // remove later
+    }
+}
+
+void buyMaterialPop(GAME * game) {
+    Aksi aksi_buymat;
+    PopAksi(&(StackAksi(Amanag(*game))), &aksi_buymat);
+    MATERIAL mat_selected = MMGetMaterial(AMappingM(Amanag(*game)), IDAksi(aksi_buymat));
+
+    manstor Manstor = Smanag(*game);
+
+    }
+}
+
+void buyMaterialPop(GAME * game) {
+    Aksi aksi_buymat;
+    PopAksi(&(StackAksi(Amanag(*game))), &aksi_buymat);
+    MATERIAL mat_selected = MMGetMaterial(AMappingM(Amanag(*game)), IDAksi(aksi_buymat));
+
+    manstor Manstor = Smanag(*game);
+
     }
 }
 

@@ -63,7 +63,7 @@ int main(){
     /* Durasi */
     printf("DURASI\n");
     JAM JTC6a, JTC6b, JTC6c;
-    MakeJam(&JTC6a,00,00); MakeJam(&JTC6b,12,00); MakeJam(&JTC6a,23,59);
+    MakeJam(&JTC6a,0,0); MakeJam(&JTC6b,12,0); MakeJam(&JTC6c,23,59);
     printf("00.00-12.00\n"); printf("%d\n",Durasi(JTC6a,JTC6b));
     printf("00.00-23.59\n"); printf("%d\n",Durasi(JTC6a,JTC6c));
     printf("12.00-23.59\n"); printf("%d\n",Durasi(JTC6b,JTC6c));

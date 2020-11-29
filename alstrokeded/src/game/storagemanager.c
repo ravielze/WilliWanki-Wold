@@ -79,7 +79,7 @@ void initStorageManager(char* wahanafilename, char* materialfilename, char* tree
             }
         } else {
             if (UpgradeTree(whn) != Nil){
-                Right(UpgradeTree(whn) ) = AlokasiT(to); 
+                Right(UpgradeTree(whn)) = AlokasiT(to); 
             } else {
                 BinTree T = Tree(from, Nil, AlokasiT(to) );
                 UpgradeTree(whn) = T;
@@ -117,6 +117,8 @@ void ScreateMaterial(manstor * ms, MATERIAL mat){
 /* Menambahkan wahana ke array list material global game */
     ARRAYLISTMAT ALM = StorageM(*ms);
     InsertLastMAT(&ALM, mat);
+
+    StorageM(*ms) = ALM;
 }
 
 void getWahana(manstor * ms, int id, WAHANA* whn) {

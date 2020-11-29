@@ -5,14 +5,14 @@ boolean IsJamValid (int H, int M){
 }
 
 void MakeJam (JAM* J, int HH, int MM){
-    JAM jam;
-    Hour(jam) = HH;
-    Minute(jam) = MM;
-    *J = jam;
+    Hour(*J) = HH;
+    Minute(*J) = MM;
 }
 
 void MakeJamFromMenit (JAM* J, int menit){
-    MakeJam(J, ((menit % 1440) / 60), (menit % 1440) % 60);
+    int Amenit = menit % 60;
+    int jam = (menit-Amenit)/60;
+    MakeJam(J, jam, Amenit);
 }
 
 void TulisJam (JAM J){
@@ -33,6 +33,7 @@ void TimeRemain (JAM J) {
 }
 
 int JamToMenit (JAM J){
+    // TulisJam(J); printf(" <-- INI TEST ");
     return (60*Hour(J) + Minute(J));
 }
 
@@ -77,11 +78,5 @@ JAM PrevMenit (JAM J){
 }
 
 int Durasi (JAM JAw, JAM JAkh){
-    if (JamToMenit(JAkh) < JamToMenit(JAw)){
-        printf("TESTNYA ACIN : %d %d\n", JamToMenit(JAw), JamToMenit(JAkh));
-        return (JamToMenit(JAkh)- JamToMenit(JAw) +1440);
-    } else {
-        printf("TESTNYA TOPER : %d %d\n", JamToMenit(JAw), JamToMenit(JAkh));
-        return (JamToMenit(JAkh)- JamToMenit(JAw));
-    }
+    return ((JamToMenit(JAkh) + JamToMenit(JAw)+1440)%1440);
 }
