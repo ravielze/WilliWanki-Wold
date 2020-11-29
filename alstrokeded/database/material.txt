@@ -1,0 +1,4 @@
+3
+Air Elemen_dasar galon 1 15 1
+Api Elemen_dasar tabung_gas 1 30 1
+Tanah Elemen_dasar karung 1 60 1

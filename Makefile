@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -c -Wall
-SRC_DIR= src
+SRC_DIR= alstrokeded
 SRC_ADT_FILES = $(addprefix $(SRC_DIR)/*/, *.c)
 src_ADT_HEADERS = $(addprefix $(SRC_DIR)/adt/*/, *.h)
 SRC_GAME_FILES = $(addprefix $(SRC_DIR)/game/*/, *.c)
