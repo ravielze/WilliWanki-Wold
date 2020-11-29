@@ -140,7 +140,6 @@ typedef struct Whn{
     char deskripsi[255];
 
     int kapasitas;
-    List history;
     int ukuran; //Harus ganjil dan >= 1
     float hargatiket;
     boolean rusak;
@@ -154,6 +153,7 @@ typedef struct Whn{
     
     BinTree uptree;
     MATERIAL bahan;
+    List history;
 
     Queue antrian_wahana; 
 } WAHANA;
@@ -188,12 +188,10 @@ typedef struct{
     int timeRemaining; //dalam menit
 } MANAGER_ACTION;
 
-/* STORAGE MANAGER - SMANAG */
+/* STORAGE MANAGER - 4 */
 typedef struct{
     MapWahana ListWahana; //Map untuk listing Wahana yang tersedia
     int LastIDWahana;
-    MapMaterial ListMaterial; //Map Untuk listing Material yang
-    int LastIDMaterial;
     ARRAYLIST StorageWahana; // Array List ID Wahana yang dipunyai
     ARRAYLISTMAT StorageMaterial; // Array List semua material yang tersedia
 } MANAGER_STORAGE;

@@ -1,13 +1,23 @@
 #include "wahana.h"
 
-WAHANA createWahana(char* in){
+WAHANA createWahana(char* namawhn, char* tipewhn, char* deskripsi, int kpstswhn, int sizewhn, float hargatiket, boolean rusakgasi, int durasi, boolean iswahanadasar,float hargabuild, int vertex, int durasibuild){
     WAHANA whn;
-    char copied[1000];
-    strcpy(copied, in);
-    sscanf(copied, "%s %s %s %d %d %f %d %d %d %d %d %f %d %d",
-        NamaWhn(whn), TipeWhn(whn), DeskripsiWhn(whn), &(KpstsWhn(whn)),
-        &(SizeWhn(whn)), &(HargaTiket(whn)), &(RusakGakSih(whn)), &(Absis(LokWhn(whn))), &(Ordinat(LokWhn(whn))),
-        &(DurasiWhn(whn)), &(WahanaDasar(whn)), &(HargaBuild(whn)), &(InVertex(whn)), &(DurasiBuild(whn)));
+    
+    strncpy(NamaWhn(whn), namawhn, 100);
+    strncpy(TipeWhn(whn), tipewhn, 100);
+    strncpy(DeskripsiWhn(whn), deskripsi, 255);
+    KpstsWhn(whn) = kpstswhn;
+    SizeWhn(whn) = sizewhn;
+    HargaTiket(whn) = hargatiket;
+    RusakGakSih(whn) = rusakgasi;
+    Absis(LokWhn(whn)) = -1;
+    Ordinat(LokWhn(whn)) = -1;
+    DurasiWhn(whn) = durasi;
+    WahanaDasar(whn) = iswahanadasar;
+    HargaBuild(whn) = hargabuild;
+    InVertex(whn) = vertex;
+    DurasiBuild(whn) = durasibuild;
+
     CreateEmptyQ(&(QueueWahana(whn)));
     MakeEmptyLL(&(History(whn)));
     return whn;

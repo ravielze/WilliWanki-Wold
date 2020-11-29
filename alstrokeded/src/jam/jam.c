@@ -11,7 +11,7 @@ void MakeJam (JAM* J, int HH, int MM){
     *J = jam;
 }
 
-void MakeJamFromMenit (JAM* J, long menit){
+void MakeJamFromMenit (JAM* J, int menit){
     MakeJam(J, ((menit % 1440) / 60), (menit % 1440) % 60);
 }
 
@@ -32,8 +32,8 @@ void TimeRemain (JAM J) {
     }
 }
 
-long JamToMenit (JAM J){
-    return (60L*Hour(J) + 1L*Minute(J));
+int JamToMenit (JAM J){
+    return (60*Hour(J) + Minute(J));
 }
 
 boolean JEQ (JAM J1, JAM J2){
@@ -54,7 +54,7 @@ boolean JGT (JAM J1, JAM J2){
 
 JAM NextNMenit (JAM J, int N){
     JAM result;
-    MakeJamFromMenit(&result, JamToMenit(J) + (1L*N));
+    MakeJamFromMenit(&result, JamToMenit(J) + N);
     return result;
 }
 
@@ -64,7 +64,11 @@ JAM NextMenit (JAM J){
 
 JAM PrevNMenit (JAM J, int N){
     JAM result;
-    MakeJamFromMenit(&result, JamToMenit(J) - (1L*N));
+    if (JamToMenit(J)-N < 0){
+        MakeJamFromMenit(&result, 1440+(JamToMenit(J)-N));
+    } else {
+        MakeJamFromMenit(&result, JamToMenit(J)-N);
+    }
     return result;
 }
 
@@ -72,6 +76,12 @@ JAM PrevMenit (JAM J){
     return PrevNMenit(J, 1);
 }
 
-long Durasi (JAM JAw, JAM JAkh){
-    return((JamToMenit(JAkh)-JamToMenit(JAw)+1440)%1440);
+int Durasi (JAM JAw, JAM JAkh){
+    if (JamToMenit(JAkh) < JamToMenit(JAw)){
+        printf("TESTNYA ACIN : %d %d\n", JamToMenit(JAw), JamToMenit(JAkh));
+        return (JamToMenit(JAkh)- JamToMenit(JAw) +1440);
+    } else {
+        printf("TESTNYA TOPER : %d %d\n", JamToMenit(JAw), JamToMenit(JAkh));
+        return (JamToMenit(JAkh)- JamToMenit(JAw));
+    }
 }

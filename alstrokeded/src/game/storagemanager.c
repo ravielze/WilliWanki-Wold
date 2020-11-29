@@ -3,63 +3,73 @@
 void createManagerStorage(GAME * game){
     manstor ms;
 
-    LIDMaterial(ms) = -1;
     LIDWahana(ms) = -1;
 
     ARRAYLIST AL;
-    CreateEmptyAL(&AL, 20);
+    CreateEmptyAL(&AL, 10);
     StorageW(ms) = AL;
 
+    ARRAYLISTMAT ALM;
+    CreateEmptyMAT(&ALM, 10);
+    StorageM(ms) = ALM;
+
     MapWahana MapWhn;
-    MakeEmptyMapWahana(&MapWhn, 20);
+    MakeEmptyMapWahana(&MapWhn, 10);
     SMappingW(ms) = MapWhn;
     
-    MapMaterial MapMat;
-    MakeEmptyMapMaterial(&MapMat, 20);
-    SMappingM(ms) = MapMat;
 
     Smanag(*game) = ms;
 }
 
 void initStorageManager(char* wahanafilename, char* materialfilename, char* treefilename, manstor* ms){
-    // static int retval;
     int N;
-    FILE* WahanaFile = fopen(wahanafilename, "r");
     FILE* MaterialFile = fopen(materialfilename, "r");
-    FILE* TreeFile = fopen(treefilename, "r");
 
+    // printf("A");
     fscanf(MaterialFile, "%d\n", &N);
+    printf("MATERIAL:\n");
     while(N--){
-        char strInput[1000];
-        fscanf(MaterialFile, "%s\n", strInput);
-
-        MATERIAL mat = createMaterial(strInput);
+        char nama[1000]; char desc[1000]; char satuan[1000]; int jmlh; float harga; int waktu;
+        fscanf(MaterialFile, "%s %s %s %d %f %d\n", nama, desc, satuan, &jmlh, &harga, &waktu);
+        MATERIAL mat = createMaterial(nama, desc, satuan, jmlh, harga, waktu);
         ScreateMaterial(ms, mat);
+
+        printf("%s %s %s %d %f %d\n", nama, desc, satuan, jmlh, harga, waktu);
     }
 
+    fclose(MaterialFile);
 
+    FILE* WahanaFile = fopen(wahanafilename, "r");
+    printf("WAHANA:\n");
     fscanf(WahanaFile, "%d\n", &N);
-    WAHANA whn;
+    WAHANA whn; MATERIAL mat;
     while(N--){
-        char strInput[1000];
-        char strInput2[1000];
-        fscanf(WahanaFile, "%s\n", strInput);
-        fscanf(WahanaFile, "%s\n", strInput2);
+        char namawhn[1000]; char tipewhn[1000]; char deskripsi[1000]; int kpstswhn; int sizewhn; float hargatiket; boolean rusakgasi; int durasi; boolean iswahanadasar; float hargabuild; int vertex; int durasibuild;
+        char nama[1000]; char desc[1000]; char satuan[1000]; int jmlh; float harga; int waktu;
+        fscanf(WahanaFile, "%s %s %s %d %d %f %d %d %d %f %d %d\n", namawhn, tipewhn, deskripsi, &kpstswhn, &sizewhn, &hargatiket, &rusakgasi, &durasi, &iswahanadasar, &hargabuild, &vertex, &durasibuild);
+        fscanf(WahanaFile, "%s %s %s %d %f %d\n", nama, desc, satuan, &jmlh, &harga, &waktu);
 
-        whn = createWahana(strInput);
+        whn = createWahana(namawhn, tipewhn, deskripsi, kpstswhn, sizewhn, hargatiket, rusakgasi, durasi, iswahanadasar, hargabuild, vertex, durasibuild);
         ScreateWahana(ms, whn);
-        MATERIAL mat = createMaterial(strInput2);
+        mat = createMaterial(nama, desc, satuan, jmlh, harga, waktu);
         Bahan(whn) = mat;
-    }
 
-   fscanf(TreeFile, "%d\n", &N);
-   while(N--){
+        printf("%s\n", NamaWhn(whn));
+
+    }
+    fclose(WahanaFile);
+
+    printf("\nTREE:\n");
+    FILE* TreeFile = fopen(treefilename, "r");
+    fscanf(TreeFile, "%d\n", &N);
+    while(N--){
         int from, to;
         char LorR;
         WAHANA whn;
 
         fscanf(TreeFile, "%d %c %d\n", &from, &LorR, &to);
         getWahana(ms, from, &whn);
+        printf("%d %d", from, to);
         if (LorR == 'L') {
             if (UpgradeTree(whn) != Nil){
                 Left(UpgradeTree(whn) ) = AlokasiT(to); 
@@ -75,7 +85,9 @@ void initStorageManager(char* wahanafilename, char* materialfilename, char* tree
                 UpgradeTree(whn) = T;
             }
         }
-   }
+    }
+
+    fclose(TreeFile);
 }
 
 
@@ -102,10 +114,9 @@ void deleteWahana(manstor * ms, int id){
 }
 
 void ScreateMaterial(manstor * ms, MATERIAL mat){
-/* Menambahkan wahana ke mapmaterial global game */
-    LIDMaterial(*ms)++;
-    MapEntryMaterial MEM = CreateMapEMaterial(LIDMaterial(*ms),mat);
-    AddEntryMaterial(&(SMappingM(*ms)), MEM);
+/* Menambahkan wahana ke array list material global game */
+    ARRAYLISTMAT ALM = StorageM(*ms);
+    InsertLastMAT(&ALM, mat);
 }
 
 void getWahana(manstor * ms, int id, WAHANA* whn) {

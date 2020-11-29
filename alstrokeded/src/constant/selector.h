@@ -110,9 +110,7 @@
 /* STORAGE MANAGER - SMANAG */
 #define manstor MANAGER_STORAGE
 #define SMappingW(X) (X).ListWahana
-#define SMappingM(X) (X).ListMaterial
 #define LIDWahana(X) (X).LastIDWahana
-#define LIDMaterial(X) (X).LastIDMaterial
 #define StorageW(X) (X).StorageWahana
 #define StorageM(X) (X).StorageMaterial
 

@@ -9,7 +9,7 @@
 /*
  * Membuat Material dari String. Format: %s %s %s %d %f %d
  */
-MATERIAL createMaterial(char* in);
+MATERIAL createMaterial(char* nama, char* desc, char* satuan, int jmlh, float harga, int waktu);
 
 /**
  * Mengubah Materialmenjadi String.

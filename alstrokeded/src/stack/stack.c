@@ -3,7 +3,8 @@
 void MakeStack (Stack *S) {
     Top(*S) = -1;
     MaxEl(*S) = 10;
-    IsiStack(*S) = (Aksi *) malloc (10* sizeof(Aksi));
+    Aksi* y = (Aksi *) malloc (10* sizeof(Aksi));
+    IsiStack(*S) = y;
 }
 
 Aksi createAksi(int id, char aksi){

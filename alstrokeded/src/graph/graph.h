@@ -19,6 +19,8 @@ void MovePlayer (AdrVertex* V, int difX, int difY);
 void UpdateMatriksWahana(AdrVertex* V, WAHANA W);
     /* Mengupdate MATRIKS Map dengan posisi wahana terbaru */
 
+void DeleteMatriksWahana(AdrVertex* V, WAHANA W);
+
 boolean isCollideWahanaBuilding(AdrVertex V, WAHANA W);
     /* Mengecek apakah suatu wahana menabrak tembok atau tidak */
 

@@ -8,11 +8,9 @@
 #include "../point/point.h"
 #include "../tree/tree.h"
 #include "../material/material.h"
+#include "../linkedlist/list.h"
 
-/*
- * Membuat Wahana dari String. Format: %s %s %s %d %d %f %d %d %d %d %d %f %d
- */
-WAHANA createWahana(char* in);
+WAHANA createWahana(char* namawhn, char* tipewhn, char* deskripsi, int kpstswhn, int sizewhn, float hargatiket, boolean rusakgasi, int durasi, boolean iswahanadasar,float hargabuild, int vertex, int durasibuild);
 
 /**
  * Mengubah Wahana menjadi String.

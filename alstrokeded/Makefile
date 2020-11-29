@@ -40,6 +40,7 @@ STORAGEMANAGER_H = $(addprefix $(SRC_DIR)/game/, storagemanager.h)
 GAME_C = $(addprefix $(SRC_DIR)/game/, game.c)
 GAME_H = $(addprefix $(SRC_DIR)/game/, game.h)
 RUN_C = $(addprefix $(SRC_DIR)/, driver.c)
+TEST_RUN_C = $(addprefix $(SRC_DIR)/, test.c)
 
 array.o: $(ARRAY_C) $(ARRAY_H) $(CONSTANTS)
 	$(CC) $(CFLAGS) $(ARRAY_C)
@@ -98,11 +99,27 @@ game.o: $(GAME_H) $(GAME_C)
 driver.o: $(RUN_C)
 	$(CC) $(CFLAGS) $(RUN_C)
 
+test.o: $(TEST_RUN_C)
+	$(CC) $(CFLAGS) $(TEST_RUN_C)
+
 all: array.o jam.o list.o matrix.o material.o point.o tree.o stack.o mesinkar.o mesinkata.o queuelist.o graph.o arraymat.o wahana.o map.o actionmanager.o storagemanager.o game.o mesinkar.o mesinkata.o driver.o
 
-run: all
+alltest: array.o jam.o list.o matrix.o material.o point.o tree.o stack.o mesinkar.o mesinkata.o queuelist.o graph.o arraymat.o wahana.o map.o actionmanager.o storagemanager.o game.o mesinkar.o mesinkata.o test.o
+
+compiletest:
+	$(CC) -Wall -o runtest array.o jam.o list.o matrix.o material.o point.o tree.o stack.o queuelist.o graph.o arraymat.o wahana.o map.o actionmanager.o storagemanager.o game.o mesinkar.o mesinkata.o test.o
+
+test: alltest compiletest
+	./runtest
+
+compile:
 	$(CC) -Wall -o run array.o jam.o list.o matrix.o material.o point.o tree.o stack.o queuelist.o graph.o arraymat.o wahana.o map.o actionmanager.o storagemanager.o game.o mesinkar.o mesinkata.o driver.o
+
+run: all compile
 	./run
+
+debug: all compile
+	gdb run
 
 .PHONY: clean all
 

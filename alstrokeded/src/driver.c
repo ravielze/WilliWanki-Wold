@@ -14,7 +14,8 @@ int main(){
         printf("  3. Upgrade wahana     : upgrade\n");
         printf("  4. Execute stack      : execute\n");
         printf("  5. Undo last action   : undo\n");
-        printf("  6. Skip to main phase : main\n\n");
+        printf("  6. Skip to main phase : main\n");
+        printf("  7. Untuk pergerakan   : w, a, s, d\n\n");
         printf("Masukkan perintah:\n");
         STARTKATA();
         while (!EndKata){
@@ -28,7 +29,7 @@ int main(){
             } else if (IsKataSama(CKata, CreateKata("D") ) || IsKataSama(CKata, CreateKata("d") ) ) {
                 MovePlayer(&Graf(g), 1, 0);
             } 
-            /* Player Action */ 
+            /* Player Actions */ 
             else if (IsKataSama(CKata, CreateKata("BUILD"))) {
                 buildPush(&g);
             } else if (IsKataSama(CKata, CreateKata("BUY"))) {
@@ -42,26 +43,23 @@ int main(){
             } else if (IsKataSama(CKata, CreateKata("UNDO"))) {
                 undo(&g);
             } else if (IsKataSama(CKata, CreateKata("QUIT"))) {
-                fclose(pita);
-                printf("LOSER!");
+                printf("DEFEAT THE TUBES DRAGON FIRST!\n");
                 return 0;
             } else if (IsKataSama(CKata, CreateKata("REPAIR"))){
-                
+                //REPAIR
             } else if (IsKataSama(CKata, CreateKata("DETAIL"))) {
-
+                //REPAIR
             } else if (IsKataSama(CKata, CreateKata("OFFICE"))) {
-
+                //REPAIR
             } else if (IsKataSama(CKata, CreateKata("REPORT"))) {
-                
+                //REPAIR
             } else if (IsKataSama(CKata, CreateKata("PREPARE"))) {
-
+                //REPAIR
             } else if (IsKataSama(CKata, CreateKata("MAIN"))) {
-                
+                //REPAIR
             }
-            
             ADVKATA();
         }
-
         TulisMATRIKS(InfoMATRIKS(Graf(g)));
     }
 

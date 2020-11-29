@@ -86,6 +86,9 @@ WAHANA getWahanaFromPoint(POINT P, manstor ms);
 /* Repair wahana */
 void Repair(GAME *game);
 
+/* Tick Waktu N Menit */
+void TickTime(GAME *game , int menit);
+
 time_t t;
 
 void initRNG();

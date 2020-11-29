@@ -74,6 +74,12 @@ void buildPush(GAME * game){
     selectuser--;
     WAHANA whn_selected = select[selectuser];
 
+    // Isi lokasi wahana berdasarkan lokasi player
+    AdrVertex vertex = Graf(*game);
+    POINT player_lokasi = getPlayer(vertex);
+    LokWhn(whn_selected) = player_lokasi;
+    printf("lokasi wahana sama dengan lokasi player\n"); //remove later
+
     // Cek Apakah wahana bisa dibangun
     if (!IsBuildAbleSenpai(whn_selected, game)){
         printf("Wahana tidak bisa dibangun.\n");
@@ -92,7 +98,7 @@ void buildPush(GAME * game){
         ARRAYLIST storageW = StorageW(Manstor);
         int idx_whn_selected = MWGetKey(MW, whn_selected);
         
-        if (!SearchAL(storageW , idx_whn_selected)){
+        if (SearchAL(storageW , idx_whn_selected)){
             printf("Wahana sudah pernah dibangun.\n");
         }
         else{
@@ -116,30 +122,30 @@ void buildPush(GAME * game){
             else{
                 // Tambah action times
                 actionTimes(*game)++;
+                printf("action times bertambah\n"); //remove later
 
                 // Kurangin waktu
                 TimeRemaining(Manact) -= time_for_build;
+                printf("time remaining berkurang\n"); //remove later
 
-                // Kurangin duit di Manact
-                MoneyUsed(Manact) -= money_for_build;
+                // Tambahin duit di Manact
+                MoneyUsed(Manact) += money_for_build;
+                printf("money used bertambah\n"); //remove later
+
+                // Update Map
+                UpdateMatriksWahana(&vertex , whn_selected);
+                printf("map di update\n"); //remove later
 
                 // Push aksi ke stack
                 manact Manact = Amanag(*game);
                 MapWahana MW_AM = AMappingW(Manact);
                 Stack Stack_AM = StackAksi(Manact);
-
-                // Isi lokasi wahana berdasarkan lokasi player
-                AdrVertex vertex = Graf(*game);
-                POINT player_lokasi = getPlayer(vertex);
-                LokWhn(whn_selected) = player_lokasi;
-
-                // Update Map
-                UpdateMatriksWahana(&vertex , whn_selected);
                 
                 int id = Top(Stack_AM);
                 Aksi aksi_build = createAksi(id, 'b');
                 PushAksi(&Stack_AM,aksi_build);
                 AddEntryWahana(&MW_AM, CreateMapEWahana(id, whn_selected));
+                printf("aksi dipush ke stack\n");
             }
         }
     }
@@ -175,24 +181,60 @@ void buildPop(GAME * game){
 
 /* Repair Wahana */
 void Repair(GAME *game){
-    
+    WAHANA whn_tobe_repaired;
+    manstor Manstor = Smanag(*game);
+    ARRAYLIST storageW = StorageW(Manstor);
 
-    
     // Traversal dekat wahana di list wahana
     int i = 0;
     boolean found = false;
-    WAHANA whn_ada[NEff(storageW)];
+
+    // Ambil posisi player
+    AdrVertex vertex = Graf(*game);
+    POINT point_player = getPlayer(vertex);
+
     while (!found && i < NEff(storageW)) {
-        WAHANA currwhn = whn_ada[i];
-        int X = Xplayer(InfoMATRIKS(Graf(*game)));
-        int Y = Yplayer(InfoMATRIKS(Graf(*game)));
-        POINT point_player;
-        MakePoint (&point_player, X, Y);
-        if (isNearWahana(point_player, currwhn)) {
-            W = currwhn;
+        getWahana(&Manstor, ItemOf(storageW, i), &whn_tobe_repaired);
+
+        if (isNearWahana(point_player, whn_tobe_repaired)) {
             found = true;
         } else {
             i++;
+        }
+    }    
+
+    // Cek player near suatu wahana
+    if (found){
+        printf("Tidak berdiri di sekitar wahana.\n");
+    }
+    else{
+        // Cek kondisi wahana
+        boolean whn_rusak = RusakGakSih(whn_tobe_repaired);
+        if (!whn_rusak){
+            printf("Wahana tidak rusak, perbaiki matamu saja hehe.\n");
+        }
+        else{
+            // Waktu repair = 1/2 * waktu build
+            // int waktu_repair = DurasiBuild(whn_tobe_repaired);
+            // Harga repair = 1/2 * harga build
+            float harga_repair = HargaBuild(whn_tobe_repaired);
+            
+            // Cek uang cukup atau tidak
+            if (Money(*game) < harga_repair){
+                printf("Bokek bos, cari duit dulu.\n");
+            }
+            else{
+                // Tambah action times
+                actionTimes(*game)++;
+
+                // TODO : Kurangin waktu
+
+                // Kurangin duit player
+                Money(*game) -= harga_repair;
+
+                // Set boolean rusak dari wahana menjadi tidak rusak
+                RusakGakSih(whn_tobe_repaired) = false;
+            }
         }
     }
 }
@@ -207,17 +249,19 @@ void upgradePush(GAME * game) {
     WAHANA W;
     manstor Manstor = Smanag(*game);
     ARRAYLIST storageW = StorageW(Manstor);
-    
+
     // Traversal dekat wahana di list wahana
     int i = 0;
     boolean found = false;
     WAHANA whn_ada[NEff(storageW)];
+
     while (!found && i < NEff(storageW)) {
         WAHANA currwhn = whn_ada[i];
-        int X = Xplayer(InfoMATRIKS(Graf(*game)));
-        int Y = Yplayer(InfoMATRIKS(Graf(*game)));
-        POINT point_player;
-        MakePoint (&point_player, X, Y);
+
+        // Ambil posisi player
+        AdrVertex vertex = Graf(*game);
+        POINT point_player = getPlayer(vertex);
+
         if (isNearWahana(point_player, currwhn)) {
             W = currwhn;
             found = true;
@@ -289,10 +333,13 @@ void upgradePush(GAME * game) {
                 actionTimes(*game)++;
 
                 // Kurangin waktu
-                TimeRemaining(Manact) -= time_for_build; 
+                TimeRemaining(Manact) -= time_for_build;
                 
                 // Kurangin duit di Manact   
                 MoneyUsed(Manact) -= money_for_upgrade;
+
+                // Samain lokasi whn_up dengan wahana yg akan di upgrade
+                LokWhn(whn_up) = LokWhn(W);
 
                 // Push aksi ke stack
                 manact Manact = Amanag(*game);
@@ -309,7 +356,6 @@ void upgradePush(GAME * game) {
 }
 
 void upgradePop(GAME *game) {
-    // TODO: wahana lama harusnya dibikin gon dri storage
     Aksi aksi_up; /* ID WAHANA */
     PopAksi(&(StackAksi(Amanag(*game))), &aksi_up);
     WAHANA whn_up = MWGetWahana(AMappingW(Amanag(*game)), IDAksi(aksi_up));
@@ -322,7 +368,8 @@ void upgradePop(GAME *game) {
     WAHANA whn_before = getWahanaFromPoint(lokasi_whn, Manstor);
     MapWahana MW = AMappingW(Amanag(*game));
     int key = MWGetKey(MW, whn_before);
-    DeleteWahana(&Manstor, key);
+    deleteWahana(&Manstor, key);
+    // Jangan lupa lokasi whn_beforenya jadi null(?) lagi
 
     ARRAYLISTMAT storageM = StorageM(Manstor);
     int idx_material_up = SearchIdxMAT(storageM,bahan_whn_up);
@@ -339,9 +386,18 @@ void upgradePop(GAME *game) {
     // Insert Wahana ke wahana storage
     ARRAYLIST whn_storage = StorageW(Manstor);
 
-    MapWahana MW = SMappingW(Manstor);
-    int idWahana = MWGetKey(MW,whn_up);
+    MapWahana MWd = SMappingW(Manstor);
+    int idWahana = MWGetKey(MWd,whn_up);
     InsertLastAL(&whn_storage, idWahana);
+
+    // TODO: Update keterangan wahana baru -> afaik point, history, 
+    /*
+    List history;  -> copy ke whn_up, whn_before jadi null
+    boolean rusak; -> whn_before jadi false
+    POINT lokasi;  -> whn_up jadi lokasi whn_before, whn_before jadi null(?)
+    int vertex;    -> 
+    */
+    // AAA PUYENG
 }
 
 void buyMaterialPush(GAME * game){
@@ -398,8 +454,8 @@ void buyMaterialPush(GAME * game){
         TimeRemaining(Manact) -= time_for_buy;
 
         int id = Top(Stack_AM);
-        Aksi aksi_build = createAksi(id, 'm');
-        PushAksi(&Stack_AM,aksi_build);
+        Aksi aksi_buy = createAksi(id, 'm');
+        PushAksi(&Stack_AM,aksi_buy);
         AddEntryMaterial(&MM_AM, CreateMapEMaterial(id, mat_selected));
     }
 }
@@ -429,8 +485,9 @@ boolean IsBuildAbleSenpai(WAHANA thefkinwahana,GAME *game) {
     manact Manak = Amanag(*game);
     manstor Manstor = Smanag(*game);
     AdrVertex V = Graf(*game);
+    // Cek tabrakan sama office sama antrian sama tembok - aldi
     if (isCollideWahanaBuilding(V, thefkinwahana)) return false;
-    // Cek tabrakan sama yang plan
+    // Cek tabrakan sama yang plan - viel
     if (!IsStackEmpty(StackAksi(Manak))){
         for (int i = 0; i < Top(StackAksi(Manak)); i++){
             if ((InfoAksi(IsiStack(StackAksi(Manak))[i])) == 'b'){
@@ -440,7 +497,7 @@ boolean IsBuildAbleSenpai(WAHANA thefkinwahana,GAME *game) {
             }
         }
     }
-    // Cek tabrakan sama yang udah dibuat
+    // Cek tabrakan sama yang udah dibuat - viel
     for (int i = 0; i < NEff(StorageW(Manstor));i++){
         if (isCollide(thefkinwahana,MWGetWahana(SMappingW(Manstor),i))) return false;
     }
@@ -455,19 +512,25 @@ void undo(GAME * game){
         // ngurusin total aksi yeeeeeeeeeee 
         actionTimes(*game)--;
 
+        manact Manact = Amanag(*game);
+        AdrVertex V = Graf(*game);
+
         Aksi dump;
         PopAksi(&(StackAksi(Amanag(*game))), &dump); // POPPPPPPP
         
         // money money money & time
-        if (InfoAksi(dump) == 'b' || InfoAksi(dump) == 'u') {
-            WAHANA W = MWGetWahana(AMappingW(Amanag(*game)), IDAksi(dump)); // yeet data wahana cuy
-            MoneyUsed(Amanag(*game)) -= HargaBuild(W);
-            TimeRemaining(Amanag(*game)) += DurasiBuild(W);
+        if (InfoAksi(dump) == 'm') {
+            MATERIAL M = MMGetMaterial(AMappingM(Manact), IDAksi(dump));
+            MoneyUsed(Manact) -= (Harga(M) * Punya(M));
+            TimeRemaining(Manact) += (Waktu(M) * Punya(M));
         }
         else {
-            MATERIAL M = MMGetMaterial(AMappingM(Amanag(*game)), IDAksi(dump)); // yeet data material cuy
-            MoneyUsed(Amanag(*game)) -= (Harga(M) * Punya(M));
-            TimeRemaining(Amanag(*game)) += (Waktu(M) * Punya(M));
+            WAHANA W = MWGetWahana(AMappingW(Manact), IDAksi(dump));
+            MoneyUsed(Manact) -= HargaBuild(W);
+            TimeRemaining(Manact) += DurasiBuild(W);
+            if (InfoAksi(dump) == 'b') {
+                DeleteMatriksWahana(&V, W);
+            }
         }
     }
 }
@@ -499,8 +562,8 @@ void ExecutePhase(GAME * game) {
         else if (InfoAksi(temp) == 'm') buyMaterialPop(game);
     }
 
-    ExecTimes(&game)++;
-    if (ExecTimes(&game) < CurrDay(&game)) {
+    ExecTimes(*game)++;
+    if (ExecTimes(*game) < CurrDay(*game)) {
         /* After finish building */
         GeneratePengunjung(game); /* GENERATING START QUEUE */
     }

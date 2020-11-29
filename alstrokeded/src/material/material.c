@@ -3,13 +3,14 @@
 /*
  * Membuat Material dari String. Format: %s %s %s %d %f %d
  */
-MATERIAL createMaterial(char* in){
+MATERIAL createMaterial(char* nama, char* desc, char* satuan, int jmlh, float harga, int waktu){
     MATERIAL mat;
-    char copied[1000];
-    strcpy(copied, in);
-    sscanf(copied, "%s %s %s %d %f %d",
-        Nama(mat), Deskripsi(mat), Satuan(mat), &(Punya(mat)),
-        &(Harga(mat)), &(Waktu(mat)));
+    strncpy(Nama(mat), nama, 100);
+    strncpy(Deskripsi(mat), desc, 255);
+    strncpy(Satuan(mat), satuan, 50);
+    Punya(mat) = jmlh;
+    Waktu(mat) = waktu;
+    Harga(mat) = harga;
     return mat;
 }
 

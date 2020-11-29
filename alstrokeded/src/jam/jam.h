@@ -20,7 +20,7 @@ void MakeJam (JAM* J, int HH, int MM);
 /* Membentuk sebuah JAM dari komponen-komponennya yang valid */
 /* Prekondisi : HH, MM, SS valid untuk membentuk JAM */
 
-void MakeJamFromMenit (JAM* J, long menit);
+void MakeJamFromMenit (JAM* J, int menit);
 /* Membentuk sebuah JAM dari detik */
 /* Catatan: Jika N >= 1440, maka harus dikonversi dulu menjadi jumlah menit yang
    mewakili jumlah detik yang mungkin dalam 1 hari, yaitu dengan rumus:
@@ -46,7 +46,7 @@ void TimeRemain (JAM J);
 /* ***************************************************************** */
 /* KELOMPOK KONVERSI TERHADAP TYPE                                   */
 /* ***************************************************************** */
-long JamToMenit (JAM J);
+int JamToMenit (JAM J);
 /* Diberikan sebuah JAM, mengkonversi menjadi jumlah menit dari pukul 0:0 */
 /* Rumus : detik = 3600*HH + 60*MM*/
 /* Nilai maksimum = 3600*23+59*60*/
@@ -73,7 +73,7 @@ JAM PrevMenit (JAM J);
 JAM PrevNMenit (JAM J, int N);
 /* Mengirim N menit sebelum J dalam bentuk JAM */
 /* *** Kelompok Operator Aritmetika *** */
-long Durasi (JAM JAw, JAM JAkh);
+int Durasi (JAM JAw, JAM JAkh);
 /* Mengirim JAkh-JAw dlm Menit, dengan kalkulasi */
 /* Jika JAw > JAkh, maka JAkh adalah 1 hari setelah JAw */
 #endif

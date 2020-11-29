@@ -19,14 +19,14 @@ MapEntryMaterial CreateMapEMaterial(int id, MATERIAL M) {
 
 /* Make Empty */
 void MakeEmptyMapWahana(MapWahana *MW,int max){
-    MapEntryWahana * newTab = (MapEntryWahana *) malloc(max*sizeof(MapWahana));
+    MapEntryWahana * newTab = (MapEntryWahana *) malloc(max*sizeof(MapEntryWahana));
     MapEntry(*MW) = newTab;
     MaxEl(*MW) = max;
     NEff(*MW) = 0;
 }
 
 void MakeEmptyMapMaterial(MapMaterial *MM, int max){
-    MapEntryMaterial * newTab = (MapEntryMaterial *) malloc(max*sizeof(MapMaterial));
+    MapEntryMaterial * newTab = (MapEntryMaterial *) malloc(max*sizeof(MapEntryMaterial));
     MapEntry(*MM) = newTab;
     MaxEl(*MM) = max;
     NEff(*MM) = 0;
@@ -133,8 +133,11 @@ void DeleteEntryMaterial(MapMaterial *MM,int id) {
 /* Add Key */
 void AddEntryWahana(MapWahana *MW, MapEntryWahana entry){
     if (IsMapWFull(*MW)){
-        MapEntry(*MW) = (MapEntryWahana*)realloc(MapEntry(*MW), ((MaxEl(*MW)+5)*sizeof(MapEntryWahana)));
-        MaxEl(*MW) += 5;
+        MapEntryWahana *temp = (MapEntryWahana*)realloc(MapEntry(*MW), ((MaxEl(*MW)+10)*sizeof(MapEntryWahana)));
+        if (temp != Nil){
+            MaxEl(*MW) += 10;
+            MapEntry(*MW) = temp;
+        }
     }
     MapEntry(*MW)[NEff(*MW)] = entry;
     NEff(*MW)++;
@@ -142,8 +145,11 @@ void AddEntryWahana(MapWahana *MW, MapEntryWahana entry){
 
 void AddEntryMaterial(MapMaterial *MM, MapEntryMaterial entry){
     if (IsMapMFull(*MM)){
-        MapEntry(*MM) = (MapEntryMaterial*)realloc(MapEntry(*MM), ((MaxEl(*MM)+5)*sizeof(MapEntryMaterial)));
-        MaxEl(*MM) += 5;
+        MapEntryMaterial *temp = (MapEntryMaterial*)realloc(MapEntry(*MM), ((MaxEl(*MM)+10)*sizeof(MapEntryWahana)));
+        if (temp != Nil){
+            MaxEl(*MM) += 10;
+            MapEntry(*MM) = temp;
+        }
     }
     MapEntry(*MM)[NEff(*MM)] = entry;
     NEff(*MM)++;
