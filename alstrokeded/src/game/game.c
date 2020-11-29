@@ -10,7 +10,7 @@ GAME createGame() {
     float m = 1000;
     JAM j;
     MakeJam(&j, 21, 0);
-    int cd = 0;
+    int cd = 1;
     int et = 0;
     int at = 0;
     boolean mp = false;
@@ -37,8 +37,6 @@ GAME createGame() {
 
     Graph Gr = InitGraphPeta(Peta1, Peta2, Peta3, Peta4);
     Graf(g) = Gr;
-
-    scanf("%d", &Pemain(g) );
 
     return g;
 }
@@ -73,6 +71,7 @@ void buildPush(GAME * game){
     // TODO validasi
     // Terima input wahana apa yang dibangun
     int selectuser;
+    printf("Input nomor pilihan wahana :  ");
     scanf("%d", &selectuser);
     selectuser--;
     WAHANA whn_selected = select[selectuser];
@@ -136,7 +135,7 @@ void buildPush(GAME * game){
                 printf("money used bertambah\n"); //remove later
 
                 // Update Map
-                UpdateMatriksWahana(&vertex , whn_selected);
+                UpdateMatriksWahana(&(Graf(*game)) , whn_selected);
                 printf("map di update\n"); //remove later
 
                 // Push aksi ke stack
@@ -218,7 +217,7 @@ void Repair(GAME *game){
         }
         else{
             // Waktu repair = 1/2 * waktu build
-            // int waktu_repair = DurasiBuild(whn_tobe_repaired);
+            int waktu_repair = DurasiBuild(whn_tobe_repaired);
             // Harga repair = 1/2 * harga build
             float harga_repair = HargaBuild(whn_tobe_repaired);
             
@@ -230,7 +229,8 @@ void Repair(GAME *game){
                 // Tambah action times
                 actionTimes(*game)++;
 
-                // TODO : Kurangin waktu
+                // Jalanin waktu
+                TickTime(game, waktu_repair);
 
                 // Kurangin duit player
                 Money(*game) -= harga_repair;
@@ -472,6 +472,7 @@ void buyMaterialPush(GAME * game){
         printf("%s \n" , Nama(currMat));
     }
 
+    printf("Input jumlah material diikuti nomor pilihan material :  ");
     // Terima input jumlah bahan
     int jumlahBeli;
     scanf("%d", &jumlahBeli);
@@ -755,6 +756,12 @@ void updateWeaboo(GAME*g) {
             // TODO : JAM tiap Visitor di update tiap kesabaran naik (?)
             int menit_hilang = kesabaran_turun * waktu_update_kesabaran;
             entertime(currV) = NextNMenit(time_Visitor,menit_hilang);
+
+            // Cek apakah kesabaran habis
+            if (patience(currV) <= 0){
+                int id_visitor_to_delete = visitorid(currV);
+                angryWeaboo(g, id_visitor_to_delete);
+            }
         }
     }
 }
@@ -777,7 +784,6 @@ void initRNG(){
     srand((unsigned) time(&t));
 }
 //NOTE jgn lupa kasih fungsi kalau tiba2 wahana rusak, atau emang udah ada subtitusinya?
-/*
 
 void angryWeaboo(GAME*g,int id){
     if (visitorid(Info(Head(GameQueue(*g)))) == id) {
@@ -785,32 +791,18 @@ void angryWeaboo(GAME*g,int id){
         Dequeue (&GameQueue(*g), &dump);
         Head(GameQueue(*g)) = Next(Head(GameQueue(*g)));
     } else {
+        int cnt;
         qaddress A = Head(GameQueue(*g));
-        while (visitorid(Info(Next(A))) != id) A = Next(A);
+        ElTypeQ trashWeaboo;
+        while (visitorid(Info(Next(A))) != id) {
+            A = Next(A);
+            cnt++;
+        }
+        DequeueN(&GameQueue(*g),&trashWeaboo,cnt);
     }
 }
 
-*/
-void WahanaGoBoomBoom(WAHANA*w,GAME*g){
-    int WILLITBREAK = rand() % 100;
-    ElTypeQ v;
-    if (WILLITBREAK < 15) {
-        RusakGakSih(*w) = true;
-        qaddress A; int cid;
-        int cnt; Visitor dump;
-        int ZaPrio = Prio(Head(GameQueue(*g))) + 1;
-        for (int i = 0; i < NBElmtQ(QueueWahana(*w)); i++){
-            Dequeue(&QueueWahana(*w),&v);
-void WahanaGoBoomBoom(WAHANA*w,GAME*g){
-    int WILLITBREAK = rand() % 100;
-    ElTypeQ v;
-    if (WILLITBREAK < 15) {
-        RusakGakSih(*w) = true;
-        qaddress A; int cid;
-        int cnt; Visitor dump;
-        int ZaPrio = Prio(Head(GameQueue(*g))) + 1;
-        for (int i = 0; i < NBElmtQ(QueueWahana(*w)); i++){
-            Dequeue(&QueueWahana(*w),&v);
+
 void WahanaGoBoomBoom(WAHANA*w,GAME*g){
     int WILLITBREAK = rand() % 100;
     ElTypeQ v;

@@ -27,20 +27,20 @@ void initStorageManager(char* wahanafilename, char* materialfilename, char* tree
 
     // printf("A");
     fscanf(MaterialFile, "%d\n", &N);
-    printf("MATERIAL:\n");
+    // printf("MATERIAL:\n");
     while(N--){
         char nama[1000]; char desc[1000]; char satuan[1000]; int jmlh; float harga; int waktu;
         fscanf(MaterialFile, "%s %s %s %d %f %d\n", nama, desc, satuan, &jmlh, &harga, &waktu);
         MATERIAL mat = createMaterial(nama, desc, satuan, jmlh, harga, waktu);
         ScreateMaterial(ms, mat);
 
-        printf("%s %s %s %d %f %d\n", nama, desc, satuan, jmlh, harga, waktu);
+        // printf("%s %s %s %d %f %d\n", nama, desc, satuan, jmlh, harga, waktu);
     }
 
     fclose(MaterialFile);
 
     FILE* WahanaFile = fopen(wahanafilename, "r");
-    printf("WAHANA:\n");
+    // printf("WAHANA:\n");
     fscanf(WahanaFile, "%d\n", &N);
     WAHANA whn; MATERIAL mat;
     while(N--){
@@ -54,12 +54,12 @@ void initStorageManager(char* wahanafilename, char* materialfilename, char* tree
         mat = createMaterial(nama, desc, satuan, jmlh, harga, waktu);
         Bahan(whn) = mat;
 
-        printf("%s\n", NamaWhn(whn));
+        // printf("%s\n", NamaWhn(whn));
 
     }
     fclose(WahanaFile);
 
-    printf("\nTREE:\n");
+    // printf("\nTREE:\n");
     FILE* TreeFile = fopen(treefilename, "r");
     fscanf(TreeFile, "%d\n", &N);
     while(N--){
@@ -69,7 +69,7 @@ void initStorageManager(char* wahanafilename, char* materialfilename, char* tree
 
         fscanf(TreeFile, "%d %c %d\n", &from, &LorR, &to);
         getWahana(ms, from, &whn);
-        printf("%d %d", from, to);
+        // printf("%d %d", from, to);
         if (LorR == 'L') {
             if (UpgradeTree(whn) != Nil){
                 Left(UpgradeTree(whn) ) = AlokasiT(to); 

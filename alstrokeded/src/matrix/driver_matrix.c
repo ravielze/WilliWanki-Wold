@@ -22,6 +22,7 @@ int main(){
     CopyMATRIKS(em, &yey);
 
     /* IS EQUAL */
+    printf("IS EQUAL\n");
     if (EQ(em, yey)) printf("Kedua matriks elemennya sama.\n");
     if (EQSize(em, yey)) printf("Kedua ukuran matriks sama.\n");
 

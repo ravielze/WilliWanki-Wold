@@ -16,11 +16,26 @@ void printpilih(){
     printf("Masukkan perintah:\n");
 }
 
+void printStats(GAME g){
+    printf("\n+=====+=====+=====+\n");
+    printf("|      STATUS     |\n");
+    printf("|      Day #%d     |\n", CurrDay(g) );
+    printf("+=====+=====+=====+\n\n");
+    printf("Player: %s\n", Pemain(g) );
+    printf("Time Remaining: %d\n", TimeRemaining(Amanag(g) ) );
+    printf("Money: %.2f\n", Money(g) );
+}
+
 int main(){
     // printf("AAA");
     GAME g = createGame();
     boolean p = true;
-
+    
+    printf("Whay is your name: ");
+    STARTKATA();
+    Pemain(g) = CKata.TabKata;
+    ADVKATA();
+    printStats(g);
     TulisMATRIKS(InfoMATRIKS(Graf(g)));
     printpilih();
     while (true) {
@@ -29,6 +44,7 @@ int main(){
             /* Player Movements */
             if (IsKataSama(CKata, CreateKata("W") ) || IsKataSama(CKata, CreateKata("w") ) ) {
                 MovePlayer(&Graf(g), 0, -1);
+                // if (IsMP(g) ) 
             } else if (IsKataSama(CKata, CreateKata("A") ) || IsKataSama(CKata, CreateKata("a") ) ) {
                 MovePlayer(&Graf(g), -1, 0);
             } else if (IsKataSama(CKata, CreateKata("S") ) || IsKataSama(CKata, CreateKata("s") ) ) {
@@ -80,6 +96,7 @@ int main(){
             ADVKATA();
         }
         if (p){
+            printStats(g);
             TulisMATRIKS(InfoMATRIKS(Graf(g)));
             printpilih();
         } else {
