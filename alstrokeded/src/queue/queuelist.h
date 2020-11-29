@@ -15,6 +15,6 @@ void CreateEmptyQ (Queue * Q);
 /* *** Primitif Add/Delete *** */
 void Enqueue (Queue * Q, ElTypeQ X, int Prio);
 void Dequeue (Queue * Q, ElTypeQ * X);
-void DequeueN (Queue * Q, ElTypeQ * X, int N, int *Ndequeued);
+void DequeueN (Queue * Q, ElTypeQ * X, int N);
 
 #endif

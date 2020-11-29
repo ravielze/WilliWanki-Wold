@@ -78,23 +78,21 @@ void Dequeue (Queue * Q, ElTypeQ * X){
     DealokasiQ(P);
 }
 
-void DequeueN (Queue * Q, ElTypeQ * X, int N, int *Ndequeued){
-    int temp = N;
-    while ((!IsEmptyQ(*Q)) && (temp != 0)){
-        qaddress P;
-        *X = InfoHead(*Q);
-        P = Head(*Q);
-        if (Next(Head(*Q)) != Nil){
-            Head(*Q) = Next(Head(*Q));
-            Next(P) = Nil;
+/* Prekondisi : N pasti index dari Q */
+void DequeueN (Queue * Q, ElTypeQ * X, int N){
+    if (N == 0){
+        *X = Info(Head(*Q));
+        Head(*Q) = Next(Head(*Q));
+    } else {
+        int temp = 0;
+        qaddress A = Head(*Q);
+        while (A != Nil && temp < N-1) {
+            A = Next(A);
+            temp++;
         }
-        else{
-            Head(*Q) = Nil;
-        }
-        DealokasiQ(P);
+        /* Didapat address sebelum index N */
+        *X = Info(Next(A)); /* Visitor di index ke-N */
+        Next(A) = Next(Next(A)); /* mengubah Next(A) menjadi Next(Next(A)) */
 
-        Ndequeued++;
-        temp--;
     }
-    
 }

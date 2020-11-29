@@ -74,9 +74,10 @@ typedef struct {
 } MATRIKS;
 
 /* VERTEX GRAF */
-typedef struct vertex* AdrVertex;
-typedef struct vertex {
-    int VertexID;
+typedef int vID;
+typedef struct vt* AdrVertex;
+typedef struct vt {
+    vID VertexID;
     MATRIKS InfoMATRIKS;
     AdrVertex Up;
     AdrVertex Left;
@@ -212,6 +213,6 @@ typedef struct{
     manact ActionManager; // ini untuk semua aksi yang akan dilakukan
 
     Queue GameQueue; // ini untuk antrian
-    Graph Graf;
+    Graph Graphhh;
 } GAME;
 #endif

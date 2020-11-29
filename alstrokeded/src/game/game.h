@@ -16,14 +16,9 @@
 #include "../matrix/matrix.h"
 #include "storagemanager.h"
 #include "actionmanager.h"
-#include "../word/mesinkata.h"
-//#include "../visitor/visitor.h"
 //TODO apa yang belum dipikirkan? linked list taruh mana
 
 GAME createGame();
-
-/* gerak mang */
-void move (GAME * g);
 
 /* Preparation Phase */
 
@@ -63,7 +58,7 @@ void mainphase(GAME * game);
 /* Main Phase */
 
 /* Generate Pengunjung diawal main phase */
-void generatePengunjung(GAME * game);
+void GeneratePengunjung(GAME * g);
 
 /* InverseStack, terus pop 1 per 1 terus jalanin */
 void ExecutePhase(GAME * game);
@@ -88,9 +83,11 @@ void updateWeaboo(GAME*g);
 /* Visitor coming back to queue after the rides */
 void getbacktoWeaboo(GAME*g,WAHANA*w);
 
+/* Get wahana dari point */
+WAHANA getWahanaFromPoint(POINT P, manstor ms);
+
 time_t t;
 
 void initRNG();
-void printRNG();
 
 #endif

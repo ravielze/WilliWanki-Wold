@@ -22,30 +22,29 @@ void createManagerStorage(GAME * game){
 }
 
 void initStorageManager(char* wahanafilename, char* materialfilename, char* treefilename, manstor* ms){
-
-    static int retval;
+    // static int retval;
     int N;
     FILE* WahanaFile = fopen(wahanafilename, "r");
     FILE* MaterialFile = fopen(materialfilename, "r");
     FILE* TreeFile = fopen(treefilename, "r");
 
-    retval = fscanf(MaterialFile, "%d\n", &N);
+    fscanf(MaterialFile, "%d\n", &N);
     while(N--){
         char strInput[1000];
-        retval = fscanf(MaterialFile, "%s\n", &strInput);
+        fscanf(MaterialFile, "%s\n", strInput);
 
         MATERIAL mat = createMaterial(strInput);
         ScreateMaterial(ms, mat);
     }
 
 
-    retval = fscanf(WahanaFile, "%d\n", &N);
+    fscanf(WahanaFile, "%d\n", &N);
     WAHANA whn;
     while(N--){
         char strInput[1000];
         char strInput2[1000];
-        retval = fscanf(WahanaFile, "%s\n", &strInput);
-        retval = fscanf(WahanaFile, "%s\n", &strInput2);
+        fscanf(WahanaFile, "%s\n", strInput);
+        fscanf(WahanaFile, "%s\n", strInput2);
 
         whn = createWahana(strInput);
         ScreateWahana(ms, whn);
@@ -53,13 +52,13 @@ void initStorageManager(char* wahanafilename, char* materialfilename, char* tree
         Bahan(whn) = mat;
     }
 
-   retval = fscanf(TreeFile, "%d\n", &N);
+   fscanf(TreeFile, "%d\n", &N);
    while(N--){
         int from, to;
         char LorR;
         WAHANA whn;
 
-        retval = fscanf("%d %c %d\n", &from, &LorR, &to);
+        fscanf(TreeFile, "%d %c %d\n", &from, &LorR, &to);
         getWahana(ms, from, &whn);
         if (LorR == 'L') {
             if (UpgradeTree(whn) != Nil){
@@ -87,22 +86,20 @@ void ScreateWahana(manstor * ms, WAHANA whn){
     AddEntryWahana(&(SMappingW(*ms)), MEW);
 }
 
-
 void addWahana(manstor * ms, int id){
 /* Menambahkan wahana ke storage JIKA belum ada */
-    if(!Search(StorageW(*ms),id)){
+    if(!SearchAL(StorageW(*ms),id)){
         InsertLastAL(&StorageW(*ms),id);
     }
 }
 
 void deleteWahana(manstor * ms, int id){
 /* Delete wahana dengan id tertentu pada storage JIKA ada */
-    int i = SearchIdx(StorageW(*ms),id);
-    if(Search(StorageW(*ms), id)){
+    int i = SearchIdxAL(StorageW(*ms),id);
+    if(SearchAL(StorageW(*ms), id)){
         DeleteNAL(&StorageW(*ms),i);
     }
 }
-
 
 void ScreateMaterial(manstor * ms, MATERIAL mat){
 /* Menambahkan wahana ke mapmaterial global game */

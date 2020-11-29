@@ -80,8 +80,8 @@ int NbDaun(BinTree P){
 }
 
 int TinggiT(BinTree P){
-/* Pohon Biner mungkin kosong.
-Mengirim “height”, yaitu tinggi dari pohon  */
+    /* Pohon Biner mungkin kosong.
+    Mengirim “height”, yaitu tinggi dari pohon  */
     if (IsTreeEmpty(P)){
         return 0;
     }
@@ -124,10 +124,10 @@ boolean SearchDaun(BinTree P, TRElType X){
 }
 
 int LevelT(BinTree P, TRElType X){
-/* { Mengirimkan level dari node X yang merupakan salah satu daun
-dari pohon biner P. Akar(P) level-nya adalah 1. Pohon P tidak
-kosong dan elemen-elemennya unik. }
-*/
+    /* { Mengirimkan level dari node X yang merupakan salah satu daun
+    dari pohon biner P. Akar(P) level-nya adalah 1. Pohon P tidak
+    kosong dan elemen-elemennya unik. }
+    */
     if (Akar(P) == X){
         return 1;
     }
@@ -142,11 +142,11 @@ kosong dan elemen-elemennya unik. }
 }
 
 void AddDaun(BinTree *P, TRElType X, TRElType Y, boolean Kiri) {
-/* { I.S. P tidak kosong, X adalah daun Pohon Biner P }
-{ F.S. P bertambah simpulnya, dengan Y sebagai anak kiri X (jika
-Kiri), atau sebagai anak Kanan X (jika not Kiri). Jika ada lebih
-dari satu daun bernilai X, Y ditambahkan pada daun paling kiri. }
- */
+    /* { I.S. P tidak kosong, X adalah daun Pohon Biner P }
+    { F.S. P bertambah simpulnya, dengan Y sebagai anak kiri X (jika
+    Kiri), atau sebagai anak Kanan X (jika not Kiri). Jika ada lebih
+    dari satu daun bernilai X, Y ditambahkan pada daun paling kiri. }
+    */
     if (Akar(*P) == X) {
         if (Kiri) {
             Left(*P) = AlokasiT(Y);
@@ -166,9 +166,9 @@ dari satu daun bernilai X, Y ditambahkan pada daun paling kiri. }
 }
 
 void DelDaun(BinTree *P, TRElType X){
-/* { I.S. P tidak kosong, minimum 1 daun bernilai X }
-{ F.S. Semua daun yang bernilai X dihapus dari P }
- */
+    /* { I.S. P tidak kosong, minimum 1 daun bernilai X }
+    { F.S. Semua daun yang bernilai X dihapus dari P }
+    */
     if (IsTreeOneElmt(*P) && (Akar(*P) == X)){
         taddress PTemp = *P;
         *P = Nil;

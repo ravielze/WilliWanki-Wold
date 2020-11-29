@@ -126,5 +126,5 @@
 #define Amanag(G) (G).ActionManager
 #define Smanag(G) (G).StorageManager
 #define actionTimes(G) (G).actionTimes
-#define Graf(G) (G).Graf
+#define Graf(X) (X).Graphhh
 #endif

@@ -169,6 +169,19 @@ void UpdateMatriksWahana(AdrVertex* V, WAHANA W) {
     }
 }
 
+void DeleteMatriksWahana(AdrVertex* V, WAHANA W) {
+    int startI = Ordinat(LokWhn(W) ) - SizeWhn(W)/2;
+    int endI = Ordinat(LokWhn(W) ) + SizeWhn(W)/2;
+    int startJ = Absis(LokWhn(W) ) - SizeWhn(W)/2;
+    int endJ = Absis(LokWhn(W) ) + SizeWhn(W)/2;
+
+    for (int i = startI; i <= endI; i++) {
+        for (int j = startJ; j <= endJ; j++) {
+            Elmt(InfoMATRIKS(*V), i, j) = '.';
+        }
+    }
+}
+
 /* *** Mengecek Wahana tertabrak Wall atau Antrian atau Office *** */
 boolean isCollideWahanaBuilding(AdrVertex V, WAHANA W) {
     boolean isCollided = false;
