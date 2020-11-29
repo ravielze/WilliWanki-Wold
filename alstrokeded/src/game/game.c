@@ -38,6 +38,8 @@ GAME createGame() {
     Graph Gr = InitGraphPeta(Peta1, Peta2, Peta3, Peta4);
     Graf(g) = Gr;
 
+    scanf("%d", &Pemain(g) );
+
     return g;
 }
 
@@ -68,6 +70,7 @@ void buildPush(GAME * game){
         }
     }    
     
+    // TODO validasi
     // Terima input wahana apa yang dibangun
     int selectuser;
     scanf("%d", &selectuser);
@@ -519,26 +522,6 @@ void buyMaterialPop(GAME * game) {
 
     manstor Manstor = Smanag(*game);
 
-    }
-}
-
-void buyMaterialPop(GAME * game) {
-    Aksi aksi_buymat;
-    PopAksi(&(StackAksi(Amanag(*game))), &aksi_buymat);
-    MATERIAL mat_selected = MMGetMaterial(AMappingM(Amanag(*game)), IDAksi(aksi_buymat));
-
-    manstor Manstor = Smanag(*game);
-
-    }
-}
-
-void buyMaterialPop(GAME * game) {
-    Aksi aksi_buymat;
-    PopAksi(&(StackAksi(Amanag(*game))), &aksi_buymat);
-    MATERIAL mat_selected = MMGetMaterial(AMappingM(Amanag(*game)), IDAksi(aksi_buymat));
-
-    manstor Manstor = Smanag(*game);
-
     ARRAYLISTMAT storageM = StorageM(Manstor);
     int idx_material_selected = SearchIdxMAT(storageM,mat_selected);
     MATERIAL * currMat = &ItemOf(storageM, idx_material_selected);
@@ -794,7 +777,40 @@ void initRNG(){
     srand((unsigned) time(&t));
 }
 //NOTE jgn lupa kasih fungsi kalau tiba2 wahana rusak, atau emang udah ada subtitusinya?
+/*
 
+void angryWeaboo(GAME*g,int id){
+    if (visitorid(Info(Head(GameQueue(*g)))) == id) {
+        ElTypeQ dump;
+        Dequeue (&GameQueue(*g), &dump);
+        Head(GameQueue(*g)) = Next(Head(GameQueue(*g)));
+    } else {
+        qaddress A = Head(GameQueue(*g));
+        while (visitorid(Info(Next(A))) != id) A = Next(A);
+    }
+}
+
+*/
+void WahanaGoBoomBoom(WAHANA*w,GAME*g){
+    int WILLITBREAK = rand() % 100;
+    ElTypeQ v;
+    if (WILLITBREAK < 15) {
+        RusakGakSih(*w) = true;
+        qaddress A; int cid;
+        int cnt; Visitor dump;
+        int ZaPrio = Prio(Head(GameQueue(*g))) + 1;
+        for (int i = 0; i < NBElmtQ(QueueWahana(*w)); i++){
+            Dequeue(&QueueWahana(*w),&v);
+void WahanaGoBoomBoom(WAHANA*w,GAME*g){
+    int WILLITBREAK = rand() % 100;
+    ElTypeQ v;
+    if (WILLITBREAK < 15) {
+        RusakGakSih(*w) = true;
+        qaddress A; int cid;
+        int cnt; Visitor dump;
+        int ZaPrio = Prio(Head(GameQueue(*g))) + 1;
+        for (int i = 0; i < NBElmtQ(QueueWahana(*w)); i++){
+            Dequeue(&QueueWahana(*w),&v);
 void WahanaGoBoomBoom(WAHANA*w,GAME*g){
     int WILLITBREAK = rand() % 100;
     ElTypeQ v;
@@ -842,4 +858,38 @@ WAHANA getWahanaFromPoint(POINT P, manstor ms) {
         }
     }
     return curr_whn;
+}
+
+/* Tick Waktu N Menit */
+void TickTime(GAME *game , int mnt_ticks){
+    JAM jam_skrg = Time(*game);
+
+    // Tambah variabel jam global
+    jam_skrg = NextNMenit(jam_skrg, mnt_ticks);
+
+    // Cek Hari (Main Phase) udah habis atau blm, kalau habsi pindah ke prep
+    JAM jam_buka; MakeJam(&jam_buka, 9, 0);
+    JAM jam_tutup; MakeJam(&jam_tutup, 18,0);
+    int durasi_main = Durasi(jam_buka, jam_tutup);
+
+    int durasi_skrgtobuka = Durasi(jam_buka , jam_skrg);
+    if (durasi_skrgtobuka >= durasi_main){
+        GoToPrepare(game);
+    }
+    else{
+        // Cek apakah kesabaran visitor naik
+        updateWeaboo(game);
+    }
+}
+
+/* Go to Preparation Phase */
+void GoToPrepare(GAME *game){
+    // Tambah variabel jumlah day yang sudah dilewati
+    CurrDay(*game)++;
+
+    // Ganti boolean IsMainPhase
+    IsMP(*game) = false;
+
+    // Usir semua pelanggan
+    deleteWeaboo(game);
 }

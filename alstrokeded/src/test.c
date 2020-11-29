@@ -2,7 +2,9 @@
 #include "./game/game.h"
 #include "./word/mesinkata.h"
 //make test
+
 int main(){
+
     GAME game = createGame();
 
     manstor Manstor = Smanag(game);
@@ -27,10 +29,15 @@ int main(){
     // Terima input wahana apa yang dibangun
     int selectuser;
     scanf("%d", &selectuser);
-    selectuser--;
-    WAHANA whn_selected = select[selectuser];
 
-    printf("%f" , HargaTiket(whn_selected));
+    if ((selectuser >= neffMW) && (selectuser < 1)){
+        printf("input salah.\n");
+    }
+    else{
+        selectuser--;
+        WAHANA whn_selected = select[selectuser];
 
+        printf("%f" , HargaTiket(whn_selected));
+    }
     return 0;
 }

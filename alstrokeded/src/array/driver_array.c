@@ -16,38 +16,45 @@
 
 int main() {
     /* CREATE EMPTY */
-    prinft("CREATE EMPTY\n");
+    printf("CREATE EMPTY\n");
     ARRAYLIST LOL;
     CreateEmptyAL(&LOL,20);
-    if(MaxEl(T) == 20)
-    prinft("\n");
+    if(NEff(LOL) == 0) printf("THERE IS NO NEFF\n");
+    if(MaxEl(LOL) == 20) printf("MAXEL IS 20\n");
+    printf("\n");
 
 
     /* IS FULL OR IS EMPTY */
     printf("IS FULL OR IS EMPTY\n");
     if (IsALFull(LOL)) printf("Array penuh\n");
-    if (IsALEmpty(L)) printf("Array kosong\n");
+    if (IsALEmpty(LOL)) printf("Array kosong\n");
 
     /* INSERT ARRAY */
-    printf("INSERT ARRAY\n");
-    InsertFirstAL(&L)
+    InsertFirstAL(&LOL, 29);
+    InsertLastAL(&LOL, 55);
 
+    /* DELETE ARRAY */
+    printf("DELETE ARRAY\n");
+    ainfotype first = DeleteFirstAL(&LOL);
+    printf("Delete first element: %d\n", first); 
+    ainfotype last = DeleteLastAL(&LOL);
+    printf("Delete last element: %d\n", last);
+
+    /* SEARCHING */
+    ARRAYLIST LUL;
+    CreateEmptyAL(&LUL, 20);
+
+    InsertFirstAL(&LUL, 2);
+    InsertFirstAL(&LUL, 4);
+    InsertFirstAL(&LUL, 6);
+    InsertFirstAL(&LUL, 10);
+    InsertFirstAL(&LUL, 16); //idx 1
+    InsertFirstAL(&LUL, 26); //idx 0
+    if (SearchNAL(LUL, 2) == 2) printf("%d berada di dalam list.\n", 2);
+    if (SearchAL(LUL, 4)) printf("%d berada di dalam list.\n", 4);
+    int wehr = SearchIdxAL(LUL, 16);
+    printf("%d berada di index ke-%d.\n", 1, wehr);
     return 0;
 }
 
-void CreateEmptyAL(ARRAYLIST * arr, int maxel);
-void DealokasiAL(ARRAYLIST * arr);
-boolean IsALFull(ARRAYLIST arr);
-boolean IsALEmpty(ARRAYLIST arr);
-void InsertFirstAL(ARRAYLIST *arr, int X);
-void InsertLastAL(ARRAYLIST * arr, int X);
-ainfotype DeleteFirstAL(ARRAYLIST *arr);
-ainfotype DeleteLastAL(ARRAYLIST *arr);
-void InsertNAL(ARRAYLIST *arr, int idx, int X);
-void DeleteNAL(ARRAYLIST *arr, int idx);
-
-ainfotype SearchNAL(ARRAYLIST arr, int X);
-// Ini nyari X ada ga di Search, kalau ada, return infotype, kalau ga ada, return -999
-boolean SearchAL(ARRAYLIST arr, int X);
-// Ini nyari apakah X ada di ArrayList
-int SearchIdxAL(ARRAYLIST arr, int X);
+/* DONEEEEEEEE */

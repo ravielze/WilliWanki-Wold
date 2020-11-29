@@ -221,7 +221,8 @@ void Repair(GAME *game){
                 // Tambah action times
                 actionTimes(*game)++;
 
-                // TODO : Kurangin waktu
+                // Jalanin waktu
+                TickTime(game, waktu_repair);
 
                 // Kurangin duit player
                 Money(*game) -= harga_repair;
@@ -679,16 +680,22 @@ void updateWeaboo(GAME*g) {
         JAM time_Visitor = entertime(currV);
         long durasi = Durasi(time_Visitor , time_now);
 
-        // Waktu update kesabaran : 10 menit
+        // Waktu update kesabaran : 30 menit
         long waktu_update_kesabaran = 30;
         
         if (durasi > waktu_update_kesabaran){
             int kesabaran_turun = durasi % waktu_update_kesabaran;
             patience(currV) -= kesabaran_turun;
 
-            // TODO : JAM tiap Visitor di update tiap kesabaran naik (?)
+            // JAM tiap Visitor di update tiap kesabaran naik (?)
             int menit_hilang = kesabaran_turun * waktu_update_kesabaran;
             entertime(currV) = NextNMenit(time_Visitor,menit_hilang);
+
+            // Cek apakah kesabaran habis
+            if (patience(currV) <= 0){
+                int id_visitor_to_delete = visitorid(currV);
+                // insert function to delete visitor
+            }
         }
     }
 }
@@ -764,22 +771,34 @@ WAHANA getWahanaFromPoint(POINT P, manstor ms) {
 
 /* Tick Waktu N Menit */
 void TickTime(GAME *game , int mnt_ticks){
-    /* 
-    - Tambah variabel jam global
-    - Cek Hari (Main Phase) udah habis atau blm
-    - Cek apakah kesabaran visitor naik
-    */
-
     JAM jam_skrg = Time(*game);
 
     // Tambah variabel jam global
     jam_skrg = NextNMenit(jam_skrg, mnt_ticks);
 
-    // Cek Hari (Main Phase) udah habis atau blm
+    // Cek Hari (Main Phase) udah habis atau blm, kalau habsi pindah ke prep
     JAM jam_buka; MakeJam(&jam_buka, 9, 0);
     JAM jam_tutup; MakeJam(&jam_tutup, 18,0);
+    int durasi_main = Durasi(jam_buka, jam_tutup);
 
-    int durasi
+    int durasi_skrgtobuka = Durasi(jam_buka , jam_skrg);
+    if (durasi_skrgtobuka >= durasi_main){
+        GoToPrepare(game);
+    }
+    else{
+        // Cek apakah kesabaran visitor naik
+        updateWeaboo(game);
+    }
+}
 
-    
+/* Go to Preparation Phase */
+void GoToPrepare(GAME *game){
+    // Tambah variabel jumlah day yang sudah dilewati
+    CurrDay(*game)++;
+
+    // Ganti boolean IsMainPhase
+    IsMP(*game) = false;
+
+    // Usir semua pelanggan
+    deleteWeaboo(game);
 }
