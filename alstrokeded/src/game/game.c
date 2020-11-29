@@ -70,10 +70,7 @@ void buildPush(GAME * game){
 
     // Isi lokasi wahana berdasarkan lokasi player
     
-    POINT player_lokasi = getPlayer(Graf(*game));
-    TulisPoint(player_lokasi);
-    LokWhn(whn_selected) = player_lokasi;
-    printf("lokasi wahana sama dengan lokasi player\n"); //remove later
+    LokWhn(whn_selected) = getPlayer(Graf(*game));
 
     // Cek Apakah wahana bisa dibangun
     if (!IsBuildAbleSenpai(whn_selected, game)){
@@ -152,7 +149,8 @@ void buildPush(GAME * game){
 void buildPop(GAME * game) {
     Aksi aksi_build;
     PopAksi(&(StackAksi(Amanag(*game))), &aksi_build);
-    WAHANA whn_selected = MWGetWahana(AMappingW(Amanag(*game)), IDAksi(aksi_build));
+    int rid = IsEntryWahana(AMappingW(Amanag(*game)), IDAksi(aksi_build));
+    WAHANA whn_selected = value(MapEntry(AMappingW(Amanag(*game)))[rid]);
     MATERIAL bahan_whn_selected = Bahan(whn_selected);
 
 
@@ -254,9 +252,7 @@ void upgradePush(GAME * game) {
     POINT point_player = getPlayer(Graf(*game));
 
     while (!found && i < NEff(StorageW(Smanag(*game)))) {
-        getWahana(&(Smanag(*game)), ItemOf(StorageW(Smanag(*game)), i), &W);
-
-        printf("Apakah loop ini di jalankan");
+        W = MWGetWahana(SMappingW(Smanag(*game) ), i);
 
         if (isNearWahana(point_player, W)) {
             found = true;
@@ -822,7 +818,7 @@ void TickTime(GAME *game , int mnt_ticks){
     int durasi_main = Durasi(jam_buka, jam_tutup);
 
     int durasi_skrgtobuka = Durasi(jam_buka , Time(*game));
-    if (durasi_skrgtobuka >= durasi_main){
+    if (durasi_skrgtobuka > durasi_main){
         GoToPrepare(game);
     }
     else{

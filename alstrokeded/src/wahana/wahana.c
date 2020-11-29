@@ -75,7 +75,6 @@ boolean isWahanaEqual(WAHANA whn1, WAHANA whn2){
         SizeWhn(whn1) == SizeWhn(whn2) &&
         DurasiWhn(whn1) == DurasiWhn(whn2) &&
         WahanaDasar(whn1) == WahanaDasar(whn2) &&
-        isMaterialEqual(Bahan(whn1), Bahan(whn2)) &&
         isTreeEqual(UpgradeTree(whn1), UpgradeTree(whn2))
     );
 }
@@ -87,8 +86,12 @@ boolean isNearWahana(POINT P, WAHANA whn){
     int startJ = Absis(LokWhn(whn) ) - SizeWhn(whn)/2;
     int endJ = Absis(LokWhn(whn) ) + SizeWhn(whn)/2;
 
-    for (int i = startI; (i <= endI) && !IsNear; i++) {
-        for (int j = startJ; (j <= endJ) && !IsNear; j++) {
+    printf("Wahana: %d %d\n", startI, endI);
+    printf("Player: %d %d\n", Absis(P), Ordinat(P) );
+
+    int i, j;
+    for (i = startI; (i <= endI) && !IsNear; i++) {
+        for (j = startJ; (j <= endJ) && !IsNear; j++) {
            if ( (Absis(P) + 1 == j && Ordinat(P) == i )
             || ( Absis(P) - 1 == j && Ordinat(P) == i )
             || ( Absis(P) == j && Ordinat(P) + 1 == i )
