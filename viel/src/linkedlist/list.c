@@ -1,18 +1,18 @@
 #include "list.h"
 
 /*** Alokasi dan dealokasi memori ***/
-address AlokasiLL(ElType X){
+LLaddress AlokasiLL(LLElType X){
 /* Mengalokasikan memori untuk node N */
-    address a;
-    a = (address) malloc (sizeof(Node));
+    LLaddress a;
+    a = (LLaddress) malloc (sizeof(LLNode));
     if (a != Nil){
-        a->info = X;
-        a->next = Nil;
+        AInfo(a) = X;
+        ANext(a) = Nil;
     }
     return a;
 }
 
-void DealokasiLL(address* a){
+void DealokasiLL(LLaddress* a){
 /* Mendealokasi memori node N */
     free(*a);
 }
@@ -25,16 +25,16 @@ void MakeEmptyLL(List* L){
 }
 
 /*** Selektor ***/
-ElType GetFirstElmtLL(List L){
+LLElType GetFirstElmtLL(List L){
 /* Mengembalikan nilai elemen pertama pada list*/
-    address a = First(L);
-    return Info(a);
+    LLaddress a = First(L);
+    return AInfo(a);
 }
 
-ElType GetLastElmtLL(List L){
+LLElType GetLastElmtLL(List L){
 /* Mengembalikan nilai elemen terakhir pada list*/
-    address a = Last(L);
-    return Info(a);
+    LLaddress a = Last(L);
+    return AInfo(a);
 }
 
 /*** Testing ***/
@@ -44,97 +44,97 @@ boolean IsEmptyLL(List L){
 }
 
 /*** Searching ***/
-boolean IsXElmtLL(List L, ElType X){
+boolean IsXElmtLL(List L, LLElType X){
 /* Mencari tahu apakah nilai X ada di list */
     if (!IsEmpty(L)){
-        address a = First(L);
+        LLaddress a = First(L);
         while (a != Nil){
-            if (Info(a) == X) return (Info(a) == X);
-            else a = Next(a);
+            if (AInfo(a) == X) return (AInfo(a) == X);
+            else a = ANext(a);
         }
     }
     return false;
 }
 
-int CountXElmtLL(List L, ElType X){
+int CountXElmtLL(List L, LLElType X){
 /* Menghitung jumlah kemunculan X pada list */
     if (!IsEmpty(L)){
-        address a = First(L);
+        LLaddress a = First(L);
         int count = 0;
         while (a != Nil){
-            if (Info(a) == X) count++;
-            a = Next(a);
+            if (AInfo(a) == X) count++;
+            a = ANext(a);
         }
         return count;
     }
     return 0;
 }
 
-address FindAdrFirstElmtXLL(List L, ElType X){
-/* Mengembalikan address dari node yang berelement X */
-/* Jika tidak ditemukan Elemen X pada address, akan direturn nil */
+LLaddress FindAdrFirstElmtXLL(List L, LLElType X){
+/* Mengembalikan LLaddress dari node yang berelement X */
+/* Jika tidak ditemukan Elemen X pada LLaddress, akan direturn nil */
     if (!IsEmpty(L)){
-        address a = First(L);
+        LLaddress a = First(L);
         while (a != Nil){
-            if (Info(a) == X) return a;
-            a = Next(a);
+            if (AInfo(a) == X) return a;
+            a = ANext(a);
         }
     }
     return Nil;
 }
 
-boolean DoesAdressExistLL(List L, address N){
-/* Mengecek apakah address ada pada list */
+boolean DoesAdressExistLL(List L, LLaddress N){
+/* Mengecek apakah LLaddress ada pada list */
     if(!IsEmpty(L)){
-        address a = First(L);
+        LLaddress a = First(L);
         while (a != Nil){
             if (a == N) return true;
-            a = Next(a);
+            a = ANext(a);
         }
     }
     return false;
 }
 
-/*** Info ***/
+/*** AInfo ***/
 int NbElmtLL(List L){
 /* Menghitung total banyaknya Elemen pada list */
-    address a = First(L);
+    LLaddress a = First(L);
     int count = 0;
     while (a != Nil){
         count++;
-        a = Next(a);
+        a = ANext(a);
     }
     return count;
 }
 
 /*** Insert/Delete ***/
-boolean InsertAfterLL(List* L, address N, ElType X){
+boolean InsertAfterLL(List* L, LLaddress N, LLElType X){
 /* Menambahkan elemen Y setelah elemen X pada list */
     if (!IsEmpty(*L)){
-        address P = Alokasi(X);
+        LLaddress P = Alokasi(X);
         if (P != Nil){
-            address a = First(*L);
+            LLaddress a = First(*L);
             while (a != Nil){
                 if (a == N){
-                    Next(P) = Next(a);
-                    Next(a) = P;
+                    ANext(P) = ANext(a);
+                    ANext(a) = P;
                     return true;
                 }
-                a = Next(a);
+                a = ANext(a);
             }
         }
     } else return false;
 }
 
-boolean InsertFirstLL(List* L, ElType X){
+boolean InsertFirstLL(List* L, LLElType X){
 /* Menambahkan elemen X di awal list */
-    address P = Alokasi(X);
+    LLaddress P = Alokasi(X);
     if (P != Nil){
         if (IsEmpty(*L)){
             First(*L) = P;
             Last(*L) = P;
         } else {
-            Next(P) = First(*L);
+            ANext(P) = First(*L);
             First(*L) = P;
         }
         return true;
@@ -142,15 +142,15 @@ boolean InsertFirstLL(List* L, ElType X){
     return false;
 }
 
-boolean InsertLastLL(List* L, ElType X){
+boolean InsertLastLL(List* L, LLElType X){
 /* Menambahkan elemen X di akhir list */
-    address P = Alokasi(X);
+    LLaddress P = Alokasi(X);
     if (P != Nil){
         if (IsEmpty(*L)){
             First(*L) = P;
             Last(*L) = P;
         } else {
-            Next(Last(*L)) = P;
+            ANext(Last(*L)) = P;
             Last(*L) = P;
         }
         return true;
@@ -158,19 +158,19 @@ boolean InsertLastLL(List* L, ElType X){
     return false;
 }
 
-void DeleteAfterLL(List*L, address N){
-/* Menghapus Elemen yang berada tepat setelah address N pada list */
+void DeleteAfterLL(List*L, LLaddress N){
+/* Menghapus Elemen yang berada tepat setelah LLaddress N pada list */
     if (!IsEmpty(*L) && (Last(*L) != N) && DoesAdressExist(*L,N)){
-        address a = First(*L),temp;
+        LLaddress a = First(*L),temp;
         boolean deleted = false;
         while ((a != Nil) && !deleted){
             if (a == N){
-                temp = Next(a);
-                Next(a) = Next(Next(a));
+                temp = ANext(a);
+                ANext(a) = ANext(ANext(a));
                 Dealokasi(&temp);
                 deleted = true;
             }
-            a = Next(a);
+            a = ANext(a);
         }
     }
 }
@@ -182,8 +182,8 @@ void DeleteFirstLL(List* L){
         First(*L) = Nil;
         Last(*L) = Nil;
     } else if (!IsEmpty(*L)){
-        address temp = First(*L);
-        First(*L) = Next(First(*L));
+        LLaddress temp = First(*L);
+        First(*L) = ANext(First(*L));
         Dealokasi(&temp);
     }
 }
@@ -195,13 +195,13 @@ void DeleteLastLL(List* L){
         First(*L) = Nil;
         Last(*L) = Nil;
     } else if (!IsEmpty(*L)){
-        address a = First(*L);
+        LLaddress a = First(*L);
         while (a != Nil){
-            if (Next(a) = Last(*L)){
+            if (ANext(a) = Last(*L)){
                 Dealokasi(&Last(*L));
-                Next(a) = Nil;
+                ANext(a) = Nil;
             }
-            a = Next(a);
+            a = ANext(a);
         }
     }
 }

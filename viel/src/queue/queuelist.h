@@ -1,29 +1,7 @@
 #ifndef queuelist_H
 #define queuelist_H
 
-#include "../boolean.h"
-#include "../visitor/visitor.h"
-#include <stdlib.h>
-#include <stdio.h>
-
-#define Nil NULL
-
-typedef visitor ElTypeQ;
-typedef struct qNode* qaddress;
-typedef struct qNode {
-   ElTypeQ Info;
-   qaddress Next;
-   int Prio;
-} queueNode;
-typedef struct { qaddress HEAD;
-               } Queue;
-
-/* ********* AKSES (Selektor) ********* */
-#define Head(Q) (Q).HEAD
-#define InfoHead(Q) (Q).HEAD->Info
-#define Next(P) (P)->Next
-#define Info(P) (P)->Info
-#define Prio(P) (P)->Prio
+#include "../constant/adt.h"
 
 /* ********* Prototype ********* */
 void AlokasiQ(qaddress *P, ElTypeQ X, int Prio);

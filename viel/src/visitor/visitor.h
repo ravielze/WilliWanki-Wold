@@ -1,35 +1,14 @@
-#include "../game/game.h"
-#include "../queue/queuelist.h"
-#include "../stack/stack.h"
-#include "../wahana/wahana.h"
-#include "../array/array.h"
-#include "../jam/jam.h"
-
 #ifndef VISITOR_H
 #define VISITOR_H
-
-typedef struct{
-    int visitorid;
-    Stack todo;
-    int patience;
-    JAM enterqueue;
-    boolean inrides;
-} visitor;
-
-/*** Selektor ***/
-#define todo(V) (V).todo
-#define inrides(V) (V).inrides
-#define patience(V) (V).patience
-#define visitorid(V) (V).visitorid
-#define entertime(V) (V).enterqueue
+#include "../constant/adt.h"
 
 /* Ambil wahana yang ingin dinaiki (paling atas stack) */
-WAHANA todonow(visitor v, GAME *g);
+WAHANA todonow(Visitor v, GAME *g);
 
 /* Spawn Visitor */
-visitor SpawnVisitor(int patience, GAME * g);
+Visitor SpawnVisitor(int patience, GAME * g);
 
-/* Menggenerate to do list visitor */
+/* Menggenerate to do list Visitor */
 Stack generateToDo(GAME *game);
 
 //Menggenerate pelanggan
@@ -48,8 +27,7 @@ void getbacktoWeaboo();
 // Pelanggan diusir ke antrian wahana (setelah di serve)
 void gotoAnimeConcert();
 
-// Mengantrikan visitor pada antrian
-void waittobuyConcert(visitor v, int prio);
-
+// Mengantrikan Visitor pada antrian
+void waittobuyConcert(Visitor v, int prio);
 
 #endif

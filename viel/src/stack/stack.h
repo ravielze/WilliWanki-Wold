@@ -1,44 +1,17 @@
 #ifndef stack_H
 #define stack_H
 
-#include "../boolean.h"
-
-#define Nil NULL
+#include "../constant/adt.h"
 /* Nil adalah stack dengan elemen kosong . */
-#define infotype Aksi
-#define idxs int
-
-typedef struct {
-  int id;
-  char aksi;
-} Aksi;
-
-// 'b' for build yeahh
-// 'm' for buy material
-// 'u' upgradeeeeeeeeeeeeeee
-// 'r' RIDE
 
 /* Contoh deklarasi variabel bertype stack dengan ciri TOP : */
 /* Versi I : dengan menyimpan tabel dan alamat top secara eksplisit*/
-typedef struct {
-  int MaxEl;
-  Aksi *TA; /* tabel penyimpan elemen */
-  idxs TOP; /* alamat TOP: elemen puncak */
-} Stack;
 
 /* Definisi stack S kosong : S.TOP = Nil */
 /* Elemen yang dipakai menyimpan nilai Stack T[0]..T[MaxEl-1] */
 /* Jika S adalah Stack maka akses elemen : */
    /* S.T[(S.TOP)] untuk mengakses elemen TOP */
    /* S.TOP adalah alamat elemen TOP */
-
-/* Definisi akses dengan Selektor */
-#define Top(S) (S).TOP
-#define InfoTop(S) (S).TA[(S).TOP]
-#define MaxEl(S) (S).MaxEl
-#define IsiStack(S) (S).TA
-#define IDAksi(A) (A).id
-#define InfoAksi(A) (A).aksi
 
 /* ************ Prototype ************ */
 /* *** Konstruktor/Kreator *** */

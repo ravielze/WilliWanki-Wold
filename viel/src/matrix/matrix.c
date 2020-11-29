@@ -61,27 +61,27 @@ void InitPeta (char* filename, MATRIKS* M) {
 
 /* *** Selektor "DUNIA MATRIKS" *** */
 /* *** Selektor: Untuk sebuah matriks M yang terdefinisi: *** */
-indeks GetFirstIdxBrs (MATRIKS M){
-    /* Mengirimkan indeks baris terkecil M */
+Mindeks GetFirstIdxBrs (MATRIKS M){
+    /* Mengirimkan Mindeks baris terkecil M */
     return BrsMin;
 }
 
-indeks GetFirstIdxKol (MATRIKS M){
-    /* Mengirimkan indeks kolom terkecil M */
+Mindeks GetFirstIdxKol (MATRIKS M){
+    /* Mengirimkan Mindeks kolom terkecil M */
     return KolMin;
 }
 
-indeks GetLastIdxBrs (MATRIKS M){
-    /* Mengirimkan indeks baris terbesar M */
+Mindeks GetLastIdxBrs (MATRIKS M){
+    /* Mengirimkan Mindeks baris terbesar M */
     return NBrsEff(M)-1;
 }
 
-indeks GetLastIdxKol (MATRIKS M){
-    /* Mengirimkan indeks kolom terbesar M */
+Mindeks GetLastIdxKol (MATRIKS M){
+    /* Mengirimkan Mindeks kolom terbesar M */
     return NKolEff(M)-1;
 }
 
-ElType GetElmtDiagonal (MATRIKS M, indeks i){
+MElType GetElmtDiagonal (MATRIKS M, Mindeks i){
     /* Mengirimkan elemen M(i,i) */
     return Elmt(M, i, i);
 }
@@ -126,7 +126,7 @@ void TulisMATRIKS (MATRIKS M){
 /* ********** KELOMPOK OPERASI RELASIONAL TERHADAP MATRIKS ********** */
 boolean EQ (MATRIKS M1, MATRIKS M2){
     /* Mengirimkan true jika M1 = M2, yaitu NBElmt(M1) = NBElmt(M2) dan */
-    /* untuk setiap i,j yang merupakan indeks baris dan kolom M1(i,j) = M2(i,j) */
+    /* untuk setiap i,j yang merupakan Mindeks baris dan kolom M1(i,j) = M2(i,j) */
     /* Juga merupakan strong EQ karena GetFirstIdxBrs(M1) = GetFirstIdxBrs(M2) 
     dan GetLastIdxKol(M1) = GetLastIdxKol(M2) */
     boolean same = true;

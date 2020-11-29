@@ -2,31 +2,7 @@
 #ifndef graph_H
 #define graph_H
 
-#include "../boolean.h"
-#include "../matrix/matrix.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include "../wahana/wahana.h"
-
-#define Nil NULL
-
-typedef struct vertex* AdrVertex;
-typedef struct vertex {
-    int id;
-    MATRIKS InfoMATRIKS;
-    AdrVertex Up;
-    AdrVertex Left;
-    AdrVertex Right;
-    AdrVertex Bottom;
-} Vertex;
-typedef AdrVertex Graph;
-
-#define InfoMATRIKS(P) (P)->InfoMATRIKS
-#define Up(P) (P)->Up
-#define Left(P) (P)->Left
-#define Right(P) (P)->Right
-#define Bottom(P) (P)->Bottom
-#define id(P) (P)->id
+#include "../constant/adt.h"
 
 AdrVertex AlokasiVertex (MATRIKS M);
 /* Mengalokasi MATRIKS M dengan edge semuanya menunjuk Nil */

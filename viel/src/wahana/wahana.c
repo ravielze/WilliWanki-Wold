@@ -1,6 +1,4 @@
 #include "wahana.h"
-#include <stdio.h>
-#include <string.h>
 
 WAHANA createWahana(char* in){
     WAHANA whn;
@@ -64,7 +62,7 @@ boolean isWahanaEqual(WAHANA whn1, WAHANA whn2){
         KpstsWhn(whn1) == KpstsWhn(whn2) &&
         SizeWhn(whn1) == SizeWhn(whn2) &&
         RusakGakSih(whn1) == RusakGakSih(whn2) &&
-        PEQ(LokWhn(whn1),LokWhn(whn2)) &&
+        PEQ(LokWhn(whn1), LokWhn(whn2)) &&
         DurasiWhn(whn1) == DurasiWhn(whn2) &&
         WahanaDasar(whn1) == WahanaDasar(whn2) &&
         isMaterialEqual(Bahan(whn1), Bahan(whn2)) &&

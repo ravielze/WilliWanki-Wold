@@ -2,17 +2,9 @@
 #ifndef JAM_H
 #define JAM_H
 
-#include "../boolean.h"
+#include "../constant/adt.h"
 
 /* *** Definisi TYPE JAM <HH:MM:SS> *** */
-typedef struct {
-	int HH; /* integer [0..23] */
-	int MM; /* integer [0..59] */
-} JAM;
-
-/* *** Notasi Akses: selektor JAM *** */
-#define Hour(J) (J).HH
-#define Minute(J) (J).MM
 
 /* ***************************************************************** */
 /* DEFINISI PRIMITIF                                                 */

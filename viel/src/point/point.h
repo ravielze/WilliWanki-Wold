@@ -1,18 +1,7 @@
 #ifndef POINT_H
 #define POINT_H
 
-#include "../boolean.h"
-
-typedef struct {
-	int X; /* absis   */
-	int Y; /* ordinat */
-} POINT;
-
-/* *** Notasi Akses: Selektor POINT *** */
-#define Absis(P) (P).X
-#define Ordinat(P) (P).Y
-
-/* *** DEFINISI PROTOTIPE PRIMITIF *** */
+#include "../constant/adt.h"
 
 /* *** Konstruktor membentuk POINT *** */
 /* Membentuk sebuah POINT dari komponen-komponennya */

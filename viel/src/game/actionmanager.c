@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include "actionmanager.h"
 
 void createManagerAction(GAME * game) {

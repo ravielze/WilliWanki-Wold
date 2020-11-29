@@ -1,41 +1,6 @@
 #ifndef _MAP_H_
 #define _MAP_H_
-#include "../wahana/wahana.h"
-#include "../material/material.h"
-#include "../boolean.h"
-#include <stdlib.h>
-
-#define Nil NULL
-
-/* WAHANA */
-typedef struct {
-    int id;
-    WAHANA value;
-} MapEntryWahana;
-typedef struct {
-    int id;
-    MATERIAL value;
-} MapEntryMaterial;
-
-/* MATERIAL */
-typedef struct{
-    //MapEntryWahana TME[...];
-    MapEntryWahana* TME;
-    int MaxEl;
-    int NEff;
-} MapWahana;
-typedef struct{
-    MapEntryMaterial* TME;
-    int MaxEl;
-    int NEff;
-} MapMaterial;
-
-/*** Selektor ***/
-#define MapEntry(M) (M).TME
-#define MaxEl(M) (M).MaxEl
-#define NEff(M) (M).NEff
-#define id(X) (X).id
-#define value(X) (X).value
+#include "../constant/adt.h"
 
 /*** Operasi ***/
 /* CreateMap */

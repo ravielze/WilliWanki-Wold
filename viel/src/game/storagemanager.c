@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "storagemanager.h"
 
 void createManagerStorage(GAME * game){

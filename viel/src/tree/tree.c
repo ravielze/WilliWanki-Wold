@@ -1,9 +1,7 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "tree.h"
 
-BinTree Tree(infotype Akar, BinTree L, BinTree R){
-    BinTree P = (address)malloc(sizeof(Node));
+BinTree Tree(TRElType Akar, BinTree L, BinTree R){
+    BinTree P = (taddress)malloc(sizeof(TRNode));
     Akar(P) = Akar;
     Left(P) = L;
     Right(P) = P;
@@ -11,12 +9,12 @@ BinTree Tree(infotype Akar, BinTree L, BinTree R){
     return P;
 }
 
-address AlokasiT(infotype X){
-    address P = (address)malloc(sizeof(Node));
+taddress AlokasiT(TRElType X){
+    taddress P = (taddress)malloc(sizeof(TRNode));
     Akar(P) = X;
 }
 
-void DealokasiT(address * P) {
+void DealokasiT(taddress * P) {
     free(*P);
 }
 
@@ -72,7 +70,7 @@ Mengirim “height”, yaitu tinggi dari pohon  */
     }
 }
 
-boolean SearchT(BinTree P, infotype X){
+boolean SearchT(BinTree P, TRElType X){
     if(IsTreeEmpty(P)){
         return false;
     }
@@ -86,7 +84,7 @@ boolean SearchT(BinTree P, infotype X){
     }
 } 
 
-boolean SearchDaun(BinTree P, infotype X){
+boolean SearchDaun(BinTree P, TRElType X){
     if (IsOneElmtT(P)){
         return (Akar(P) == X);
     }
@@ -100,7 +98,7 @@ boolean SearchDaun(BinTree P, infotype X){
     }
 }
 
-int LevelT(BinTree P, infotype X){
+int LevelT(BinTree P, TRElType X){
 /* { Mengirimkan level dari node X yang merupakan salah satu daun
 dari pohon biner P. Akar(P) level-nya adalah 1. Pohon P tidak
 kosong dan elemen-elemennya unik. }
@@ -118,7 +116,7 @@ kosong dan elemen-elemennya unik. }
     }
 }
 
-void AddDaun(BinTree *P, infotype X, infotype Y, boolean Kiri) {
+void AddDaun(BinTree *P, TRElType X, TRElType Y, boolean Kiri) {
 /* { I.S. P tidak kosong, X adalah daun Pohon Biner P }
 { F.S. P bertambah simpulnya, dengan Y sebagai anak kiri X (jika
 Kiri), atau sebagai anak Kanan X (jika not Kiri). Jika ada lebih
@@ -142,7 +140,7 @@ dari satu daun bernilai X, Y ditambahkan pada daun paling kiri. }
     }
 }
 
-void DelDaun(BinTree *P, infotype X){
+void DelDaun(BinTree *P, TRElType X){
 /* { I.S. P tidak kosong, minimum 1 daun bernilai X }
 { F.S. Semua daun yang bernilai X dihapus dari P }
  */
@@ -162,7 +160,7 @@ void DelDaun(BinTree *P, infotype X){
 }
 
 void printUpTree(BinTree P) {
-
+    //TODO realisasi
 }
 
 boolean isTreeEqual(BinTree P1, BinTree P2) {

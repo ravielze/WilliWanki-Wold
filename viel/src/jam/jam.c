@@ -1,5 +1,4 @@
 #include "jam.h"
-#include <stdio.h>
 
 boolean IsJamValid (int H, int M){
     return ((H >= 0) && (H <= 23) && (M >= 0) && (M <= 59));

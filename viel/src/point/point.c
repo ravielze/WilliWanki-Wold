@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include "point.h"
 
 void MakePoint (POINT * P, int X, int Y) {

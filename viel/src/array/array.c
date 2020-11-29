@@ -1,32 +1,30 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "array.h"
 
 void CreateEmptyAL(ARRAYLIST * arr, int maxel) {
-    infotype * TI = (infotype*)malloc(maxel*sizeof(infotype));
+    ainfotype * TI = (ainfotype*)malloc(maxel*sizeof(ainfotype));
     TI(*arr) = TI;
-    Neff(*arr) = 0;
+    NEff(*arr) = 0;
     MaxEl(*arr) = maxel;
 }
 
 void DealokasiAL(ARRAYLIST * arr) {
     free(TI(*arr));
-    Neff(*arr) = -1;
+    NEff(*arr) = -1;
     MaxEl(*arr) = -1;
 }
 
 boolean IsALFull(ARRAYLIST arr) {
-    return Neff(arr) == MaxEl(arr);
+    return NEff(arr) == MaxEl(arr);
 }
 
 boolean IsALEmpty(ARRAYLIST arr) {
-    return Neff(arr) == 0;
+    return NEff(arr) == 0;
 }
 
 void InsertFirstAL(ARRAYLIST *arr, int X) {
     if (IsAlFull(*arr)){
         MaxEl(*arr) += 10;
-        infotype * temp = (infotype*)realloc(TI(*arr), (MaxEl(*arr)*sizeof(infotype)));
+        ainfotype * temp = (ainfotype*)realloc(TI(*arr), (MaxEl(*arr)*sizeof(ainfotype)));
         if (temp == Nil) {
             printf("Error reallocating memory.");
             TI(*arr) = Nil;
@@ -37,19 +35,19 @@ void InsertFirstAL(ARRAYLIST *arr, int X) {
         }
     }
     
-    for (int i=Neff(*arr); i>0; i--){
+    for (int i=NEff(*arr); i>0; i--){
         ItemOf(*arr,i) = ItemOf(*arr,i-1);
     }
 
     ItemOf(*arr, 0) = X;
-    Neff(*arr)++;
+    NEff(*arr)++;
 
 }
 
 void InsertLastAL(ARRAYLIST * arr, int X) {
     if (IsAlFull(*arr)) {
         MaxEl(*arr) += 10;
-        infotype* temp = (infotype *) realloc (TI(*arr), (MaxEl(*arr) * sizeof(infotype)));
+        ainfotype* temp = (ainfotype *) realloc (TI(*arr), (MaxEl(*arr) * sizeof(ainfotype)));
         if (temp == Nil) {
             printf("Error reallocating memory.");
             TI(*arr) = Nil;
@@ -59,32 +57,32 @@ void InsertLastAL(ARRAYLIST * arr, int X) {
             TI(*arr) = temp;
         }
     }
-    ItemOf(*arr, Neff(*arr)) = X;
-    Neff(*arr)++;
+    ItemOf(*arr, NEff(*arr)) = X;
+    NEff(*arr)++;
 }
 
-infotype DeleteFirstAL(ARRAYLIST *arr) {
+ainfotype DeleteFirstAL(ARRAYLIST *arr) {
     // Mengambil elemen pertama array
     int temp = ItemOf(*arr, 0);
     // Geser semuanya ke kiri
-    for (int i = 0; i < Neff(*arr); i++) {
+    for (int i = 0; i < NEff(*arr); i++) {
         ItemOf(*arr, i) = ItemOf(*arr, i+1);
     }
     // Mengurangi NEff
-    Neff(*arr) -= 1;
+    NEff(*arr) -= 1;
     return temp;
 }
 
-infotype DeleteLastAL(ARRAYLIST *arr) {
-    int temp = ItemOf(*arr, Neff(*arr)-1);
-    Neff(*arr) -= 1;
+ainfotype DeleteLastAL(ARRAYLIST *arr) {
+    int temp = ItemOf(*arr, NEff(*arr)-1);
+    NEff(*arr) -= 1;
     return temp;
 }
 
 void InsertNAL(ARRAYLIST *arr, int idx, int X) {
     if (IsAlFull(*arr)){
         MaxEl(*arr) += 10;
-        infotype * temp = (infotype*)realloc(TI(*arr), (MaxEl(*arr)*sizeof(infotype)));
+        ainfotype * temp = (ainfotype*)realloc(TI(*arr), (MaxEl(*arr)*sizeof(ainfotype)));
         if (temp == Nil) {
             printf("Error reallocating memory.");
             TI(*arr) = Nil;
@@ -95,18 +93,18 @@ void InsertNAL(ARRAYLIST *arr, int idx, int X) {
         }
     }
     
-    for (int i=Neff(*arr); i>idx; i--){
+    for (int i=NEff(*arr); i>idx; i--){
         ItemOf(*arr,i) = ItemOf(*arr,i-1);
     }
 
     ItemOf(*arr, idx) = X;
-    Neff(*arr)++;
+    NEff(*arr)++;
 }
 
-infotype DeleteNAL(ARRAYLIST *arr, int idx) {
-    if (Neff(*arr) <= (MaxEl(*arr) / 4)) {
+ainfotype DeleteNAL(ARRAYLIST *arr, int idx) {
+    if (NEff(*arr) <= (MaxEl(*arr) / 4)) {
         MaxEl(*arr) /= 2;
-        infotype* temp = (infotype *) realloc (TI(*arr), (MaxEl(*arr) * sizeof(infotype)));
+        ainfotype* temp = (ainfotype *) realloc (TI(*arr), (MaxEl(*arr) * sizeof(ainfotype)));
         if (temp == Nil) {
             printf("Error reallocating memory");
             TI(*arr) = Nil;
@@ -116,16 +114,16 @@ infotype DeleteNAL(ARRAYLIST *arr, int idx) {
             TI(*arr) = temp;
         }        
     }
-    Neff(*arr)--;
-    for (int i = idx; i < Neff(*arr); i++) {
+    NEff(*arr)--;
+    for (int i = idx; i < NEff(*arr); i++) {
         ItemOf(*arr, i) = ItemOf(*arr, i+1);
     }
 }
 
-infotype SearchNAL(ARRAYLIST arr, int X) {
-// Ini nyari X ada ga di Search, kalau ada, return infotype, kalau ga ada, return apa kek wait, ini kan return infotype X yang jadi parameter fungsi(?)
+ainfotype SearchNAL(ARRAYLIST arr, int X) {
+// Ini nyari X ada ga di Search, kalau ada, return ainfotype, kalau ga ada, return apa kek wait, ini kan return ainfotype X yang jadi parameter fungsi(?)
 // Pake yg return indeks aja(?)
-    for (int i = 0; i < Neff(arr); i++) {
+    for (int i = 0; i < NEff(arr); i++) {
         if (ItemOf(arr, i) == X) {
             return X;
         }
@@ -135,7 +133,7 @@ infotype SearchNAL(ARRAYLIST arr, int X) {
 
 int SearchIdxAL(ARRAYLIST arr, int X) {
 // Ini nyari X ada ga di Search, kalau ada, return idx, kalau ga ada, return apa kek
-    for (int i = 0; i < Neff(arr); i++) {
+    for (int i = 0; i < NEff(arr); i++) {
         if (ItemOf(arr, i) == X) {
             return i;
         }
@@ -144,7 +142,7 @@ int SearchIdxAL(ARRAYLIST arr, int X) {
 }
 
 boolean SearchAL(ARRAYLIST arr, int X){
-    for (int i = 0; i < Neff(arr); i++) {
+    for (int i = 0; i < NEff(arr); i++) {
         if (ItemOf(arr, i) == X) {
             return true;
         }

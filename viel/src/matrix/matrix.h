@@ -1,23 +1,7 @@
 #ifndef __MATRIX_H_
 #define __MATRIX_H_
 
-#include "../boolean.h"
-
-/* Ukuran minimum dan maksimum baris dan kolom */
-#define BrsMin 0
-#define BrsMax 99
-#define KolMin 0
-#define KolMax 99
-
-typedef int indeks; /* indeks baris, kolom */
-typedef char ElType; 
-typedef struct { 
-	ElType Mem[BrsMax+1][KolMax+1];
-    int NBrsEff; /* banyaknya/ukuran baris yg terdefinisi */
-	int NKolEff; /* banyaknya/ukuran kolom yg terdefinisi */
-    int Xplayer;
-    int Yplayer;
-} MATRIKS;
+#include "../constant/adt.h"
 /* Gate dari tiap Peta sudah di tentukan pada .txt file ya*/
 /* NBrsEff >= 1 dan NKolEff >= 1 */
 /* Indeks matriks yang digunakan: [BrsMin..BrsMax][KolMin..KolMax] */
@@ -46,19 +30,19 @@ void InitPeta (char* filename, MATRIKS* M);
 
 /* *** Selektor "DUNIA MATRIKS" *** */
 /* *** Selektor: Untuk sebuah matriks M yang terdefinisi: *** */
-indeks GetFirstIdxBrs (MATRIKS M);
-    /* Mengirimkan indeks baris terkecil M */
+Mindeks GetFirstIdxBrs (MATRIKS M);
+    /* Mengirimkan Mindeks baris terkecil M */
 
-indeks GetFirstIdxKol (MATRIKS M);
-    /* Mengirimkan indeks kolom terkecil M */
+Mindeks GetFirstIdxKol (MATRIKS M);
+    /* Mengirimkan Mindeks kolom terkecil M */
 
-indeks GetLastIdxBrs (MATRIKS M);
-    /* Mengirimkan indeks baris terbesar M */
+Mindeks GetLastIdxBrs (MATRIKS M);
+    /* Mengirimkan Mindeks baris terbesar M */
 
-indeks GetLastIdxKol (MATRIKS M);
-    /* Mengirimkan indeks kolom terbesar M */
+Mindeks GetLastIdxKol (MATRIKS M);
+    /* Mengirimkan Mindeks kolom terbesar M */
 
-ElType GetElmtDiagonal (MATRIKS M, indeks i);
+MElType GetElmtDiagonal (MATRIKS M, Mindeks i);
     /* Mengirimkan elemen M(i,i) */
 
 /* ********** Assignment  MATRIKS ********** */
@@ -81,7 +65,7 @@ void TulisMATRIKS (MATRIKS M);
 /* ********** KELOMPOK OPERASI RELASIONAL TERHADAP MATRIKS ********** */
 boolean EQ (MATRIKS M1, MATRIKS M2);
     /* Mengirimkan true jika M1 = M2, yaitu NBElmt(M1) = NBElmt(M2) dan */
-    /* untuk setiap i,j yang merupakan indeks baris dan kolom M1(i,j) = M2(i,j) */
+    /* untuk setiap i,j yang merupakan Mindeks baris dan kolom M1(i,j) = M2(i,j) */
     /* Juga merupakan strong EQ karena GetFirstIdxBrs(M1) = GetFirstIdxBrs(M2) 
     dan GetLastIdxKol(M1) = GetLastIdxKol(M2) */
 

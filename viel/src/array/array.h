@@ -1,20 +1,6 @@
 #ifndef ARRAY_H
 #define ARRAY_H
-
-#define infotype int
-#define Nil NULL
-#include "../boolean.h"
-
-typedef struct {
-    infotype *TI;
-    int Neff;
-    int MaxEl;
-} ARRAYLIST;
-
-#define TI(T) (T).TI
-#define ItemOf(T, i) (T).TI[(i)]
-#define Neff(T) (T).Neff
-#define MaxEl(T) (T).MaxEl
+#include "../constant/adt.h"
 
 void CreateEmptyAL(ARRAYLIST * arr, int maxel);
 void DealokasiAL(ARRAYLIST * arr);
@@ -22,12 +8,12 @@ boolean IsALFull(ARRAYLIST arr);
 boolean IsALEmpty(ARRAYLIST arr);
 void InsertFirstAL(ARRAYLIST *arr, int X);
 void InsertLastAL(ARRAYLIST * arr, int X);
-infotype DeleteFirstAL(ARRAYLIST *arr);
-infotype DeleteLastAL(ARRAYLIST *arr);
+ainfotype DeleteFirstAL(ARRAYLIST *arr);
+ainfotype DeleteLastAL(ARRAYLIST *arr);
 void InsertNAL(ARRAYLIST *arr, int idx, int X);
-infotype DeleteNAL(ARRAYLIST *arr, int idx);
+ainfotype DeleteNAL(ARRAYLIST *arr, int idx);
 
-infotype SearchNAL(ARRAYLIST arr, int X);
+ainfotype SearchNAL(ARRAYLIST arr, int X);
 // Ini nyari X ada ga di Search, kalau ada, return infotype, kalau ga ada, return -999
 boolean SearchAL(ARRAYLIST arr, int X);
 // Ini nyari apakah X ada di ArrayList

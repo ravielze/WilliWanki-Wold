@@ -5,7 +5,7 @@
 
 #define Nil NULL
 
-#include "../boolean.h"
+#include "../constant/adt.h"
 #include "../plane/point.h"
 #include "../jam/jam.h"
 #include "../queue/queuelist.h"
@@ -18,36 +18,6 @@
 #include "actionmanager.h"
 #include "../word/mesinkata.h"
 //TODO apa yang belum dipikirkan? linked list taruh mana
-typedef struct{
-    char* Pemain;
-    float Money;
-    JAM Time;
-
-    int currentDay;
-    int executionTimes;
-    int actionTimes;
-    boolean isMainPhase; // penanda phase
-
-    MANAGER_STORAGE StorageManager; // ini untuk semua hal yang dimiliki player
-    MANAGER_ACTION ActionManager; // ini untuk semua aksi yang akan dilakukan
-
-    Queue GameQueue; // ini untuk antrian
-    Graph Graf;
-} GAME;
-
-#define GameQueue(G) (G).GameQueue
-#define Pemain(G) (G).Pemain
-#define Money(G) (G).Money
-#define Time(G) (G).Time
-#define CurrDay(G) (G).currentDay
-#define ExecTimes(G) (G).executionTimes
-#define IsMP(G) (G).isMainPhase
-#define Amanag(G) (G).ActionManager
-#define Smanag(G) (G).StorageManager
-#define actionTimes(G) (G).actionTimes
-#define QueueG(G) (G).GameQueue
-#define Graf(G) (G).Graf
-
 
 GAME createGame();
 /* Preparation Phase */

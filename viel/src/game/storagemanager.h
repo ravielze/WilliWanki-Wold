@@ -3,29 +3,14 @@
 #include "../map/map.h"
 #include "../array/array.h"
 #include "../array/arraymat.h"
+#include "../constant/adt.h"
+#include "../material/material.h"
 #include "game.h"
 /*
 0 | Wahana A
 1 | Wahana B
 2 | Wahana C
 */
-typedef struct{
-    MapWahana ListWahana; //Map untuk listing Wahana yang tersedia
-    int LastIDWahana;
-    MapMaterial ListMaterial; //Map Untuk listing Material yang
-    int LastIDMaterial;
-    ARRAYLIST StorageWahana; // Array List ID Wahana yang dipunyai
-    ARRAYLISTMAT StorageMaterial; // Array List semua material yang tersedia
-} MANAGER_STORAGE;
-
-/* SELEKTOR */
-#define manstor MANAGER_STORAGE
-#define SMappingW(X) (X).ListWahana
-#define SMappingM(X) (X).ListMaterial
-#define LIDWahana(X) (X).LastIDWahana
-#define LIDMaterial(X) (X).LastIDMaterial
-#define StorageW(X) (X).StorageWahana
-#define StorageM(X) (X).StorageMaterial
 
 void createManagerStorage(GAME * game);
 

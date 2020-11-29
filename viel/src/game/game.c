@@ -23,7 +23,7 @@ GAME createGame() {
     ExecTimes(g) = et;
     IsMP(g) = mp;
     actionTimes(g) = at;
-    QueueG(g) = q;
+    GameQueue(g) = q;
 
     MATRIKS Peta1, Peta2, Peta3, Peta4;
 

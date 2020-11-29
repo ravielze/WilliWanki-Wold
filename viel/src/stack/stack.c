@@ -1,12 +1,9 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
 #include "stack.h"
 
 void MakeStack (Stack *S) {
     Top(*S) = Nil;
     MaxEl(*S) = 10;
-    IsiStack(*S) = (Aksi *) malloc (10* sizeof(infotype));
+    IsiStack(*S) = (Aksi *) malloc (10* sizeof(Aksi));
 }
 
 Aksi createAksi(int id, char aksi){
@@ -102,7 +99,7 @@ boolean isIDInStack(Stack S, int id) {
 }
 
 void MoveStack (Stack * S1, Stack * S2) {
-    Aksi temp;
+    Stack temp;
     MakeStack(&temp);
     InverseStack(S1, &temp);
     while (!IsStackEmpty(temp)) {
