@@ -28,9 +28,10 @@ void MaterialtoString(MATERIAL mat, char* result) {
 
 boolean isMaterialEqual(MATERIAL mat, MATERIAL mat2){
     return(
-        Nama(mat) == Nama(mat2) &&
-        Deskripsi(mat) == Deskripsi(mat2) &&
-        Satuan(mat) == Satuan(mat2) &&
-        Waktu(mat) == Waktu(mat2)
+        (strcmp(Nama(mat), Nama(mat2)) == 0) &&
+        (strcmp(Deskripsi(mat), Deskripsi(mat2)) == 0) &&
+        (strcmp(Satuan(mat), Satuan(mat2)) == 0) &&
+        Waktu(mat) == Waktu(mat2) &&
+        Harga(mat) == Harga(mat2)
     );
 }

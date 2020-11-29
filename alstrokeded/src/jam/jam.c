@@ -10,8 +10,8 @@ void MakeJam (JAM* J, int HH, int MM){
 }
 
 void MakeJamFromMenit (JAM* J, int menit){
-    int Amenit = menit % 60;
-    int jam = (menit-Amenit)/60;
+    int Amenit = (menit+1440) % 60;
+    int jam = ((menit-Amenit+1440)/60)%24;
     MakeJam(J, jam, Amenit);
 }
 

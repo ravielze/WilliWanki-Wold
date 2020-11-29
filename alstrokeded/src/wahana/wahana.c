@@ -68,13 +68,11 @@ boolean isCollide(WAHANA whn, WAHANA whn2){
 boolean isWahanaEqual(WAHANA whn1, WAHANA whn2){
     return (
         InVertex(whn1) == InVertex(whn2) &&
-        NamaWhn(whn1) == NamaWhn(whn2) &&
-        TipeWhn(whn1) == TipeWhn(whn2) &&
-        DeskripsiWhn(whn1) == DeskripsiWhn(whn2) &&
+        (strcmp(NamaWhn(whn1), NamaWhn(whn2)) == 0) &&
+        (strcmp(TipeWhn(whn1), TipeWhn(whn2)) == 0) &&
+        (strcmp(DeskripsiWhn(whn1), DeskripsiWhn(whn2)) == 0) &&
         KpstsWhn(whn1) == KpstsWhn(whn2) &&
         SizeWhn(whn1) == SizeWhn(whn2) &&
-        RusakGakSih(whn1) == RusakGakSih(whn2) &&
-        PEQ(LokWhn(whn1), LokWhn(whn2)) &&
         DurasiWhn(whn1) == DurasiWhn(whn2) &&
         WahanaDasar(whn1) == WahanaDasar(whn2) &&
         isMaterialEqual(Bahan(whn1), Bahan(whn2)) &&

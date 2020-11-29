@@ -5,12 +5,16 @@
 #include "boolean.h"
 
 void printMenu(GAME g){
-    printf("\n+=====+=====+=====+\n");
-    printf("|      STATUS     |\n");
-    printf("|      Day #%d     |\n", CurrDay(g) );
-    printf("+=====+=====+=====+\n\n");
+    printf("\n+=====++=====+=====++=====+\n");
+    printf("|          STATUS         |\n");
+    printf( (IsMP(g) ) 
+        ?  "|        MAIN PHASE       |\n"
+        :  "|    PREPARATION PHASE    |\n");
+    printf("|          Day #%d         |\n", CurrDay(g) );
+    printf("+=====++=====+=====++=====+\n\n");
     printf("Player: %s\n", Pemain(g) );
-    printf("Time Remaining: %d\n", TimeRemaining(Amanag(g) ) );
+    JAM j; MakeJamFromMenit(&j, TimeRemaining(Amanag(g))-360);
+    printf("Time Remaining: "); TulisJam(j); printf("\n");
     printf("Money: %.2f\n", Money(g) );
 
     TulisMATRIKS(InfoMATRIKS(Graf(g)));
@@ -42,13 +46,16 @@ int main(){
             /* Player Movements */
             if (IsKataSama(CKata, CreateKata("W") ) || IsKataSama(CKata, CreateKata("w") ) ) {
                 MovePlayer(&Graf(g), 0, -1);
-                // if (IsMP(g) ) 
+                if (IsMP(g) ) TickTime(&g, 1);
             } else if (IsKataSama(CKata, CreateKata("A") ) || IsKataSama(CKata, CreateKata("a") ) ) {
                 MovePlayer(&Graf(g), -1, 0);
+                if (IsMP(g) ) TickTime(&g, 1);
             } else if (IsKataSama(CKata, CreateKata("S") ) || IsKataSama(CKata, CreateKata("s") ) ) {
                 MovePlayer(&Graf(g), 0, 1);
+                if (IsMP(g) ) TickTime(&g, 1);
             } else if (IsKataSama(CKata, CreateKata("D") ) || IsKataSama(CKata, CreateKata("d") ) ) {
                 MovePlayer(&Graf(g), 1, 0);
+                if (IsMP(g) ) TickTime(&g, 1);
             } 
             /* Player Actions */ 
             else if (IsKataSama(CKata, CreateKata("BUILD"))) {
@@ -64,7 +71,7 @@ int main(){
                 p = false;
                 upgradePush(&g);
             } else if (IsKataSama(CKata, CreateKata("EXECUTE"))) {
-                p = false;
+                // p = false;
                 ExecutePhase(&g);
             } else if (IsKataSama(CKata, CreateKata("UNDO"))) {
                 p = false;
@@ -79,6 +86,7 @@ int main(){
                 p = false;
                 //REPAIR
             } else if (IsKataSama(CKata, CreateKata("OFFICE"))) {
+                office_detail(&g);
                 p = false;
                 //REPAIR
             } else if (IsKataSama(CKata, CreateKata("REPORT"))) {

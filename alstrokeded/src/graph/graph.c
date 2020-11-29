@@ -175,6 +175,8 @@ void DeleteMatriksWahana(AdrVertex* V, WAHANA W) {
     int startJ = Absis(LokWhn(W) ) - SizeWhn(W)/2;
     int endJ = Absis(LokWhn(W) ) + SizeWhn(W)/2;
 
+    printf("%d %d\n", startI, startJ);
+
     for (int i = startI; i <= endI; i++) {
         for (int j = startJ; j <= endJ; j++) {
             Elmt(InfoMATRIKS(*V), i, j) = '.';
