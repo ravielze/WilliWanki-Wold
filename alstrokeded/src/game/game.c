@@ -69,11 +69,8 @@ void buildPush(GAME * game){
     WAHANA whn_selected = select[selectuser];
 
     // Isi lokasi wahana berdasarkan lokasi player
-    
     LokWhn(whn_selected) = getPlayer(Graf(*game));
-    // TulisPoint(LokWhn(whn_selected));
 
-    if (isNearWahana(LokWhn(whn_selected), whn_selected) ) printf("Wahananya deket kok\n");
     // Cek Apakah wahana bisa dibangun
     if (!IsBuildAbleSenpai(whn_selected, game)){
         printf("Wahana tidak bisa dibangun.\n");
@@ -106,8 +103,6 @@ void buildPush(GAME * game){
             float money_for_build = HargaBuild(whn_selected);
             float money_used = MoneyUsed(Amanag(*game)); 
 
-            printf(" Jlh Butuh dan Jlh punya : %d %d\n", jlhButuh, jlhPunya);
-
             if (jlhPunya < jlhButuh){
                 printf("Bahan yang dipunya tidak mencukupi.\n");
             }
@@ -139,7 +134,6 @@ void buildPush(GAME * game){
                 Aksi aksi_build = createAksi(id, 'b');
                 PushAksi(&StackAksi(Amanag(*game)),aksi_build);
                 AddEntryWahana(&(AMappingW(Amanag(*game))), CreateMapEWahana(id, whn_selected));
-                printf("aksi dipush ke stack\n");
             }
         }
     }
@@ -257,9 +251,9 @@ void upgradePush(GAME * game) {
     while (!found && i < NEff(StorageW(Smanag(*game)))) {
         // MWGetWahana ->
         MWGetWahana(&(SMappingW(Smanag(*game) )), ItemOf(StorageW(Smanag(*game)), i), &W);
-        printf("Nama Wahana di UPGRADE: %s\n", NamaWhn(W) );
-        printf("Ukuran Wahana di UPGRADE: %d\n", SizeWhn(W) );
-        printf("Lokasi Wahana di UPGRADE:");TulisPoint(LokWhn(W) );printf("\n"); // (-1, -1)
+        // printf("Nama Wahana di UPGRADE: %s\n", NamaWhn(W) );
+        // printf("Ukuran Wahana di UPGRADE: %d\n", SizeWhn(W) );
+        // printf("Lokasi Wahana di UPGRADE:");TulisPoint(LokWhn(W) );printf("\n"); // (-1, -1)
         if (isNearWahana(point_player, W)) {
             found = true;
         } else {
@@ -278,7 +272,7 @@ void upgradePush(GAME * game) {
         WAHANA Upgrade[2];
 
         // PrintTree(UpgradeTree(W), 2);
-        if (Left(UpgradeTree(W) ) == Nil || Right(UpgradeTree(W) ) == Nil){
+        if (Left(UpgradeTree(W) ) == Nil && Right(UpgradeTree(W) ) == Nil){
             printf("Tidak ada upgrade yang tersedia.\n");
             return;
         }
@@ -302,11 +296,11 @@ void upgradePush(GAME * game) {
         // Terima input wahana apa yang dibangun
         int Ans;
         scanf("%d", &Ans);
-        Ans--;
-        if (Ans <= 0 || Ans > 2 || (Ans > isRightAvailable+isLeftAvailable) || (Ans < isRightAvailable+isLeftAvailable)){
+        if (Ans <= 0 || Ans > 2 || (Ans > isRightAvailable+isLeftAvailable)){
             printf("Tidak valid.\n");
             return;
         }
+        Ans--;
 
         // Wahana tujuan upgrade!
         WAHANA whn_up = Upgrade[Ans];
@@ -321,7 +315,7 @@ void upgradePush(GAME * game) {
         // Cek apakah wahana sudah ada sebelumnya
         int idx_whn_up = MWGetKey(SMappingW(Smanag(*game)), whn_up);
         
-        if (!SearchAL(StorageW(Smanag(*game)), idx_whn_up)){
+        if (SearchAL(StorageW(Smanag(*game)), idx_whn_up)){
             printf("Wahana sudah pernah dibangun.\n");
         } else {
             int time_remain = TimeRemaining(Amanag(*game));
@@ -343,12 +337,15 @@ void upgradePush(GAME * game) {
             else {
                 // Tambah action times
                 actionTimes(*game)++;
+                
+                // Kurang bahan yang kepake
+                Punya(*currMat) -= jlhButuh;
 
                 // Kurangin waktu
                 TimeRemaining(Amanag(*game)) -= time_for_build;
                 
-                // Kurangin duit di Amanag(*game)   
-                MoneyUsed(Amanag(*game)) -= money_for_upgrade;
+                // Tambah money used
+                MoneyUsed(Amanag(*game)) += money_for_upgrade;
 
                 // Samain lokasi whn_up dengan wahana yg akan di upgrade
                 LokWhn(whn_up) = LokWhn(W);
@@ -456,7 +453,6 @@ void buyMaterialPush(GAME * game){
     else{
         // Tambah action times
         actionTimes(*game)++;
-        printf("Action times bertambah.\n"); // remove later
 
         // Kurangin waktu remaining
         TimeRemaining(Amanag(*game)) -= time_for_buy * jumlahBeli;
@@ -470,7 +466,6 @@ void buyMaterialPush(GAME * game){
         Aksi aksi_buy = createAksi(id, 'm');
         PushAksi(&(StackAksi(Amanag(*game))),aksi_buy);
         AddEntryMaterial(&(AMappingM(Amanag(*game))), CreateMapEMaterial(id, mat_selected));
-        printf("Aksi dipush.\n"); // remove later
     }
 } 
 
@@ -975,7 +970,7 @@ void printWahana (WAHANA w, GAME*g) {
         a = ANext(a);
     }
     // Status
-    printf("Status  : ");
+    printf("\nStatus  : ");
     if (RusakGakSih(w)) printf("Tidak berfungsi\n");
     else printf("Berfungsi\n");
 }
@@ -1019,8 +1014,6 @@ void detail(GAME *game){
 
     while (!found && i < NEff(StorageW(Smanag(*game)))) {
         getWahana(&(Smanag(*game)), ItemOf(StorageW(Smanag(*game)), i), &W);
-
-        printf("Apakah loop ini di jalankan");
 
         if (isNearWahana(point_player, W)) {
             found = true;

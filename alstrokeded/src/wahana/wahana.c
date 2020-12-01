@@ -93,7 +93,7 @@ boolean isNearWahana(POINT P, WAHANA whn){
     int i, j;
     for (i = startI; (i <= endI) && !IsNear; i++) {
         for (j = startJ; (j <= endJ) && !IsNear; j++) {
-            printf("Ini di Is Near Wahana: %d %d\n", j, i);   
+            // printf("Ini di Is Near Wahana: %d %d\n", j, i);   
             if ( (Absis(P) == j && Ordinat(P) == i ) 
             || (Absis(P) + 1 == j && Ordinat(P) == i )
             || ( Absis(P) - 1 == j && Ordinat(P) == i )

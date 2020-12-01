@@ -82,7 +82,7 @@ void initStorageManager(char* wahanafilename, char* materialfilename, char* tree
             }
         }
 
-        // PrintTree(UpgradeTree(whn), 2);
+        PrintTree(UpgradeTree(whn), 2);
 
         int idWahana = MWGetKey(SMappingW(*ms) , whn);
         DeleteEntryWahana(&(SMappingW(*ms)), idWahana);
