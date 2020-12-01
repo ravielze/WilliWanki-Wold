@@ -23,6 +23,7 @@ void createManagerStorage(GAME * game){
 
 void initStorageManager(char* wahanafilename, char* materialfilename, char* treefilename, manstor* ms){
     int N;
+    WAHANA whn;
     FILE* MaterialFile = fopen(materialfilename, "r");
 
     // printf("A");
@@ -33,8 +34,6 @@ void initStorageManager(char* wahanafilename, char* materialfilename, char* tree
         fscanf(MaterialFile, "%s %s %s %d %f %d\n", nama, desc, satuan, &jmlh, &harga, &waktu);
         MATERIAL mat = createMaterial(nama, desc, satuan, jmlh, harga, waktu);
         ScreateMaterial(ms, mat);
-
-        // printf("%s %s %s %d %f %d\n", nama, desc, satuan, jmlh, harga, waktu);
     }
 
     fclose(MaterialFile);
@@ -42,18 +41,19 @@ void initStorageManager(char* wahanafilename, char* materialfilename, char* tree
     FILE* WahanaFile = fopen(wahanafilename, "r");
     // printf("WAHANA:\n");
     fscanf(WahanaFile, "%d\n", &N);
-    WAHANA whn; MATERIAL mat;
-    while(N--){
+    MATERIAL mat;
+    while(N != 0){
         char namawhn[1000]; char tipewhn[1000]; char deskripsi[1000]; int kpstswhn; int sizewhn; float hargatiket; boolean rusakgasi; int durasi; boolean iswahanadasar; float hargabuild; int vertex; int durasibuild;
         char nama[1000]; char desc[1000]; char satuan[1000]; int jmlh; float harga; int waktu;
         fscanf(WahanaFile, "%s %s %s %d %d %f %d %d %d %f %d %d\n", namawhn, tipewhn, deskripsi, &kpstswhn, &sizewhn, &hargatiket, &rusakgasi, &durasi, &iswahanadasar, &hargabuild, &vertex, &durasibuild);
         fscanf(WahanaFile, "%s %s %s %d %f %d\n", nama, desc, satuan, &jmlh, &harga, &waktu);
 
         whn = createWahana(namawhn, tipewhn, deskripsi, kpstswhn, sizewhn, hargatiket, rusakgasi, durasi, iswahanadasar, hargabuild, vertex, durasibuild);
-        ScreateWahana(ms, whn);
         mat = createMaterial(nama, desc, satuan, jmlh, harga, waktu);
         Bahan(whn) = mat;
-
+        Akar(UpgradeTree(whn)) = N;
+        ScreateWahana(ms, whn);
+        N--;
         // printf("%s\n", NamaWhn(whn));
 
     }
@@ -63,30 +63,32 @@ void initStorageManager(char* wahanafilename, char* materialfilename, char* tree
     FILE* TreeFile = fopen(treefilename, "r");
     fscanf(TreeFile, "%d\n", &N);
     while(N--){
+        // Ngeloop setiap relasi yang ada 
+        // 0 1 2 3
+        // Nil
+        // 1 2
         int from, to;
-        char LorR;
-        WAHANA whn;
+        char LeftorRight;
 
-        fscanf(TreeFile, "%d %c %d\n", &from, &LorR, &to);
-        getWahana(ms, from, &whn);
-        // printf("%d %d", from, to);
-        if (LorR == 'L') {
-            if (UpgradeTree(whn) != Nil){
-                Left(UpgradeTree(whn) ) = AlokasiT(to); 
+        fscanf(TreeFile, "%d %c %d\n", &from, &LeftorRight, &to);
+        MWGetWahana(&(SMappingW(*ms)), from, &whn);
+        printf("%s\n", NamaWhn(whn) );
+        BinTree newDaun = AlokasiT(to);
+        if (newDaun != Nil){
+            if (LeftorRight == 'L') {
+                Left(UpgradeTree(whn) ) = newDaun; 
             } else {
-                BinTree T = Tree(from, AlokasiT(to), Nil);
-                UpgradeTree(whn) = T;
-            }
-        } else {
-            if (UpgradeTree(whn) != Nil){
-                Right(UpgradeTree(whn)) = AlokasiT(to); 
-            } else {
-                BinTree T = Tree(from, Nil, AlokasiT(to) );
-                UpgradeTree(whn) = T;
+                Right(UpgradeTree(whn) ) = newDaun; 
             }
         }
-    }
 
+        // PrintTree(UpgradeTree(whn), 2);
+
+        int idWahana = MWGetKey(SMappingW(*ms) , whn);
+        DeleteEntryWahana(&(SMappingW(*ms)), idWahana);
+        AddEntryWahana(&(SMappingW(*ms)), CreateMapEWahana(idWahana, whn) );
+    }
+    
     fclose(TreeFile);
 }
 
@@ -122,6 +124,7 @@ void ScreateMaterial(manstor * ms, MATERIAL mat){
 }
 
 void getWahana(manstor * ms, int id, WAHANA* whn) {
-    MapWahana list = SMappingW(*ms);
-    *whn = MWGetWahana(list, id);
+    WAHANA W;
+    MWGetWahana(&(SMappingW(*ms)), id, &W);
+    *whn = W;
 }

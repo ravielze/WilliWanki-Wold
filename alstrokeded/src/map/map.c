@@ -71,10 +71,10 @@ int IsEntryMaterial(MapMaterial MM, int sid) {
 /* IS PASTI ADA ID NYA GAMUNGKIN ENGGA GAMAU TAU
    FS IDNYA DAH ILANG BODO AMAT*/
 void DeleteEntryWahana(MapWahana *MW,int id) {
-// Mengurangi MaxEl jika yang terisi kurang dari 25%
+// Mengurangi MaxEl jika yang terisi kurang dari 25% 
     if (NEff(*MW) <= (MaxEl(*MW) / 4)) {
         MaxEl(*MW) /= 2;
-        MapEntryWahana *temp = (MapEntryWahana *) realloc(MapEntry(*MW), (MaxEl(*MW) * sizeof(MapWahana)));
+        MapEntryWahana *temp = (MapEntryWahana *) realloc(MapEntry(*MW), (MaxEl(*MW) * sizeof(MapEntryWahana)));
         if (temp == Nil) {
             printf("Error reallocating memory.");
             MapEntry(*MW) = Nil;
@@ -104,7 +104,7 @@ void DeleteEntryMaterial(MapMaterial *MM,int id) {
 // Mengurangi MaxEl jika yang terisi kurang dari 25%
     if (NEff(*MM) <= (MaxEl(*MM) / 4)) {
         MaxEl(*MM) /= 2;
-        MapEntryMaterial *temp = (MapEntryMaterial *) realloc(MapEntry(*MM), (MaxEl(*MM) * sizeof(MapMaterial)));
+        MapEntryMaterial *temp = (MapEntryMaterial *) realloc(MapEntry(*MM), (MaxEl(*MM) * sizeof(MapEntryMaterial)));
         if (temp == Nil) {
             printf("Error reallocating memory.");
             MapEntry(*MM) = Nil;
@@ -133,7 +133,7 @@ void DeleteEntryMaterial(MapMaterial *MM,int id) {
 /* Add Key */
 void AddEntryWahana(MapWahana *MW, MapEntryWahana entry){
     if (IsMapWFull(*MW)){
-        MapEntryWahana *temp = (MapEntryWahana*)realloc(MapEntry(*MW), ((MaxEl(*MW)+10)*sizeof(MapEntryWahana)));
+        MapEntryWahana* temp = (MapEntryWahana*) realloc (MapEntry(*MW), ((MaxEl(*MW)+10)*sizeof(MapEntryWahana) ) );
         if (temp != Nil){
             MaxEl(*MW) += 10;
             MapEntry(*MW) = temp;
@@ -156,21 +156,23 @@ void AddEntryMaterial(MapMaterial *MM, MapEntryMaterial entry){
 }
 
 /* Get Key-Value */
-WAHANA MWGetWahana(MapWahana MW, int id){
+void MWGetWahana(MapWahana* MW, int id, WAHANA* whn){
     /* Prekondisi : wahana ada*/
-    int rid = IsEntryWahana(MW, id);
-    return value(MapEntry(MW)[rid]);
+    int rid = IsEntryWahana(*MW, id);
+    *whn = value(MapEntry(*MW)[rid]);
 }
 
-MATERIAL MMGetMaterial(MapMaterial MM, int id) {
+void MMGetMaterial(MapMaterial *MM, int id, MATERIAL * mat) {
     /* Prekondisi : material ada*/
-    int rid = IsEntryMaterial(MM ,id);
-    return value(MapEntry(MM)[rid]);
+    int rid = IsEntryMaterial(*MM ,id);
+    *mat = value(MapEntry(*MM)[rid]);
 }
 
 int MWGetKey(MapWahana MW, WAHANA whn){
+    WAHANA whnx;
     for (int i = 0; i < NEff(MW); i++) {
-        if (isWahanaEqual(MWGetWahana(MW, i) , whn)) return i;
+        MWGetWahana(&MW, i, &whnx);
+        if (isWahanaEqual(whnx, whn)) return i;
     }
     return -1;
 }

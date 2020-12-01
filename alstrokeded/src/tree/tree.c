@@ -108,15 +108,23 @@ void BetterPrintTree(BinTree P, int h, int lv){
         BetterPrintTree(Right(P), h, lv+1);
     }
 }
+
 void PrintTree(BinTree P, int h){
-    BetterPrintTree(P, h, 0);
+    if (!IsTreeEmpty(P) ){
+        printf("%d\n", Akar(P) );
+        if (Left(P) != Nil) for (int i = 0; i < h; i++) printf(" ");
+        PrintTree(Left(P), h*2);
+        if (Right(P) != Nil) for (int i = 0; i < h; i++) printf(" ");
+        PrintTree(Right(P), h*2);
+    }
 }
 
-boolean isTreeEqual(BinTree P1, BinTree P2) {
-    if (IsTreeEmpty(P1) && IsTreeEmpty(P2)) return true;
-    if (Akar(P1) != Akar(P2)) return false;
-    if (IsUnerLeftT(P1) && IsUnerLeftT(P2)) return isTreeEqual(Left(P1), Left(P2));
-    else if (IsUnerRightT(P1) && IsUnerRightT(P2)) return isTreeEqual(Right(P1), Right(P2));
-    else if (IsBinerT(P1) && IsBinerT(P2)) return isTreeEqual(Left(P1), Left(P2)) && isTreeEqual(Right(P1), Right(P2));
-    else return false;
-}
+// boolean isTreeEqual(BinTree P1, BinTree P2) {
+//     // if (IsTreeEmpty(P1) && IsTreeEmpty(P2)) return true;
+//     // if (Akar(P1) != Akar(P2)) return false;
+//     // if (IsUnerLeftT(P1) && IsUnerLeftT(P2)) return isTreeEqual(Left(P1), Left(P2));
+//     // else if (IsUnerRightT(P1) && IsUnerRightT(P2)) return isTreeEqual(Right(P1), Right(P2));
+//     // else if (IsBinerT(P1) && IsBinerT(P2)) return (isTreeEqual(Left(P1), Left(P2) ) && isTreeEqual(Right(P1), Right(P2) ) );
+//     // else return false;
+//     // return true;
+// }

@@ -1,11 +1,11 @@
 5
-goto_death roller_coaster pernah_terjadi_kecelakaaan 1 1 3.5 6 1 8 9.5 10 11
+goto_death roller_coaster pernah_terjadi_kecelakaaan 1 1 3.5 0 6 1 9.5 10 11
 Air Elemen_dasar galon 1 15 1
-boringboringpudding trampoline jump_jump_top_of_pudding 61 1 3.5 43 7 82 9.5 10 11
+boringboringpudding trampoline jump_jump_top_of_pudding 61 1 3.5 0 43 1 9.5 10 11
 Air Elemen_dasar galon 1 15 1
-bungee_jump_without_rope extreme try_once_never_try_again 1 1 3.5 24 7 8 9.5 10 11
+bungee_jump_without_rope extreme try_once_never_try_again 1 1 3.5 0 24 1 9.5 10 11
 Air Elemen_dasar galon 1 15 1
-haunted_house scary with_real_ghost_inside 1 1 3.5 74 7 8 9.5 170 131
+haunted_house scary with_real_ghost_inside 1 1 3.5 0 74 1 9.5 170 131
 Air Elemen_dasar galon 1 15 1
-tubes_adventur hell never_tubes_again 1 1 3.5 4 15 16 9.5 120 112
+tubes_adventur hell never_tubes_again 1 1 3.5 0 4 1 9.5 120 112
 Air Elemen_dasar galon 1 15 1

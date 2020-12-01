@@ -19,6 +19,7 @@ WAHANA createWahana(char* namawhn, char* tipewhn, char* deskripsi, int kpstswhn,
     DurasiBuild(whn) = durasibuild;
     PelangganCounter(whn) = 0;
 
+    UpgradeTree(whn) = AlokasiT(-1);
     CreateEmptyQ(&(QueueWahana(whn)));
     MakeEmptyLL(&(History(whn)));
     return whn;
@@ -74,8 +75,7 @@ boolean isWahanaEqual(WAHANA whn1, WAHANA whn2){
         KpstsWhn(whn1) == KpstsWhn(whn2) &&
         SizeWhn(whn1) == SizeWhn(whn2) &&
         DurasiWhn(whn1) == DurasiWhn(whn2) &&
-        WahanaDasar(whn1) == WahanaDasar(whn2) &&
-        isTreeEqual(UpgradeTree(whn1), UpgradeTree(whn2))
+        WahanaDasar(whn1) == WahanaDasar(whn2)
     );
 }
 
@@ -86,13 +86,16 @@ boolean isNearWahana(POINT P, WAHANA whn){
     int startJ = Absis(LokWhn(whn) ) - SizeWhn(whn)/2;
     int endJ = Absis(LokWhn(whn) ) + SizeWhn(whn)/2;
 
-    printf("Wahana: %d %d\n", startI, endI);
-    printf("Player: %d %d\n", Absis(P), Ordinat(P) );
+    
+    // printf("Wahana: %d %d\n", startI,  startJ);
+    // printf("Player: %d %d\n", Absis(P), Ordinat(P) );
 
     int i, j;
     for (i = startI; (i <= endI) && !IsNear; i++) {
         for (j = startJ; (j <= endJ) && !IsNear; j++) {
-           if ( (Absis(P) + 1 == j && Ordinat(P) == i )
+            printf("Ini di Is Near Wahana: %d %d\n", j, i);   
+            if ( (Absis(P) == j && Ordinat(P) == i ) 
+            || (Absis(P) + 1 == j && Ordinat(P) == i )
             || ( Absis(P) - 1 == j && Ordinat(P) == i )
             || ( Absis(P) == j && Ordinat(P) + 1 == i )
             || ( Absis(P) == j && Ordinat(P) - 1 == i ) ) IsNear = true;

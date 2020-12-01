@@ -101,5 +101,6 @@ void detail(GAME *game);
 time_t t;
 
 void initRNG();
+void printWahanaOffice (WAHANA w,GAME*g);
 
 #endif

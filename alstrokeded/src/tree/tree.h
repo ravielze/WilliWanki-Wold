@@ -48,5 +48,5 @@ void PrintTree(BinTree P, int h);
 
 /* tree P1 = tree P2 ga ya hm*/
 void BetterPrintTree(BinTree P, int h, int lv);
-boolean isTreeEqual(BinTree P1, BinTree P2);
+// boolean isTreeEqual(BinTree P1, BinTree P2);
 #endif

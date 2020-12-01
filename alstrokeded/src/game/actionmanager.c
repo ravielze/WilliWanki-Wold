@@ -22,8 +22,7 @@ void createManagerAction(GAME * game) {
 
 void getWahanaa(manact * ma, int id, WAHANA * whn) {
     // dapetin wahana dengan idnya V output
-    MapWahana list = AMappingW(*ma);
-    *whn = MWGetWahana(list, id);    
+    MWGetWahana(&(AMappingW(*ma)), id, whn);    
 }
 
 void resetTimeRemaining(manact * ma) {

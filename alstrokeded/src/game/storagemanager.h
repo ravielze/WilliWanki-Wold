@@ -5,6 +5,7 @@
 #include "../array/arraymat.h"
 #include "../constant/adt.h"
 #include "../material/material.h"
+#include "../wahana/wahana.h"
 #include "game.h"
 /*
 0 | Wahana A

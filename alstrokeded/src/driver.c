@@ -40,7 +40,7 @@ void printMenu(GAME g){
         printf("Total waktu yang dibutuhkan: "); 
         JAM j2; MakeJamFromMenit(&j2, (720 - TimeRemaining(Amanag(g)))); TimeRemain(j2);
         // Jam j1; MakeJamFromMenit(&j1, TimeRemaining(Amanag(g)))
-        printf("\nTotal uang yang dibutuhkan: %f\n", MoneyUsed(Amanag(g)));
+        printf("\nTotal uang yang dibutuhkan: %.2f\n", MoneyUsed(Amanag(g)));
 
         printf("Apa yang ingin dilakukan?\n");
         printf("  - Bangun wahana       : BUILD\n");
