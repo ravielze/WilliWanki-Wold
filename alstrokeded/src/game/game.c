@@ -77,10 +77,10 @@ void buildPush(GAME * game){
     // Isi lokasi wahana berdasarkan lokasi player
     LokWhn(whn_selected) = getPlayer(Graf(*game));
 
-    // Tes print lokasi
-    TulisPoint(LokWhn(whn_selected));
-    POINT point_player = getPlayer(Graf(*game));
-    TulisPoint(point_player);
+    // // Tes print lokasi
+    // TulisPoint(LokWhn(whn_selected));
+    // POINT point_player = getPlayer(Graf(*game));
+    // TulisPoint(point_player);
 
     // Cek Apakah wahana bisa dibangun
     if (IsBuildAbleSenpai(whn_selected, game) ){
@@ -136,11 +136,12 @@ void buildPush(GAME * game){
 
                 // Update Map
                 UpdateMatriksWahana(&Graf(*game) , whn_selected);
-                
+
                 // Push aksi ke stack
                 int id = Top(StackAksi(Amanag(*game))); id++;
                 Aksi aksi_build = createAksi(id, 'b');
                 PushAksi(&StackAksi(Amanag(*game)),aksi_build);
+                DeleteEntryWahana(&(AMappingW(Amanag(*game))) , id);
                 AddEntryWahana(&(AMappingW(Amanag(*game))), CreateMapEWahana(id, whn_selected));
             }
         }
@@ -154,10 +155,10 @@ void buildPop(GAME * game) {
     WAHANA whn_selected = value(MapEntry(AMappingW(Amanag(*game)))[rid]);
     MATERIAL bahan_whn_selected = Bahan(whn_selected);
 
-    // Tes print lokasi
-    TulisPoint(LokWhn(whn_selected));
-    POINT point_player = getPlayer(Graf(*game));
-    TulisPoint(point_player);
+    // // Tes print lokasi
+    // TulisPoint(LokWhn(whn_selected));
+    // POINT point_player = getPlayer(Graf(*game));
+    // TulisPoint(point_player);
 
     int idx_material_selected = SearchIdxMAT(StorageM(Smanag(*game)),bahan_whn_selected);
     MATERIAL * currMat = &ItemOf(StorageM(Smanag(*game)), idx_material_selected);
@@ -224,6 +225,7 @@ void Repair(GAME *game){
                 printf("Bokek bos, cari duit dulu.\n");
             }
             else{
+                printf("Wahana berhasil direpair.\n");
                 // Tambah action times
                 actionTimes(*game)++;
 
@@ -235,6 +237,11 @@ void Repair(GAME *game){
 
                 // Set boolean rusak dari wahana menjadi tidak rusak
                 RusakGakSih(whn_tobe_repaired) = false;
+
+                // Delete Entry wahana, add entry baru dengan lokasi benar
+                int idWahana = MWGetKey(SMappingW(Smanag(*game)),whn_tobe_repaired);
+                DeleteEntryWahana(&(SMappingW(Smanag(*game))), idWahana);
+                AddEntryWahana(&(SMappingW(Smanag(*game))), CreateMapEWahana(idWahana, whn_tobe_repaired));
             }
         }
     }
@@ -358,16 +365,12 @@ void upgradePush(GAME * game) {
 
                 // Samain lokasi whn_up dengan wahana yg akan di upgrade
                 LokWhn(whn_up) = LokWhn(W);
-                
-                // Delete Entry wahana lama
-                int idWahana = MWGetKey(SMappingW(Smanag(*game)),W);
-                DeleteEntryWahana(&(SMappingW(Smanag(*game))), idWahana);
 
                 // Push aksi ke stack
                 int id = Top(StackAksi(Amanag(*game))); id++;
                 Aksi aksi_up = createAksi(id, 'u');
                 PushAksi(&StackAksi(Amanag(*game)), aksi_up);
-                
+                DeleteEntryWahana(&(AMappingW(Amanag(*game))) , id);
                 AddEntryWahana(&(AMappingW(Amanag(*game))), CreateMapEWahana(id, whn_up));
 
                 printf("Wahana berhasil diupgrade\n");
@@ -389,15 +392,12 @@ void upgradePop(GAME *game) {
     WAHANA whn_before;
     while (!found && i < NEff(StorageW(Smanag(*game)))) {
         MWGetWahana(&(SMappingW(Smanag(*game) )), ItemOf(StorageW(Smanag(*game)), i), &whn_before);
-        if (isNearWahana(LokWhn(whn_up), whn_before)) {
+        if (PEQ(LokWhn(whn_up), LokWhn(whn_before))) {
             found = true;
         } else {
             i++;
         }
     }
-
-    //printf("%s\n", NamaWhn(whn_before));
-    //printf("%s\n", NamaWhn(whn_up));
 
     int idx_material_up = SearchIdxMAT(StorageM(Smanag(*game)),bahan_whn_up);
     MATERIAL * currMat = &ItemOf(StorageM(Smanag(*game)), idx_material_up);
@@ -412,6 +412,7 @@ void upgradePop(GAME *game) {
 
     // Update keterangan wahana baru 
     History(whn_up) = History(whn_before);
+    SizeWhn(whn_up) = SizeWhn(whn_before);
     InsertLastLL(&History(whn_up), MWGetKey(SMappingW(Smanag(*game)), whn_before));
     MakeEmptyLL(&History(whn_before));
 
@@ -497,6 +498,7 @@ void buyMaterialPush(GAME * game){
         int id = Top(StackAksi(Amanag(*game))); id++;
         Aksi aksi_buy = createAksi(id, 'm');
         PushAksi(&(StackAksi(Amanag(*game))),aksi_buy);
+        DeleteEntryWahana(&(AMappingW(Amanag(*game))) , id);
         AddEntryMaterial(&(AMappingM(Amanag(*game))), CreateMapEMaterial(id, mat_selected));
     }
 } 
@@ -639,7 +641,7 @@ void ExecutePhase(GAME * game) {
         printf("Lagi main phase bang..\n");
     }
     else{
-        printf("Eksekusi..\n");
+        printf("Eksekusi...\n");
         // pindah state main phase
         IsMP(*game) = true;
         Stack target;
@@ -672,7 +674,7 @@ void ExecutePhase(GAME * game) {
 
 void Serve(GAME * g) {
     qaddress A = Head(GameQueue(*g));
-    int indexx;
+    int indexx = 0;
 
     while (A != Nil && inrides(Info(A))) {//Traversal untill found somone not in rides or till end of queue
         A = Next(A);
@@ -686,7 +688,6 @@ void Serve(GAME * g) {
         
         /* Send visitor to wahana */
         int idwahanatoride = todonow(fmv);
-        printf("Id wahana yang ingin dinaiki : %d\n", idwahanatoride);
         Visitor V = fmv;
         WAHANA thewahana;
         MWGetWahana(&(SMappingW(Smanag(*g))), idwahanatoride, &thewahana);
@@ -694,33 +695,42 @@ void Serve(GAME * g) {
         // Cek Wahana rusak?
         if (RusakGakSih(thewahana)){
             printf("Wahana %s rusak cuy...", NamaWhn(thewahana));
-            return;
         }
+        else{
+            // Tambah waktu 2 menit
+            TickTime(g, 2);
 
-        enqueueWahana(&thewahana, V);
-        Money(*g) += HargaTiket(thewahana);
-        printf("Uang bertambah sebanyak : %f.\n" , HargaTiket(thewahana));
+            enqueueWahana(&thewahana, V);
+            Money(*g) += HargaTiket(thewahana);
 
-        // Delete Entry wahana, add entry baru dengan Queue baru
-        int idWahana = MWGetKey(SMappingW(Smanag(*g)),thewahana);
-        DeleteEntryWahana(&(SMappingW(Smanag(*g))), idWahana);
-        AddEntryWahana(&(SMappingW(Smanag(*g))), CreateMapEWahana(idWahana, thewahana));
-        printf("Queue wahana updated.\n");
+            // Delete Entry wahana, add entry baru dengan Queue baru
+            int idWahana = MWGetKey(SMappingW(Smanag(*g)),thewahana);
+            DeleteEntryWahana(&(SMappingW(Smanag(*g))), idWahana);
+            AddEntryWahana(&(SMappingW(Smanag(*g))), CreateMapEWahana(idWahana, thewahana));
 
-        /* Delete from todo list */
-        Aksi dump;
-        PopAksi(&todo(V),&dump); 
-        /* Re enter queue with prio + 1 */
-        if (IsStackEmpty(todo(V))) { /* Visitor has completed his/her to do list */
-            DequeueN(&(GameQueue(*g)),&fmv,indexx);
+            /* Re enter queue with prio + 1 */
+            Queue fullofWeaboos = GameQueue(*g);
+            DequeueN(&fullofWeaboos,&fmv,indexx);
+
+            /* Delete from todo list */
+            Aksi dump;
+            PopAksi(&(todo(fmv)),&dump);
+            inrides(fmv) = true;
+
+            if (!IsStackEmpty(todo(fmv)))  { /* Visitor has not yet completed his/her to do list */
+                Enqueue(&fullofWeaboos,fmv,cprio+1);
+            }
+
+            GameQueue(*g) = fullofWeaboos;
+
+            printf("Served successfully.\n");
+            
+            // Masuk ke report
+            MapWahana MW = SMappingW(Smanag(*g));
+            WAHANA weebs_concert;
+            MWGetWahana(&MW, idWahana, &weebs_concert);
+            PelangganCounter(weebs_concert)++;
         }
-        else { /* Visitor has not yet completed his/her to do list */
-            printf("tidak ada wahana yang ingin dinaiki lagi.\n");
-            DequeueN(&(GameQueue(*g)),&fmv,indexx); //TODO topher
-            Enqueue(&GameQueue(*g),fmv,cprio+1);
-        }
-
-        printf("Served successfully.\n");
     }
     else{
         printf("Tidak ada pengunjung untuk diserve..\n");
@@ -730,7 +740,7 @@ void Serve(GAME * g) {
 void GeneratePengunjung (GAME * g) {
     Visitor genV;
     int maxVisitor = 5; /* CHANGE THIS TO CHANGE NUMBER OF VISITOR */
-    int theVisitor = rand() & maxVisitor;
+    int theVisitor = (rand() % maxVisitor)+1;
 
     /* Check if there a wahana exist or not */
     if (!IsALEmpty(StorageW(Smanag(*g)))){
@@ -769,18 +779,17 @@ Visitor SpawnVisitor(int id, GAME * g){
 Stack generateToDo(GAME *g){
     Stack S; MakeStack(&S);
 
-    int todocap = 3; /* jumlah wahana yang akan dinaiki */
+    int todocap = 4; /* jumlah wahana yang akan dinaiki */
 
     int totaltodo = (rand() % todocap)+1;
     int i = 1;
     int selectedid; Aksi selectedAksi;
     while (i <= NEff(StorageW(Smanag(*g))) && i <= totaltodo){
         selectedid = rand() % (NEff(StorageW(Smanag(*g))));
-        if (!isIDInStack(S,selectedid)) {
-            selectedAksi = createAksi(ItemOf(StorageW(Smanag(*g)), selectedid),'r');
+        selectedAksi = createAksi(ItemOf(StorageW(Smanag(*g)), selectedid),'r');
+        if (!isIDInStack(S,IDAksi(selectedAksi))) {
             PushAksi(&S,selectedAksi);
         }
-
         i++;
     }
     return S;
@@ -790,7 +799,7 @@ Stack generateToDo(GAME *g){
 void deleteWeaboo(GAME* g) {
     /* REMOVE VISITOR FROM MAIN QUEUE */
     ElTypeQ trash;
-    while (IsEmptyQ((GameQueue(*g)))) {
+    while (!IsEmptyQ((GameQueue(*g)))) {
         Dequeue(&GameQueue(*g),&trash);
     }
 
@@ -802,6 +811,11 @@ void deleteWeaboo(GAME* g) {
         for (int j = 0; j < doctorNEffario;j++){
             // temp = StorageW(Smanag(*g));
             dequeueWahana(&WW);
+
+            // Delete Entry wahana, add entry baru dengan lokasi benar
+            int idWahana = MWGetKey(SMappingW(Smanag(*g)),WW);
+            DeleteEntryWahana(&(SMappingW(Smanag(*g))), idWahana);
+            AddEntryWahana(&(SMappingW(Smanag(*g))), CreateMapEWahana(idWahana, WW));    
         }
     }
 }
@@ -810,7 +824,6 @@ void angryWeaboo(GAME*g,int id){
     if (visitorid(Info(Head(GameQueue(*g)))) == id) {
         ElTypeQ dump;
         Dequeue (&GameQueue(*g), &dump);
-        Head(GameQueue(*g)) = Next(Head(GameQueue(*g)));
     } else {
         int cnt;
         qaddress A = Head(GameQueue(*g));
@@ -828,30 +841,32 @@ void updateWeaboo(GAME*g) {
     JAM time_now = Time(*g);
     int jlh_weaboo = NBElmtQ(GameQueue(*g));
 
-    // qaddress P = Head(GameQueue(*g));
+    qaddress P = Head(GameQueue(*g));
     for (int i = 0; i < jlh_weaboo ; i++){
         // Visitor currV = Info(P);
         // Visitor currV = Info(Head(GameQueue(*g)));
         // JAM time_Visitor = entertime(currV);
-        JAM time_Visitor = entertime(Info(Head(GameQueue(*g))));
+        JAM time_Visitor = entertime(Info(P));
 
         int durasi = Durasi(time_Visitor , time_now);
 
         // Waktu update kesabaran : 10 menit
-        int waktu_update_kesabaran = 30;
+        int waktu_update_kesabaran = 10;
         
         if (durasi > waktu_update_kesabaran){
-            int kesabaran_turun = durasi % waktu_update_kesabaran;
-            patience(Info(Head(GameQueue(*g)))) -= kesabaran_turun;
+            int kesabaran_turun = durasi / waktu_update_kesabaran;
+            patience(Info(P)) -= kesabaran_turun;
 
             int menit_hilang = kesabaran_turun * waktu_update_kesabaran;
-            entertime(Info(Head(GameQueue(*g)))) = NextNMenit(time_Visitor,menit_hilang);
+            entertime(Info(P)) = NextNMenit(time_Visitor,menit_hilang);
 
             // Cek apakah kesabaran habis
-            if (patience(Info(Head(GameQueue(*g)))) <= 0){
-                angryWeaboo(g, visitorid(Info(Head(GameQueue(*g)))));
+            if (patience(Info(P)) <= 0){
+                angryWeaboo(g, visitorid(Info(P)));
             }
         }
+
+        P = Next(P);
     }
 }
 
@@ -860,19 +875,24 @@ void updateWeabooWahana(GAME*g , WAHANA * whn){
     JAM time_now = Time(*g);
     int jlh_weaboo = NBElmtQ(QueueWahana(*whn));
 
-    // qaddress P = Head(GameQueue(*g));
-    for (int i = 0; i < jlh_weaboo ; i++){
-        // Visitor currV = Info(P);
-        // Visitor currV = Info(Head(QueueWahana(*g)));
-        // JAM time_Visitor = entertime(currV);
-        int durasi_main = DurasiWhn(*whn);
-        int durasi_adadiwahana = Durasi(entertime(Info(Head(QueueWahana(*whn)))) , time_now);
-        
-        if (durasi_main > durasi_adadiwahana){
-            // Enqueue balik ke antrian utama
-            getbacktoWeaboo(g,whn);
+    if (!IsEmptyQ(GameQueue(*g))){
+        qaddress P = Head(GameQueue(*g));
+        for (int i = 0; i < jlh_weaboo ; i++){
+            // Visitor currV = Info(P);
+            // Visitor currV = Info(Head(QueueWahana(*g)));
+            // JAM time_Visitor = entertime(currV);
+            int durasi_main = DurasiWhn(*whn);
+            int durasi_adadiwahana = Durasi(entertime(Info(P)) , time_now);
+
+            if (durasi_main < durasi_adadiwahana){
+                // Enqueue balik ke antrian utama
+                getbacktoWeaboo(g,whn);
+            }
+
+            P = Next(P);
         }
     }
+    
 }
 
 /* prekondisi : stack pasti isi */
@@ -886,7 +906,7 @@ void printAnime(Stack S, GAME*g) {
         list_anime = SMappingW(Smanag(*g));
         MWGetWahana(&list_anime, IDAksi(ID), &animenya);
         printf("%s", NamaWhn(animenya));
-        if (!IsStackEmpty(S)) printf(",");
+        if (!IsStackEmpty(S)) printf(", ");
     }
     printf(")");
 }
@@ -900,8 +920,18 @@ void printAnime(Stack S, GAME*g) {
 
 void printWeaboo(GAME* g){
     qaddress A = Head(GameQueue(*g));
+    qaddress B = Head(GameQueue(*g));
     Visitor WEABOO;
+    Visitor WEABOO_NUMBER;
     Stack Todo;
+    int patient_weaboo = 0;
+    while (B != Nil) {
+        WEABOO_NUMBER = Info(B);
+        if (!inrides(WEABOO_NUMBER)) patient_weaboo++;
+        B = Next(B);
+    }
+    printf("Antrian [%d/%d]:\n", patient_weaboo, 5);
+
     while(A != Nil){
         WEABOO = Info(A);
         if(!inrides(WEABOO)){
@@ -921,7 +951,7 @@ void getbacktoWeaboo(GAME*g,WAHANA*w) {
 
     qaddress A = Head(GameQueue(*g));
     while (A != Nil && visitorid(Info(A)) != vid) A = Next(A); /* Travesal until visitorid(A) is vid */
-    if (visitorid(Info(A)) == vid) inrides(Info(A)) = false; /* Visitor has yet finished rides he/she want */
+    if (A != Nil && visitorid(Info(A)) == vid) inrides(Info(A)) = false; /* Visitor has yet finished rides he/she want */
     /* else : Visitor is not found in main queue (has finished all rides he/she wanted) */
 }
 
@@ -936,37 +966,27 @@ void initRNG(){
 void WahanaGoBoomBoom(WAHANA*w,GAME*g){
     int WILLITBREAK = rand() % 100;
     ElTypeQ v;
-    if (WILLITBREAK < 10) {
+    if (WILLITBREAK < 2) {
         printf("Wahana %s rusak cuy...\n", NamaWhn(*w));
-        RusakGakSih(*w) = true;
-        printf("TESTT- 1\n");
-        qaddress A; int cid;
-        int cnt; Visitor dump;
-        printf("TESTT- 2\n");
-        if (IsEmptyQ(GameQueue(*g))) printf("Q KOSON");
-        printf("TESTT- 2a\n");
-        int ZaPrio = Prio(Head(GameQueue(*g))) + 1;
-        printf("TESTT- 3\n");
-        for (int i = 0; i < NBElmtQ(QueueWahana(*w)); i++){
-            printf("TESTT- 4\n");
-            Dequeue(&QueueWahana(*w),&v);
-            printf("TESTT- 5\n");
-            cid = visitorid(v);
-            printf("TESTT- 6\n");
-            A = Head(GameQueue(*g)); cnt = 0;
-            printf("TESTT- 7\n");
-            while(A != Nil && visitorid(Info(A)) != cid){
-                A = Next(A);
-                printf("TESTT- A- %d\n",cnt);
-                cnt++;
+        if (!RusakGakSih(*w)){
+            RusakGakSih(*w) = true;
+            qaddress A; int cid;
+            int cnt; Visitor dump;
+            if (!IsEmptyQ(GameQueue(*g))) {
+                int ZaPrio = Prio(Head(GameQueue(*g))) + 1;
+                for (int i = 0; i < NBElmtQ(QueueWahana(*w)); i++){
+                    Dequeue(&QueueWahana(*w),&v);
+                    cid = visitorid(v);
+                    A = Head(GameQueue(*g)); cnt = 0;
+                    while(A != Nil && visitorid(Info(A)) != cid){
+                        A = Next(A);
+                        cnt++;
+                    }
+                    inrides(v) = false;
+                    DequeueN(&GameQueue(*g),&dump,cnt);
+                    Enqueue(&GameQueue(*g),v,ZaPrio);
+                }
             }
-            printf("TESTT- 8\n");
-            inrides(v) = false;
-            printf("TESTT- 9\n");
-            DequeueN(&GameQueue(*g),&dump,cnt);
-            printf("TESTT- 10\n");
-            Enqueue(&GameQueue(*g),v,ZaPrio);
-            printf("TESTT- 11\n");
         }
     }
 }
@@ -999,7 +1019,7 @@ WAHANA getWahanaFromPoint(POINT P, manstor ms) {
 void TickTime(GAME *game , int mnt_ticks){
     // Tambah variabel jam global
     Time(*game) = NextNMenit(Time(*game), mnt_ticks);
-    TimeRemaining(Amanag(*game)) -= 1;
+    TimeRemaining(Amanag(*game)) -= mnt_ticks;
     int totalwahana = NEff(StorageW(Smanag(*game)));
     WAHANA whnx;
     for (int i = 0; i < totalwahana; i++){
@@ -1027,7 +1047,23 @@ void TickTime(GAME *game , int mnt_ticks){
     else{
         // Cek apakah kesabaran visitor naik
         updateWeaboo(game);
+        WAHANA W;
+        
+        // Loop semua wahana, cari ada yg selesai main
+        int neff = NEff(StorageW(Smanag(*game)));
+        for (int i=0; i < neff ; i++){
+            MWGetWahana(&(SMappingW(Smanag(*game))) , ItemOf(StorageW(Smanag(*game)),i), &W);
+            updateWeabooWahana(game,&W);
+
+            // Delete Entry wahana, add entry baru dengan lokasi benar
+            int idWahana = MWGetKey(SMappingW(Smanag(*game)),W);
+            DeleteEntryWahana(&(SMappingW(Smanag(*game))), idWahana);
+            AddEntryWahana(&(SMappingW(Smanag(*game))), CreateMapEWahana(idWahana, W));
+        }
+
     }
+
+    
 }
 
 /* Go to Preparation Phase */
@@ -1119,11 +1155,11 @@ void office_detail(GAME *game){
 }
 
 void printWahana (WAHANA w, GAME*g) {
-    printf("Nama    : %s\n", NamaWhn(w));
-    printf("Lokasi  : "); TulisPoint(LokWhn(w));
+    printf("Nama         : %s\n", NamaWhn(w));
+    printf("Lokasi       : "); TulisPoint(LokWhn(w));
 
     // Upgrade
-    printf("\nUpgrade : ");
+    printf("\nUpgrade(s)   : ");
     WAHANA CWHN;
     boolean isLeft = false;
     printf("[");
@@ -1138,21 +1174,23 @@ void printWahana (WAHANA w, GAME*g) {
         printf("%s",NamaWhn(CWHN));
     }
     printf("]\n");
-
-    // History
-    printf("History : "); 
+    printf("History      : "); 
     LLaddress a = First(History(w));
-    
-    while(a != Nil){
+    boolean found = false;
+    while(a != Nil) {
         MWGetWahana(&(SMappingW(Smanag(*g))), AInfo(a), &CWHN);
-        if (ANext(a) == Nil) printf("%s",NamaWhn(CWHN));
+        if (ANext(a) == Nil) {
+            printf("%s",NamaWhn(CWHN));
+            found = true;
+        }
         else {
             printf("%s -> ",NamaWhn(CWHN));
         }
         a = ANext(a);
     }
+    if (found) printf(" -> %s", NamaWhn(w));
     // Status
-    printf("\nStatus  : ");
+    printf("\nStatus       : ");
     if (RusakGakSih(w)) printf("Tidak berfungsi\n");
     else printf("Berfungsi\n");
 }
@@ -1169,14 +1207,19 @@ void printWahanaOffice (WAHANA w,GAME*g) {
     printf("History   : ");
     LLaddress a = First(History(w));
     WAHANA CWHN;
+    boolean found = false;
     while(a != Nil){
         MWGetWahana(&(SMappingW(Smanag(*g))), AInfo(a), &CWHN);
-        if (ANext(a) == Nil) printf("%s",NamaWhn(CWHN));
+        if (ANext(a) == Nil) {
+            printf("%s",NamaWhn(CWHN));
+            found = true;
+        }
         else {
             printf("%s -> ",NamaWhn(CWHN));
         }
         a = ANext(a);
     }
+    if (found) printf(" -> %s", NamaWhn(w));
     
     
     printf("\nDurasi    : %d minute(s)\n", DurasiWhn(w));

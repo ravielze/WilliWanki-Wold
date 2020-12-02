@@ -59,10 +59,22 @@ void printMenu(GAME g){
     }
 }
 
+void printASCII(){
+    printf(" _     _  ___   ___      ___      __   __    _     _  _______  __    _  _______  ___   _  __   __ \n");
+    printf("| | _ | ||   | |   |    |   |    |  | |  |  | | _ | ||   _   ||  |  | ||       ||   | | ||  | |  |\n");
+    printf("| || || ||   | |   |    |   |    |  |_|  |  | || || ||  |_|  ||   |_| ||    ___||   |_| ||  |_|  |\n");
+    printf("|       ||   | |   |    |   |    |       |  |       ||       ||       ||   | __ |      _||       |\n");
+    printf("|       ||   | |   |___ |   |___ |_     _|  |       ||       ||  _    ||   ||  ||     |_ |_     _|\n");
+    printf("|   _   ||   | |       ||       |  |   |    |   _   ||   _   || | |   ||   |_| ||    _  |  |   |  \n");
+    printf("|__| |__||___| |_______||_______|  |___|    |__| |__||__| |__||_|  |__||_______||___| |_|  |___|  \n");
+    printf("\n");
+}
+
 int main(){
     // printf("AAA");
     GAME g = createGame();
     boolean p = true;
+    printASCII();
     printf("Who is your name: ");
     STARTKATA();
     Pemain(g) = CKata.TabKata;

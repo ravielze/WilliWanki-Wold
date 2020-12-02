@@ -86,14 +86,14 @@ boolean isNearWahana(POINT P, WAHANA whn){
     int startJ = Absis(LokWhn(whn) ) - SizeWhn(whn)/2;
     int endJ = Absis(LokWhn(whn) ) + SizeWhn(whn)/2;
 
-    
-    // printf("Wahana: %d %d\n", startI,  startJ);
-    // printf("Player: %d %d\n", Absis(P), Ordinat(P) );
+    // printf("Ini buat debug: \n");
+    // printf("Lokasi Wahana: ");TulisPoint(LokWhn(whn) );printf("\n");
+    // printf("Size Wahana: %d\n", SizeWhn(whn) );
+    // printf("Lokasi Player: (%d,%d)\n", Absis(P), Ordinat(P) );
 
     int i, j;
     for (i = startI; (i <= endI) && !IsNear; i++) {
         for (j = startJ; (j <= endJ) && !IsNear; j++) {
-            // printf("Ini di Is Near Wahana: %d %d\n", j, i);   
             if ( (Absis(P) == j && Ordinat(P) == i ) 
             || (Absis(P) + 1 == j && Ordinat(P) == i )
             || ( Absis(P) - 1 == j && Ordinat(P) == i )

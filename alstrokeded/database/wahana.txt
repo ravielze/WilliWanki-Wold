@@ -1,15 +1,15 @@
 6
 goto_death roller_coaster pernah_terjadi_kecelakaaan 1 3 3.5 0 6 1 9.5 10 11
 Air Elemen_dasar galon 1 15 1
-goto_hell roller_coaster akan_terjadi_kecelakaaan 1 1 3.5 0 6 0 9.5 10 11
+goto_hell roller_coaster akan_terjadi_kecelakaaan 1 3 7.0 0 6 0 9.5 10 11
 Air Elemen_dasar galon 1 15 1
 boringboringpudding trampoline jump_jump_top_of_pudding 61 1 3.5 0 43 1 9.5 10 11
 Air Elemen_dasar galon 1 15 1
-exciting_pudding trampoline jump_jump_top_of_pudding 61 1 3.5 0 43 0 9.5 10 11
+exciting_pudding trampoline jump_jump_top_of_pudding 61 1 7.0 0 43 0 9.5 10 11
 Air Elemen_dasar galon 1 15 1
 bungee_jump_without_rope extreme try_once_never_try_again 1 1 3.5 0 24 1 9.5 10 11
 Air Elemen_dasar galon 1 15 1
-bungee_jump_from_mountain extreme try_once_never_try_again 1 1 3.5 0 24 0 9.5 10 11
+bungee_jump_from_mountain extreme try_once_never_try_again 1 1 7.0 0 24 0 9.5 10 11
 Air Elemen_dasar galon 1 15 1
 
 char* namawhn, char* tipewhn, char* deskripsi, int kpstswhn, int sizewhn, 
