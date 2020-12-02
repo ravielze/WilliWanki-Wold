@@ -1,7 +1,7 @@
 6
 goto_death roller_coaster pernah_terjadi_kecelakaaan 1 3 3.5 0 6 1 9.5 10 11
 Air Elemen_dasar galon 1 15 1
-goto_hell roller_coaster pernah_terjadi_kecelakaaan 1 1 3.5 0 6 0 9.5 10 11
+goto_hell roller_coaster akan_terjadi_kecelakaaan 1 1 3.5 0 6 0 9.5 10 11
 Air Elemen_dasar galon 1 15 1
 boringboringpudding trampoline jump_jump_top_of_pudding 61 1 3.5 0 43 1 9.5 10 11
 Air Elemen_dasar galon 1 15 1

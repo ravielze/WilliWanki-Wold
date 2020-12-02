@@ -5,6 +5,7 @@
 #include "../constant/adt.h"
 #include "../matrix/matrix.h"
 #include "../point/point.h"
+#include "../game/game.h"
 
 AdrVertex AlokasiVertex (MATRIKS M);
 /* Mengalokasi MATRIKS M dengan edge semuanya menunjuk Nil */
@@ -12,7 +13,7 @@ AdrVertex AlokasiVertex (MATRIKS M);
 Graph InitGraphPeta (MATRIKS M1, MATRIKS M2, MATRIKS M3, MATRIKS M4);
 /* Membuat Graf khusus untuk Peta menerima 4 matriks */
 
-void MovePlayer (AdrVertex* V, int difX, int difY);
+void MovePlayer (AdrVertex* V, int difX, int difY, GAME* g);
     /* Mengupdate MATRIKS Map berukuran 11 x 11 dengan posisi Xplayer dan Yplayer diubah */
     /* sisi terluarnya adalah # yaitu pagar, sisi dalamnya adalah . yaitu lahan */
 

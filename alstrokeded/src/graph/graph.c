@@ -43,7 +43,7 @@ Graph InitGraphPeta (MATRIKS M1, MATRIKS M2, MATRIKS M3, MATRIKS M4){
 }
 
 /* *** Update POSISI atau Wahana pada MATRIKS *** */
-void MovePlayer (AdrVertex* V, int difX, int difY) {
+void MovePlayer (AdrVertex* V, int difX, int difY, GAME* g) {
     int Xbefore = Xplayer(InfoMATRIKS(*V) );
     int Ybefore = Yplayer(InfoMATRIKS(*V) );
     Xplayer(InfoMATRIKS(*V) ) += difX;
@@ -71,6 +71,7 @@ void MovePlayer (AdrVertex* V, int difX, int difY) {
             printf("You are already in the Office!\n");
             break;
         case '>':
+            if (IsMP(*g) ) TickTime(g, 1);
             Elmt(InfoMATRIKS(*V) , Ybefore, Xbefore) = '.';
             *V = Right(*V);
 
@@ -86,6 +87,7 @@ void MovePlayer (AdrVertex* V, int difX, int difY) {
             Elmt(InfoMATRIKS(*V) , Yplayer(InfoMATRIKS(*V) ), Xplayer(InfoMATRIKS(*V) ) ) = 'P';
             break;
         case '<':
+            if (IsMP(*g) ) TickTime(g, 1);
             Elmt(InfoMATRIKS(*V) , Ybefore, Xbefore) = '.';
             *V = Left(*V);
 
@@ -101,6 +103,7 @@ void MovePlayer (AdrVertex* V, int difX, int difY) {
             Elmt(InfoMATRIKS(*V) , Yplayer(InfoMATRIKS(*V) ), Xplayer(InfoMATRIKS(*V) ) ) = 'P';
             break;
         case '^':
+            if (IsMP(*g) ) TickTime(g, 1);
             Elmt(InfoMATRIKS(*V) , Ybefore, Xbefore) = '.';
             *V = Up(*V);
 
@@ -116,6 +119,7 @@ void MovePlayer (AdrVertex* V, int difX, int difY) {
             Elmt(InfoMATRIKS(*V) , Yplayer(InfoMATRIKS(*V) ), Xplayer(InfoMATRIKS(*V) ) ) = 'P';
             break;
         case 'V':
+            if (IsMP(*g) ) TickTime(g, 1);
             Elmt(InfoMATRIKS(*V) , Ybefore, Xbefore) = '.';
             *V = Bottom(*V);
             
@@ -131,6 +135,7 @@ void MovePlayer (AdrVertex* V, int difX, int difY) {
             Elmt(InfoMATRIKS(*V) , Yplayer(InfoMATRIKS(*V) ), Xplayer(InfoMATRIKS(*V) ) ) = 'P';
             break;
         default:
+            if (IsMP(*g) ) TickTime(g, 1);
             Elmt(InfoMATRIKS(*V) , Ybefore, Xbefore) = '.';
             Elmt(InfoMATRIKS(*V) , Yplayer(InfoMATRIKS(*V) ), Xplayer(InfoMATRIKS(*V) ) ) = 'P';
             break;
@@ -175,7 +180,7 @@ void DeleteMatriksWahana(AdrVertex* V, WAHANA W) {
     int startJ = Absis(LokWhn(W) ) - SizeWhn(W)/2;
     int endJ = Absis(LokWhn(W) ) + SizeWhn(W)/2;
 
-    printf("%d %d\n", startI, startJ);
+    // printf("%d %d\n", startI, startJ);
 
     for (int i = startI; i <= endI; i++) {
         for (int j = startJ; j <= endJ; j++) {
@@ -188,35 +193,22 @@ void DeleteMatriksWahana(AdrVertex* V, WAHANA W) {
 boolean isCollideWahanaBuilding(AdrVertex V, WAHANA W) {
     boolean isCollided = false;
 
-    for (int i = Ordinat(LokWhn(W) ); (i <= Ordinat(LokWhn(W) ) + SizeWhn(W)/2) && !isCollided; i++){
-        for (int j = Absis(LokWhn(W) ); (j <= Absis(LokWhn(W) ) + SizeWhn(W)/2) && !isCollided; j++){
-            if (Elmt(InfoMATRIKS(V), i, j) == '#' || Elmt(InfoMATRIKS(V), i, j) == 'O' || Elmt(InfoMATRIKS(V), i, j) == 'A'){
-                isCollided = true;
-            }
-        }
-    }
+    int startI = Ordinat(LokWhn(W) ) - SizeWhn(W)/2;
+    int endI = Ordinat(LokWhn(W) ) + SizeWhn(W)/2;
+    int startJ = Absis(LokWhn(W) ) - SizeWhn(W)/2;
+    int endJ = Absis(LokWhn(W) ) + SizeWhn(W)/2;    
 
-    for (int i = Ordinat(LokWhn(W) ); (i <= Ordinat(LokWhn(W) ) + SizeWhn(W)/2) && !isCollided; i++){
-        for (int j = Absis(LokWhn(W) ); (j >= Absis(LokWhn(W) ) - SizeWhn(W)/2) && !isCollided; j--){
-            if (Elmt(InfoMATRIKS(V), i, j) == '#' || Elmt(InfoMATRIKS(V), i, j) == 'O' || Elmt(InfoMATRIKS(V), i, j) == 'A'){
-                isCollided = true;
-            }
-        }
-    }
-
-    for (int i = Ordinat(LokWhn(W) ); (i >= Ordinat(LokWhn(W) ) + SizeWhn(W)/2) && !isCollided; i--){
-        for (int j = Absis(LokWhn(W) ); (j <= Absis(LokWhn(W) ) + SizeWhn(W)/2) && !isCollided; j++){
-            if (Elmt(InfoMATRIKS(V), i, j) == '#' || Elmt(InfoMATRIKS(V), i, j) == 'O' || Elmt(InfoMATRIKS(V), i, j) == 'A'){
-                isCollided = true;
-            }
-        }
-    }
-
-    for (int i = Ordinat(LokWhn(W) ); (i >= Ordinat(LokWhn(W) ) + SizeWhn(W)/2) && !isCollided; i--){
-        for (int j = Absis(LokWhn(W) ); (j >= Absis(LokWhn(W) ) + SizeWhn(W)/2) && !isCollided; j--){
-            if (Elmt(InfoMATRIKS(V), i, j) == '#' || Elmt(InfoMATRIKS(V), i, j) == 'O' || Elmt(InfoMATRIKS(V), i, j) == 'A'){
-                isCollided = true;
-            }
+    for (int i = startI; (i <= endI) && !isCollided; i++) {
+        for (int j = startJ; (j <= endJ) && !isCollided; j++) {
+            if (i >= 0 && j >= 0 && i <= NBrsEff(InfoMATRIKS(V) ) && j <= NKolEff(InfoMATRIKS(V) ) ) {
+                if (Elmt(InfoMATRIKS(V), i, j) == '#' || 
+                    Elmt(InfoMATRIKS(V), i, j) == 'O' || 
+                    Elmt(InfoMATRIKS(V), i, j) == '<' || 
+                    Elmt(InfoMATRIKS(V), i, j) == '>' || 
+                    Elmt(InfoMATRIKS(V), i, j) == 'V' || 
+                    Elmt(InfoMATRIKS(V), i, j) == '^' || 
+                    Elmt(InfoMATRIKS(V), i, j) == 'A') isCollided = true;
+            } else isCollided = true;
         }
     }
 

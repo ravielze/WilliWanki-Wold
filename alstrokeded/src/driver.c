@@ -12,9 +12,9 @@ void printMenu(GAME g){
         :  "|    PREPARATION PHASE    |\n");
     printf("|          Day #%d         |\n", CurrDay(g) );
     printf("+=====++=====+=====++=====+\n\n");
-    printf("Player: %s\n", Pemain(g) );
-    printf("Current Time:\n "); TulisJam(Time(g)); printf("\n");
-    printf("Money: %.2f\n", Money(g) );
+    // printf("Player: %s\n", Pemain(g) );
+    // printf("Current Time: "); TulisJam(Time(g)); printf("\n");
+    // printf("Money: %.2f\n", Money(g) );
 
     TulisMATRIKS(InfoMATRIKS(Graf(g)));
     
@@ -22,7 +22,10 @@ void printMenu(GAME g){
     printf("Money: %.2f\n", Money(g) );
 
     if (IsMP(g)) {
-        printf("Apa yang ingin dilakukan?\n");
+        printf("Current Time: "); TulisJam(Time(g));
+        printf("\nClosing Time: 18.00\n");
+        printf("Time Remaining: "); JAM j; MakeJamFromMenit(&j, TimeRemaining(Amanag(g))); TimeRemain(j);
+        printf("\nApa yang ingin dilakukan?\n");
         printf("  - Perbaiki wahana     : REPAIR\n");
         printf("  - Lihat detail wahana : DETAIL\n");
         if (isNear(Graf(g) , 'O')) printf("  - Masuk ke office     : OFFICE\n");
@@ -35,7 +38,7 @@ void printMenu(GAME g){
         printf("Current Time: 18.00\n");
         printf("Opening Time: 06.00\n");
         printf("Time Remaining: ");
-        JAM j; MakeJamFromMenit(&j, TimeRemaining(Amanag(g))-360); TimeRemain(j);
+        JAM j; MakeJamFromMenit(&j, TimeRemaining(Amanag(g))); TimeRemain(j);
         printf("\nTotal aksi yang akan dilakukan: %d\n", actionTimes(g));
         printf("Total waktu yang dibutuhkan: "); 
         JAM j2; MakeJamFromMenit(&j2, (720 - TimeRemaining(Amanag(g)))); TimeRemain(j2);
@@ -70,17 +73,17 @@ int main(){
         while (!EndKata){
             /* Player Movements */
             if (IsKataSama(CKata, CreateKata("W") ) || IsKataSama(CKata, CreateKata("w") ) ) {
-                MovePlayer(&Graf(g), 0, -1);
-                if (IsMP(g) ) TickTime(&g, 1);
+                MovePlayer(&Graf(g), 0, -1, &g);
+                // if (IsMP(g) ) TickTime(&g, 1);
             } else if (IsKataSama(CKata, CreateKata("A") ) || IsKataSama(CKata, CreateKata("a") ) ) {
-                MovePlayer(&Graf(g), -1, 0);
-                if (IsMP(g) ) TickTime(&g, 1);
+                MovePlayer(&Graf(g), -1, 0, &g);
+                // if (IsMP(g) ) TickTime(&g, 1, g);
             } else if (IsKataSama(CKata, CreateKata("S") ) || IsKataSama(CKata, CreateKata("s") ) ) {
-                MovePlayer(&Graf(g), 0, 1);
-                if (IsMP(g) ) TickTime(&g, 1);
+                MovePlayer(&Graf(g), 0, 1, &g);
+                // if (IsMP(g) ) TickTime(&g, 1, g);
             } else if (IsKataSama(CKata, CreateKata("D") ) || IsKataSama(CKata, CreateKata("d") ) ) {
-                MovePlayer(&Graf(g), 1, 0);
-                if (IsMP(g) ) TickTime(&g, 1);
+                MovePlayer(&Graf(g), 1, 0, &g);
+                // if (IsMP(g) ) TickTime(&g, 1);
             } 
             /* Player Actions */ 
             else if (IsKataSama(CKata, CreateKata("BUILD")) && (!IsMP(g))) {
@@ -90,6 +93,7 @@ int main(){
                 p = false;
                 buyMaterialPush(&g);
             } else if (IsKataSama(CKata, CreateKata("SERVE")) && (IsMP(g))) {
+                p = false;
                 Serve(&g);
             } else if (IsKataSama(CKata, CreateKata("UPGRADE")) && (!IsMP(g))) {
                 p = false;
@@ -97,6 +101,7 @@ int main(){
             } else if (IsKataSama(CKata, CreateKata("EXECUTE")) && (!IsMP(g))) {
                 ExecutePhase(&g);
             } else if (IsKataSama(CKata, CreateKata("UNDO")) && (!IsMP(g))) {
+                p = false;
                 undo(&g);
             } else if (IsKataSama(CKata, CreateKata("QUIT"))) {
                 printf("DEFEAT THE TUBES DRAGON FIRST!\n");
@@ -105,6 +110,7 @@ int main(){
                 p = false;
                 Repair(&g);
             } else if (IsKataSama(CKata, CreateKata("DETAIL")) && (IsMP(g))) {
+                p = false;
                 detail(&g);
             } else if (IsKataSama(CKata, CreateKata("OFFICE")) && (IsMP(g))) {
                 p = false;

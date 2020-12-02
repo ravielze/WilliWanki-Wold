@@ -77,6 +77,15 @@ void deleteWeaboo(GAME* g);
 /* Update the Visitor patience and priority depending on the time they enter/re-enter the queue */
 void updateWeaboo(GAME*g);
 
+/* Update the Visitor patience and priority depending on the time they enter/re-enter the queue on Wahana*/
+void updateWeabooWahana(GAME*g , WAHANA* whn);
+
+/* Print wahana */
+void printAnime(Stack S, GAME* g);
+
+/* Print Visitors with patience */
+void printWeaboo(GAME* g);
+
 /* Visitor coming back to queue after the rides */
 void getbacktoWeaboo(GAME*g,WAHANA*w);
 

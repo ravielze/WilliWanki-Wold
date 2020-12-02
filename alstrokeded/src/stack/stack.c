@@ -38,6 +38,17 @@ void PushAksi (Stack * S, Aksi X) {
     InfoTop(*S) = X;
 }
 
+// typedef struct {
+//   int id;
+//   char aksi;
+// } Aksi;
+
+// typedef struct {
+//   int MaxEl;
+//   Aksi *TA; 
+//   int TOP; 
+// } Stack;
+
 void PopAksi (Stack * S, Aksi* X) {
     if (IsStackEmpty(*S)) return;
     if (Top(*S) == 0){
