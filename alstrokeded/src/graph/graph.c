@@ -207,6 +207,7 @@ boolean isCollideWahanaBuilding(AdrVertex V, WAHANA W) {
                     Elmt(InfoMATRIKS(V), i, j) == '>' || 
                     Elmt(InfoMATRIKS(V), i, j) == 'V' || 
                     Elmt(InfoMATRIKS(V), i, j) == '^' || 
+                    Elmt(InfoMATRIKS(V), i, j) == 'W' || 
                     Elmt(InfoMATRIKS(V), i, j) == 'A') isCollided = true;
             } else isCollided = true;
         }

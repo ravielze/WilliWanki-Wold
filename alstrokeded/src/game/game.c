@@ -78,10 +78,7 @@ void buildPush(GAME * game){
     LokWhn(whn_selected) = getPlayer(Graf(*game));
 
     // Cek Apakah wahana bisa dibangun
-    if (!IsBuildAbleSenpai(whn_selected, game)){
-        printf("Wahana tidak bisa dibangun.\n");
-    }
-    else{
+    if (IsBuildAbleSenpai(whn_selected, game) ){
         MATERIAL bahan_whn_selected = Bahan(whn_selected);
         
         int idx_material_selected = SearchIdxMAT(StorageM(Smanag(*game)),bahan_whn_selected);
@@ -511,14 +508,20 @@ boolean IsBuildAbleSenpai(WAHANA thefkinwahana,GAME *game) {
     // manstor Smanag(*game) = Smanag(*game);
     
     // Cek tabrakan sama office sama antrian sama tembok - aldi
-    if (isCollideWahanaBuilding(Graf(*game), thefkinwahana)) return false;
+    if (isCollideWahanaBuilding(Graf(*game), thefkinwahana)) {
+        printf("Wahana tidak bisa dibangun karena menabrak bangunan lain atau tembok.\n");
+        return false;
+    }
     // Cek tabrakan sama yang plan - viel
     if (!IsStackEmpty(StackAksi(Amanag(*game)))){
         for (int i = 0; i < Top(StackAksi(Amanag(*game))); i++){
             if ((InfoAksi(IsiStack(StackAksi(Amanag(*game)))[i])) == 'b'){
                 WAHANA temp;
                 getWahanaa(&Amanag(*game), IDAksi(IsiStack(StackAksi(Amanag(*game)))[i]), &temp);
-                if (isCollide(temp,thefkinwahana)) return false;
+                if (isCollide(temp,thefkinwahana)) {
+                    printf("Wahana tidak bisa dibangun karena menabrak dengan pembangunan wahana lain yang sedang direncanakan\n");
+                    return false;
+                }
             }
         }
     }
@@ -526,7 +529,10 @@ boolean IsBuildAbleSenpai(WAHANA thefkinwahana,GAME *game) {
     WAHANA whnx;
     for (int i = 0; i < NEff(StorageW(Smanag(*game)));i++){
         MWGetWahana(&(SMappingW(Smanag(*game))), i, &whnx);
-        if (isCollide(thefkinwahana, whnx)) return false;
+        if (isCollide(thefkinwahana, whnx)) {
+            printf("Wahana tidak bisa dibangun karena menabrak dengan wahana lain\n");
+            return false;
+        }
     }
     // Lewat semua cek
     return true;
@@ -625,7 +631,6 @@ void ExecutePhase(GAME * game) {
                 buyMaterialPop(game);
             }
         }
-        GeneratePengunjung(game);
 
         // Set variabel jam ke jam buka
         JAM jam_buka; MakeJam(&jam_buka, 6, 0);
@@ -659,16 +664,14 @@ void Serve(GAME * g) {
         MWGetWahana(&(SMappingW(Smanag(*g))), idwahanatoride, &thewahana);
         enqueueWahana(&thewahana, V);
         Money(*g) += HargaTiket(thewahana);
-        printf("Nama Wahana : %s" , NamaWhn(thewahana) );
-        printf("Harga Tiket : %f\n", HargaTiket(thewahana));
+        printf("Uang bertambah.\n");
 
         // Delete Entry wahana, add entry baru dengan Queue baru
         int idWahana = MWGetKey(SMappingW(Smanag(*g)),thewahana);
         DeleteEntryWahana(&(SMappingW(Smanag(*g))), idWahana);
         AddEntryWahana(&(SMappingW(Smanag(*g))), CreateMapEWahana(idWahana, thewahana));
+        printf("Queue wahana updated.\n");
 
-        /* Success Message */
-        printf("Berhasil Menge-SERVE\n");
         /* Delete from todo list */
         Aksi dump;
         PopAksi(&todo(V),&dump); 
@@ -680,6 +683,7 @@ void Serve(GAME * g) {
             DequeueN(&(GameQueue(*g)),&fmv,indexx); //TODO topher
             Enqueue(&GameQueue(*g),fmv,cprio+1);
         }
+        printf("Served successfully.\n"); // INi GK KUAR
     }
 }
 
@@ -723,19 +727,21 @@ Visitor SpawnVisitor(int id, GAME * g){
 
 /* Menggenerate to do list Visitor */
 Stack generateToDo(GAME *g){
-    Stack S;
+    Stack S; MakeStack(&S);
 
-    int todocap = 10; /* jumlah wahana yang akan dinaiki */
+    int todocap = 3; /* jumlah wahana yang akan dinaiki */
 
-    int totaltodo = rand() % todocap;
+    int totaltodo = (rand() % todocap)+1;
     int i = 1;
     int selectedid; Aksi selectedAksi;
-    while (i < NEff(StorageW(Smanag(*g))) && i < totaltodo){
+    while (i <= NEff(StorageW(Smanag(*g))) && i < totaltodo){
         selectedid = rand() % (NEff(StorageW(Smanag(*g))));
         if (!isIDInStack(S,selectedid)) {
             selectedAksi = createAksi(ItemOf(StorageW(Smanag(*g)), selectedid),'r');
             PushAksi(&S,selectedAksi);
         }
+
+        i++;
     }
     return S;
 }
@@ -904,7 +910,7 @@ void WahanaGoBoomBoom(WAHANA*w,GAME*g){
                 A = Next(A);
                 cnt++;
             }
-            visitorid(v) = false;
+            inrides(v) = false;
             DequeueN(&GameQueue(*g),&dump,cnt);
             Enqueue(&GameQueue(*g),v,ZaPrio);
         }

@@ -64,7 +64,6 @@ void Enqueue (Queue * Q, ElTypeQ X, int NewPrio){
 }
 
 void Dequeue (Queue * Q, ElTypeQ * X){
-
     qaddress P;
     *X = InfoHead(*Q);
     P = Head(*Q);

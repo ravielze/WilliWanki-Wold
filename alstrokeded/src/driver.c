@@ -62,7 +62,6 @@ int main(){
     // printf("AAA");
     GAME g = createGame();
     boolean p = true;
-    
     printf("Who is your name: ");
     STARTKATA();
     Pemain(g) = CKata.TabKata;

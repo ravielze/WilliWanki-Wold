@@ -52,7 +52,7 @@ void initStorageManager(char* wahanafilename, char* materialfilename, char* tree
         whn = createWahana(namawhn, tipewhn, deskripsi, kpstswhn, sizewhn, hargatiket, rusakgasi, durasi, iswahanadasar, hargabuild, vertex, durasibuild);
         mat = createMaterial(nama, desc, satuan, jmlh, harga, waktu);
         Bahan(whn) = mat;
-        Akar(UpgradeTree(whn)) = i;
+        Akar(UpgradeTree(whn)) = i; // = N, N nya 5, ntar yg pertama jadi 5 bkn 0
         ScreateWahana(ms, whn);
         // printf("%s\n", NamaWhn(whn));
 
