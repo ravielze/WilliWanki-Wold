@@ -162,7 +162,11 @@ void UpdateMatriksWahana(AdrVertex* V, WAHANA W) {
                 if (Elmt(InfoMATRIKS(*V), i, j) == '#' 
                     || Elmt(InfoMATRIKS(*V), i, j) == 'O' 
                     || Elmt(InfoMATRIKS(*V), i, j) == 'A' 
-                    || Elmt(InfoMATRIKS(*V), i, j) == 'W') continue;
+                    || Elmt(InfoMATRIKS(*V), i, j) == 'W'
+                    || Elmt(InfoMATRIKS(*V), i, j) == '<'
+                    || Elmt(InfoMATRIKS(*V), i, j) == '>'
+                    || Elmt(InfoMATRIKS(*V), i, j) == 'V'
+                    || Elmt(InfoMATRIKS(*V), i, j) == '^') continue;
                 else {
                     Elmt(InfoMATRIKS(*V), i, j) = 'P'; 
                     Xplayer(InfoMATRIKS(*V) ) = j;
@@ -200,7 +204,7 @@ boolean isCollideWahanaBuilding(AdrVertex V, WAHANA W) {
 
     for (int i = startI; (i <= endI) && !isCollided; i++) {
         for (int j = startJ; (j <= endJ) && !isCollided; j++) {
-            if (i >= 0 && j >= 0 && i <= NBrsEff(InfoMATRIKS(V) ) && j <= NKolEff(InfoMATRIKS(V) ) ) {
+            if (i >= 0 && j >= 0 && i < NBrsEff(InfoMATRIKS(V) ) && j < NKolEff(InfoMATRIKS(V) ) ) {
                 if (Elmt(InfoMATRIKS(V), i, j) == '#' || 
                     Elmt(InfoMATRIKS(V), i, j) == 'O' || 
                     Elmt(InfoMATRIKS(V), i, j) == '<' || 
@@ -212,6 +216,19 @@ boolean isCollideWahanaBuilding(AdrVertex V, WAHANA W) {
             } else isCollided = true;
         }
     }
+
+    for (int i = startI - 1; (i <= endI + 1) && !isCollided; i++) {
+        for (int j = startJ - 1; (j <= endJ + 1) && !isCollided; j++) {
+            if (i == 0 || j == 0 || i == NBrsEff(InfoMATRIKS(V) ) - 1 || j == NKolEff(InfoMATRIKS(V) ) - 1 ) {
+                if (Elmt(InfoMATRIKS(V), i, j) == '<' ||
+                    Elmt(InfoMATRIKS(V), i, j) == '>' ||
+                    Elmt(InfoMATRIKS(V), i, j) == '^' ||
+                    Elmt(InfoMATRIKS(V), i, j) == 'V') isCollided = true;
+            }
+            else continue;
+        }
+    }
+
 
     return isCollided;
 }

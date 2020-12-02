@@ -32,7 +32,8 @@ void printMenu(GAME g){
         if (isNear(Graf(g) , 'A')) printf("  - Melayani pengunjung : SERVE\n");
         printf("  - Skip to prep phase  : PREPARE\n");
         printf("  - Keluar game         : QUIT\n");
-        printf("  - Untuk pergerakan    : w, a, s, d\n");
+        printf("  - Untuk pergerakan    : w, a, s, d\n\n");
+        if (isNear(Graf(g) , 'A')) printWeaboo(&g);
         printf("Masukkan perintah: ");    
     } else {
         printf("Current Time: 18.00\n");

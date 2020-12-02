@@ -77,6 +77,11 @@ void buildPush(GAME * game){
     // Isi lokasi wahana berdasarkan lokasi player
     LokWhn(whn_selected) = getPlayer(Graf(*game));
 
+    // Tes print lokasi
+    TulisPoint(LokWhn(whn_selected));
+    POINT point_player = getPlayer(Graf(*game));
+    TulisPoint(point_player);
+
     // Cek Apakah wahana bisa dibangun
     if (IsBuildAbleSenpai(whn_selected, game) ){
         MATERIAL bahan_whn_selected = Bahan(whn_selected);
@@ -93,12 +98,12 @@ void buildPush(GAME * game){
         int idx_whn_manact = MWGetKey(AMappingW(Amanag(*game)), whn_selected);
         
         if (idx_whn_manact !=  -1){
-            printf("Wahana sudah ada dalam rencana pembangunan.\n");
+            printf("Wahana sudah ada dalam rencana pembangunan atau dibangun.\n");
         }
         else if (SearchAL(StorageW(Smanag(*game)) , idx_whn_selected)){  
             printf("Wahana sudah pernah dibangun.\n");
         }
-        else{   
+        else{
             int time_remain = TimeRemaining(Amanag(*game));
             int time_for_build = DurasiBuild(whn_selected);
 
@@ -149,10 +154,10 @@ void buildPop(GAME * game) {
     WAHANA whn_selected = value(MapEntry(AMappingW(Amanag(*game)))[rid]);
     MATERIAL bahan_whn_selected = Bahan(whn_selected);
 
-    // // Tes print lokasi
-    // TulisPoint(LokWhn(whn_selected));
-    // POINT point_player = getPlayer(Graf(*game));
-    // TulisPoint(point_player);
+    // Tes print lokasi
+    TulisPoint(LokWhn(whn_selected));
+    POINT point_player = getPlayer(Graf(*game));
+    TulisPoint(point_player);
 
     int idx_material_selected = SearchIdxMAT(StorageM(Smanag(*game)),bahan_whn_selected);
     MATERIAL * currMat = &ItemOf(StorageM(Smanag(*game)), idx_material_selected);
@@ -298,6 +303,7 @@ void upgradePush(GAME * game) {
         
         // Terima input wahana apa yang dibangun
         int Ans;
+        printf("Input nomor pilihan upgrade : ");
         scanf("%d", &Ans);
         if (Ans <= 0 || Ans > 2 || (Ans > isRightAvailable+isLeftAvailable)){
             printf("Tidak valid.\n");
@@ -378,14 +384,21 @@ void upgradePop(GAME *game) {
     MWGetWahana(&(AMappingW(Amanag(*game))), IDAksi(aksi_up), &whn_up);
     MATERIAL bahan_whn_up = Bahan(whn_up);
     
-    // Apus wahana dasarnya 
-    POINT lokasi_whn = LokWhn(whn_up);
-    WAHANA whn_before = getWahanaFromPoint(lokasi_whn, Smanag(*game));
-    int key = MWGetKey(AMappingW(Amanag(*game)), whn_before);
-    deleteWahana(&Smanag(*game), key);
-    // Jangan lupa lokasi whn_beforenya jadi null(?) lagi
+    boolean found = false;
+    int i = 0;
+    WAHANA whn_before;
+    while (!found && i < NEff(StorageW(Smanag(*game)))) {
+        MWGetWahana(&(SMappingW(Smanag(*game) )), ItemOf(StorageW(Smanag(*game)), i), &whn_before);
+        if (isNearWahana(LokWhn(whn_up), whn_before)) {
+            found = true;
+        } else {
+            i++;
+        }
+    }
 
-    
+    //printf("%s\n", NamaWhn(whn_before));
+    //printf("%s\n", NamaWhn(whn_up));
+
     int idx_material_up = SearchIdxMAT(StorageM(Smanag(*game)),bahan_whn_up);
     MATERIAL * currMat = &ItemOf(StorageM(Smanag(*game)), idx_material_up);
     
@@ -409,6 +422,14 @@ void upgradePop(GAME *game) {
     int idWahana = MWGetKey(SMappingW(Smanag(*game)),whn_up);
     DeleteEntryWahana(&(SMappingW(Smanag(*game))), idWahana);
     AddEntryWahana(&(SMappingW(Smanag(*game))), CreateMapEWahana(idWahana, whn_up));
+
+    // Delete Entry wahana, add entry baru dengan lokasi benar -> whn_befor
+    int idWahana_before = MWGetKey(SMappingW(Smanag(*game)),whn_before);
+    DeleteEntryWahana(&(SMappingW(Smanag(*game))), idWahana_before);
+    AddEntryWahana(&(SMappingW(Smanag(*game))), CreateMapEWahana(idWahana_before, whn_before));
+
+    // Hapus kepemilikan wahan before
+    DeleteNAL(&(StorageW(Smanag(*game))) , idWahana_before);
 
     // Insert Wahana ke wahana storage
     InsertLastAL(&(StorageW(Smanag(*game))), idWahana);
@@ -592,6 +613,11 @@ void mainphase(GAME * game) {
         Aksi temp;
         while (!IsStackEmpty(StackAksi(Amanag(*game)))) {
             PopAksi(&(StackAksi(Amanag(*game))), &temp);
+            if (InfoAksi(temp) == 'b') {
+                WAHANA W;
+                MWGetWahana(&(AMappingW(Amanag(*game))), IDAksi(temp), &W);
+                DeleteMatriksWahana(&(Graf(*game)), W);
+            }
         }
         // Generate Antrian
         GeneratePengunjung(game);
@@ -652,6 +678,7 @@ void Serve(GAME * g) {
         A = Next(A);
         indexx++;
     }
+
     if (A != Nil) { /* Found Visitor foremost Visitor that is not in rides */
         /* Get used data */
         ElTypeQ fmv = Info(A);
@@ -659,12 +686,20 @@ void Serve(GAME * g) {
         
         /* Send visitor to wahana */
         int idwahanatoride = todonow(fmv);
+        printf("Id wahana yang ingin dinaiki : %d\n", idwahanatoride);
         Visitor V = fmv;
         WAHANA thewahana;
         MWGetWahana(&(SMappingW(Smanag(*g))), idwahanatoride, &thewahana);
+
+        // Cek Wahana rusak?
+        if (RusakGakSih(thewahana)){
+            printf("Wahana %s rusak cuy...", NamaWhn(thewahana));
+            return;
+        }
+
         enqueueWahana(&thewahana, V);
         Money(*g) += HargaTiket(thewahana);
-        printf("Uang bertambah.\n");
+        printf("Uang bertambah sebanyak : %f.\n" , HargaTiket(thewahana));
 
         // Delete Entry wahana, add entry baru dengan Queue baru
         int idWahana = MWGetKey(SMappingW(Smanag(*g)),thewahana);
@@ -680,10 +715,15 @@ void Serve(GAME * g) {
             DequeueN(&(GameQueue(*g)),&fmv,indexx);
         }
         else { /* Visitor has not yet completed his/her to do list */
+            printf("tidak ada wahana yang ingin dinaiki lagi.\n");
             DequeueN(&(GameQueue(*g)),&fmv,indexx); //TODO topher
             Enqueue(&GameQueue(*g),fmv,cprio+1);
         }
-        printf("Served successfully.\n"); // INi GK KUAR
+
+        printf("Served successfully.\n");
+    }
+    else{
+        printf("Tidak ada pengunjung untuk diserve..\n");
     }
 }
 
@@ -734,7 +774,7 @@ Stack generateToDo(GAME *g){
     int totaltodo = (rand() % todocap)+1;
     int i = 1;
     int selectedid; Aksi selectedAksi;
-    while (i <= NEff(StorageW(Smanag(*g))) && i < totaltodo){
+    while (i <= NEff(StorageW(Smanag(*g))) && i <= totaltodo){
         selectedid = rand() % (NEff(StorageW(Smanag(*g))));
         if (!isIDInStack(S,selectedid)) {
             selectedAksi = createAksi(ItemOf(StorageW(Smanag(*g)), selectedid),'r');
@@ -896,23 +936,37 @@ void initRNG(){
 void WahanaGoBoomBoom(WAHANA*w,GAME*g){
     int WILLITBREAK = rand() % 100;
     ElTypeQ v;
-    if (WILLITBREAK < 15) {
-        printf("Wahana %s rusak cuy...", NamaWhn(*w));
+    if (WILLITBREAK < 10) {
+        printf("Wahana %s rusak cuy...\n", NamaWhn(*w));
         RusakGakSih(*w) = true;
+        printf("TESTT- 1\n");
         qaddress A; int cid;
         int cnt; Visitor dump;
+        printf("TESTT- 2\n");
+        if (IsEmptyQ(GameQueue(*g))) printf("Q KOSON");
+        printf("TESTT- 2a\n");
         int ZaPrio = Prio(Head(GameQueue(*g))) + 1;
+        printf("TESTT- 3\n");
         for (int i = 0; i < NBElmtQ(QueueWahana(*w)); i++){
+            printf("TESTT- 4\n");
             Dequeue(&QueueWahana(*w),&v);
+            printf("TESTT- 5\n");
             cid = visitorid(v);
+            printf("TESTT- 6\n");
             A = Head(GameQueue(*g)); cnt = 0;
+            printf("TESTT- 7\n");
             while(A != Nil && visitorid(Info(A)) != cid){
                 A = Next(A);
+                printf("TESTT- A- %d\n",cnt);
                 cnt++;
             }
+            printf("TESTT- 8\n");
             inrides(v) = false;
+            printf("TESTT- 9\n");
             DequeueN(&GameQueue(*g),&dump,cnt);
+            printf("TESTT- 10\n");
             Enqueue(&GameQueue(*g),v,ZaPrio);
+            printf("TESTT- 11\n");
         }
     }
 }
@@ -951,7 +1005,14 @@ void TickTime(GAME *game , int mnt_ticks){
     for (int i = 0; i < totalwahana; i++){
         getWahana(&(Smanag(*game)), ItemOf(StorageW(Smanag(*game)),i), &whnx);
         WahanaGoBoomBoom(&whnx, game);
+
+        // Delete Entry wahana, add entry baru dengan lokasi benar
+        int idWahana = MWGetKey(SMappingW(Smanag(*game)),whnx);
+        DeleteEntryWahana(&(SMappingW(Smanag(*game))), idWahana);
+        AddEntryWahana(&(SMappingW(Smanag(*game))), CreateMapEWahana(idWahana, whnx));
+
     }
+
 
     // Cek Hari (Main Phase) udah habis atau blm, kalau habsi pindah ke prep
     JAM jam_buka; MakeJam(&jam_buka, 6, 0);
@@ -1000,7 +1061,7 @@ void office_detail(GAME *game){
     }
     else{
         int off;
-        printf("Masukkan perintah:\n1. Details\n2. Report\n3. Exit\n");
+        printf("Masukkan perintah:\n1. Details\n2. Report\n3. Exit\nMasukkan input angka: ");
         scanf("%d", &off);
         
         if (off == 3) {
@@ -1040,13 +1101,14 @@ void office_detail(GAME *game){
 
             if (off == 1) printWahanaOffice(whn_selected, game);
             else {
+                // Eh ini yg office masi ngeprint smuanya padahal dah milih angka di atasnya
                 WAHANA THEWAHANA;
-                for (int i=0;i<NEff(StorageW(Smanag(*game)));i++){
-                    MWGetWahana(&(SMappingW(Smanag(*game))),ItemOf(StorageW(Smanag(*game)),i), &THEWAHANA);
+                // for (int i=0;i<NEff(StorageW(Smanag(*game)));i++){
+                    MWGetWahana(&(SMappingW(Smanag(*game))),ItemOf(StorageW(Smanag(*game)), selectuser), &THEWAHANA);
                     printf("%s | Pelanggan : %d\n", NamaWhn(THEWAHANA),PelangganCounter(THEWAHANA));
                     float penjualan = (PelangganCounter(THEWAHANA) * 1.0F) * HargaTiket(THEWAHANA);
                     printf("%s | Penjualan : %f\n", NamaWhn(THEWAHANA), penjualan);
-                }
+                // }
             }
         }
         else {
@@ -1057,19 +1119,22 @@ void office_detail(GAME *game){
 }
 
 void printWahana (WAHANA w, GAME*g) {
-    printf("Nama    : %s\n",NamaWhn(w));
+    printf("Nama    : %s\n", NamaWhn(w));
     printf("Lokasi  : "); TulisPoint(LokWhn(w));
 
     // Upgrade
     printf("\nUpgrade : ");
     WAHANA CWHN;
+    boolean isLeft = false;
     printf("[");
     if (Left(UpgradeTree(w)) != Nil) {
         MWGetWahana(&(SMappingW(Smanag(*g))), Akar(Left(UpgradeTree(w))), &CWHN);
         printf("%s",NamaWhn(CWHN));
+        isLeft = true;
     }
     if (Right(UpgradeTree(w)) != Nil) {
         MWGetWahana(&(SMappingW(Smanag(*g))), Akar(Right(UpgradeTree(w))), &CWHN);
+        if (isLeft) printf(",");
         printf("%s",NamaWhn(CWHN));
     }
     printf("]\n");
@@ -1114,7 +1179,7 @@ void printWahanaOffice (WAHANA w,GAME*g) {
     }
     
     
-    printf("Durasi    : %d\n", DurasiWhn(w));
+    printf("\nDurasi    : %d minute(s)\n", DurasiWhn(w));
     printf("Ukuran    : %d\n", SizeWhn(w));
 }
 

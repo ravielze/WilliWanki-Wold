@@ -54,14 +54,10 @@ void PopAksi (Stack * S, Aksi* X) {
     if (IsStackEmpty(*S)) return;
     if (Top(*S) == 0){
         *X = InfoTop(*S);
-        printf("%d %c\n", IDAksi(*X), InfoAksi(*X));
         Top(*S) = -1;
-        printf("tes\n");
         return;
     }
-    printf("JIRRRRRRRRRRRRRRRRRRRRRRR\n");
     if (Top(*S) <= (MaxEl(*S)/4) && MaxEl(*S) > 10) {
-        printf("aaa");
         MaxEl(*S) /= 2;
         Aksi* temp = (Aksi *) realloc(IsiStack(*S), (MaxEl(*S) * sizeof(Aksi)));
         if (temp == Nil) {
@@ -73,7 +69,6 @@ void PopAksi (Stack * S, Aksi* X) {
             IsiStack(*S) = temp;
         }
     }
-        printf("bbb");
     *X = InfoTop(*S);
     Top(*S)--;
 }

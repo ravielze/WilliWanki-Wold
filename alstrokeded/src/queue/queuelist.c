@@ -74,7 +74,7 @@ void Dequeue (Queue * Q, ElTypeQ * X){
     else{
         Head(*Q) = Nil;
     }
-    DealokasiQ(P);
+    // DealokasiQ(P);
 }
 
 /* Prekondisi : N pasti index dari Q */
@@ -89,9 +89,11 @@ void DequeueN (Queue * Q, ElTypeQ * X, int N){
             A = Next(A);
             temp++;
         }
-        /* Didapat address sebelum index N */
-        *X = Info(Next(A)); /* Visitor di index ke-N */
-        Next(A) = Next(Next(A)); /* mengubah Next(A) menjadi Next(Next(A)) */
 
+        if (Next(A) != Nil){
+            /* Didapat address sebelum index N */
+            *X = Info(Next(A)); /* Visitor di index ke-N */
+            Next(A) = Next(Next(A)); /* mengubah Next(A) menjadi Next(Next(A)) */
+        }
     }
 }

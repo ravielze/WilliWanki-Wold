@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -c -Wall
+CFLAGS = -c -Wall -lm
 SRC_DIR= src
 CONSTANTS = $(addprefix $(SRC_DIR)/constant/, *.h)
 
