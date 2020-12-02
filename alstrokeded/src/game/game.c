@@ -50,13 +50,15 @@ void buildPush(GAME * game){
     printf("Ingin membangun apa?\n");
     printf("List wahana tersedia : \n");
 
+    int counter = 0;
     WAHANA select[neffMW];
     for (int i=0 ; i < neffMW; i++){
         WAHANA currwhn = whnlist[i];
         if (WahanaDasar(currwhn)){
-            select[i] = currwhn;
-            printf("%d. ", (i+1));
+            select[counter] = currwhn;
+            printf("%d. ", (counter+1));
             printf("%s \n", NamaWhn(currwhn));
+            counter++;
         }
     }    
     
@@ -356,7 +358,6 @@ void upgradePush(GAME * game) {
                 PushAksi(&StackAksi(Amanag(*game)), aksi_up);
                 
                 AddEntryWahana(&(AMappingW(Amanag(*game))), CreateMapEWahana(id, whn_up));
-
             }
         }
     }
@@ -389,9 +390,12 @@ void upgradePop(GAME *game) {
     // kurang duit player
     Money(*game) -= HargaBuild(whn_up);    
 
-    // Insert Wahana ke wahana storage
-
+    // Delete Entry wahana, add entry baru dengan lokasi benar
     int idWahana = MWGetKey(SMappingW(Smanag(*game)),whn_up);
+    DeleteEntryWahana(&(SMappingW(Smanag(*game))), idWahana);
+    AddEntryWahana(&(SMappingW(Smanag(*game))), CreateMapEWahana(idWahana, whn_up));
+
+    // Insert Wahana ke wahana storage
     InsertLastAL(&(StorageW(Smanag(*game))), idWahana);
 
     // Update keterangan wahana baru 
@@ -628,6 +632,9 @@ void Serve(GAME * g) {
         enqueueWahana(&thewahana, V);
         Money(*g) += HargaTiket(thewahana);
 
+
+        /* Success Message */
+        printf("Berhasil Menge-SERVE\n");
         /* Delete from todo list */
         Aksi dump;
         PopAksi(&todo(V),&dump); 
@@ -835,14 +842,8 @@ WAHANA getWahanaFromPoint(POINT P, manstor ms) {
 
 /* Tick Waktu N Menit */
 void TickTime(GAME *game , int mnt_ticks){
-
     // Tambah variabel jam global
     Time(*game) = NextNMenit(Time(*game), mnt_ticks);
-
-    // Cek Hari (Main Phase) udah habis atau blm, kalau habsi pindah ke prep
-    JAM jam_buka; MakeJam(&jam_buka, 6, 0);
-    JAM jam_tutup; MakeJam(&jam_tutup, 18,0);
-    int durasi_main = Durasi(jam_buka, jam_tutup);
 
     int totalwahana = NEff(StorageW(Smanag(*game)));
     WAHANA whnx;
@@ -851,8 +852,13 @@ void TickTime(GAME *game , int mnt_ticks){
         WahanaGoBoomBoom(&whnx, game);
     }
 
+    // Cek Hari (Main Phase) udah habis atau blm, kalau habsi pindah ke prep
+    JAM jam_buka; MakeJam(&jam_buka, 6, 0);
+    JAM jam_tutup; MakeJam(&jam_tutup, 18,0);
+    int durasi_main = Durasi(jam_buka, jam_tutup);
 
     int durasi_skrgtobuka = Durasi(jam_buka , Time(*game));
+
     if (durasi_skrgtobuka > durasi_main){
         GoToPrepare(game);
     }
@@ -892,25 +898,28 @@ void office_detail(GAME *game){
         printf("Pergi ke office dulu bos..\n");
     }
     else{
-        char off[7];
-        printf("Masukkan perintah (Details / Report / Exit)");
-        scanf("%s", off);
+        int off;
+        printf("Masukkan perintah:\n1. Details\n2. Report\n3. Exit\n");
+        scanf("%d", &off);
         
-        if (strcmp(off, "Exit") == 0) {
+        if (off == 3) {
             printf("Keluar dari office..\n\n");
         }
-        if (strcmp(off, "Details") == 0 || strcmp(off, "Report") == 0) {
+        if (off == 1 || off == 2) {
             printf("List wahana tersedia : \n");
             
+
             int neffMW = NEff(SMappingW(Smanag(*game)));
             WAHANA* whnlist = MWListWahana(SMappingW(Smanag(*game)));
             WAHANA select[neffMW];
+            int counter = 0;
             for (int i=0 ; i < neffMW; i++){
                 WAHANA currwhn = whnlist[i];
                 if (WahanaDasar(currwhn)){
                     select[i] = currwhn;
-                    printf("%d. ", (i+1));
+                    printf("%d. ", counter+1);
                     printf("%s \n", NamaWhn(currwhn));
+                    counter++;
                 }
             }
 
@@ -921,7 +930,7 @@ void office_detail(GAME *game){
             selectuser--;
             WAHANA whn_selected = select[selectuser];
 
-            if (strcmp(off, "Details") == 0) printWahanaOffice(whn_selected, game);
+            if (off == 1) printWahanaOffice(whn_selected, game);
             else {
                 WAHANA THEWAHANA;
                 for (int i=0;i<NEff(StorageW(Smanag(*game)));i++){

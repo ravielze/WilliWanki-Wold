@@ -77,5 +77,5 @@ JAM PrevMenit (JAM J){
 }
 
 int Durasi (JAM JAw, JAM JAkh){
-    return ((JamToMenit(JAkh) + JamToMenit(JAw)+1440)%1440);
+    return ((JamToMenit(JAkh) - JamToMenit(JAw)+1440)%1440);
 }
